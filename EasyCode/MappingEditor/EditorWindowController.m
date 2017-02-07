@@ -62,13 +62,27 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    
+    _scrollView.scrollerStyle = NSScrollerStyleLegacy;
+    _tableView.allowsColumnResizing = YES;
+    [_tableView setDoubleAction:@selector(onHandleDoubleClick:)];
     [_tableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
     dispatch_async(dispatch_get_main_queue(), ^{
         [_tableView reloadData];
     });
     
     self.window.delegate = self;
+}
+
+- (void)onHandleDoubleClick:(id)sender {
+    if (_tableView.clickedColumn != 1) {
+        return;
+    }
+    EShortcutEntry* entry = _mappingList[_tableView.clickedRow];
+    if (entry) {
+        [self.detailEditor initWithMappingEntry:entry];
+        self.detailEditor.editMode = DetailEditorModeUpdate;
+        [self.detailEditor showWindow:self];
+    }
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {

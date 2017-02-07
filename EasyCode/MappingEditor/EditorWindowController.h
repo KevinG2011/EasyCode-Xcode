@@ -14,8 +14,9 @@ typedef enum : NSUInteger {
 } EditorType;
 
 @interface EditorWindowController : NSWindowController
+@property (weak) IBOutlet NSScrollView *scrollView;
 
-@property (nonatomic, strong) IBOutlet NSTableView*           tableView;
+@property (weak) IBOutlet NSTableView*           tableView;
 
 - (void)initEditorWindow:(EditorType)editorType;
 

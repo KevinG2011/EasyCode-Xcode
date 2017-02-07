@@ -21,7 +21,7 @@
     [self updateEntryDisplay];
     
     self.window.delegate = self;
-
+    [self.window center];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -40,7 +40,6 @@
 - (void)initWithMappingEntry:(EShortcutEntry*)entry
 {
     self.curEntry = entry;
-    
     [self updateEntryDisplay];
 }
 
@@ -99,4 +98,12 @@
     return result;
 }
 
+- (void)setEditMode:(DetailEditorMode)editMode {
+    _editMode = editMode;
+    if (_editMode == DetailEditorModeUpdate) {
+        [_txtCode becomeFirstResponder];
+    } else {
+        [_txtKey becomeFirstResponder];
+    }
+}
 @end
