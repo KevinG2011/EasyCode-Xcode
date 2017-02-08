@@ -30,15 +30,6 @@
     return instance;
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-
-    }
-    return self;
-}
-
 - (void)checkForDuplicatedKeys:(NSDictionary*)mapping
 {
     //check for duplicated keys
@@ -88,7 +79,6 @@
             NSString* matchedVal = [self getMatchedCode:lastNStr isOC:isOC];
             
             if (matchedVal.length > 0) {
-                
                 int numberOfSpaceIndent = (int)[originalLine rangeOfString:lastNStr].location;
                 NSString* indentStr = @"";
                 while (numberOfSpaceIndent>0) {
@@ -145,11 +135,15 @@
         mappingDic = self.mappingSwift;
     }
     
-    if ([mappingDic objectForKey:abbr] != nil) {
-        return [mappingDic objectForKey:abbr];
-    }
+    __block NSString* matchKey = nil;
+    [mappingDic enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSString*  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([key hasPrefix:abbr] || [key isEqual:abbr]) {
+            matchKey = key;
+            *stop = YES;
+        }
+    }];
     
-    return nil;
+    return [mappingDic objectForKey:matchKey];
 }
 
 

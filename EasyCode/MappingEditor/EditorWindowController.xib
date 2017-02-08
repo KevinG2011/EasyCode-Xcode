@@ -76,7 +76,7 @@
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="cCode" width="280" minWidth="280" maxWidth="380" id="OtL-ee-gXn">
+                                        <tableColumn identifier="cCode" width="380" minWidth="280" maxWidth="380" id="OtL-ee-gXn">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="snippet">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -90,11 +90,11 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="XWg-oy-Vyj">
-                                                    <rect key="frame" x="66" y="2" width="280" height="17"/>
+                                                    <rect key="frame" x="66" y="2" width="380" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="j7W-G8-vZF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="280" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="380" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" id="Yrh-0j-9tr">
                                                                 <font key="font" metaFont="system"/>
@@ -123,7 +123,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <button id="td3-pJ-dXW">
-                                                    <rect key="frame" x="350" y="2" width="40" height="48"/>
+                                                    <rect key="frame" x="450" y="2" width="40" height="48"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="HbM-e8-rU8">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -146,7 +146,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <button id="3wn-J4-z1J">
-                                                    <rect key="frame" x="394" y="2" width="40" height="48"/>
+                                                    <rect key="frame" x="494" y="2" width="40" height="48"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="PgF-po-zTe">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -155,8 +155,8 @@
                                                 </button>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="cRemove" width="40" minWidth="40" maxWidth="40" id="Dnd-hK-M9i">
-                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="edit">
+                                        <tableColumn identifier="cRemove" width="60" minWidth="60" maxWidth="60" id="Dnd-hK-M9i">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="remove">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -169,7 +169,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <button id="zAq-xw-Cvm">
-                                                    <rect key="frame" x="438" y="2" width="40" height="48"/>
+                                                    <rect key="frame" x="538" y="2" width="60" height="48"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="g8i-xV-TCX">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

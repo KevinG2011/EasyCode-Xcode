@@ -39,8 +39,7 @@
         self.mappingDic = [_UD readMappingForOC].mutableCopy;
         self.window.title = @"Objective-C";
     }
-    else if(_editorType == EditorTypeSwift)
-    {
+    else if(_editorType == EditorTypeSwift) {
         self.mappingDic = [_UD readMappingForSwift].mutableCopy;
         self.window.title = @"Swift";
     }
