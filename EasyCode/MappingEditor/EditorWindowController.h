@@ -14,9 +14,11 @@ typedef enum : NSUInteger {
 } EditorType;
 
 @interface EditorWindowController : NSWindowController
+@property (weak) IBOutlet NSWindow *toastPanel;
+@property (weak) IBOutlet NSTextField *toastText;
 @property (weak) IBOutlet NSScrollView *scrollView;
-
-@property (weak) IBOutlet NSTableView*           tableView;
+@property (weak) IBOutlet NSTableView *tableView;
+@property (weak) IBOutlet NSTableColumn *filterColumn;
 
 - (void)initEditorWindow:(EditorType)editorType;
 

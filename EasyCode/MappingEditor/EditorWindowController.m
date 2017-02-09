@@ -10,8 +10,29 @@
 #import "ESharedUserDefault.h"
 #import "EShortcutEntry.h"
 #import "DetailWindowController.h"
+#import "NSWindow+Additions.h"
+#import "NSString+Additions.h"
 
-@interface EditorWindowController () <NSTableViewDataSource, NSTabViewDelegate, DetailWindowEditorDelegate, NSWindowDelegate>
+#ifndef dispatch_main_sync_safe
+#define dispatch_main_sync_safe(block)\
+if ([NSThread isMainThread]) {\
+if(block){\
+block();\
+}\
+}\
+else {\
+if(block){\
+dispatch_sync(dispatch_get_main_queue(), block);\
+}\
+}
+#endif
+
+#ifndef dispatch_async_safe
+#define dispatch_async_safe(block) \
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
+#endif
+
+@interface EditorWindowController () <NSTableViewDataSource, NSTabViewDelegate, DetailWindowEditorDelegate, NSWindowDelegate,NSSearchFieldDelegate>
 @property (nonatomic, strong) NSMutableDictionary*                  mappingDic;
 @property (nonatomic, strong) NSMutableArray*                       mappingList;
 @property (nonatomic, assign) EditorType                            editorType;
@@ -21,7 +42,10 @@
 @property (nonatomic, strong) NSImage*                 imgRemove;
 
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
-
+@property (nonatomic, strong) IBOutlet NSSearchField*               searchField;
+@property (nonatomic, strong) NSString*                             searchKey;
+@property (nonatomic, strong) NSArray*                              filteringList;
+@property (nonatomic, weak)   NSArray*                              matchingList;
 @end
 
 @implementation EditorWindowController
@@ -61,8 +85,12 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    _scrollView.scrollerStyle = NSScrollerStyleLegacy;
-    _tableView.allowsColumnResizing = YES;
+    _searchField.delegate = self;
+    _toastPanel.backgroundColor = [NSColor colorWithWhite:0 alpha:0.5];
+    [_toastPanel setCornRadius:12];
+    [_toastPanel orderOut:self];
+    
+    _tableView.allowsColumnSelection = NO;
     [_tableView setDoubleAction:@selector(onHandleDoubleClick:)];
     [_tableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -70,17 +98,77 @@
     });
     
     self.window.delegate = self;
+    [self.window center];
+}
+
+- (void)onFireSearchRequest {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray* cloneList = [_mappingList copy];
+        if (_searchKey.length > 0) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"key contains[cd] %@", _searchKey];
+            cloneList = [cloneList filteredArrayUsingPredicate:predicate];
+        }
+        _filteringList = cloneList;
+        
+        dispatch_main_sync_safe(^{
+            [_tableView reloadData];
+        });
+    });
+}
+
+- (void)queueSearchRequest {
+    _searchKey = [_searchField.stringValue trimWhiteSpace];
+//    NSLog(@"searchText :%@",_searchKey);
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(onFireSearchRequest) object:nil];
+    [self performSelector:@selector(onFireSearchRequest) withObject:nil afterDelay:0.2f];
+}
+
+- (void)controlTextDidChange:(NSNotification *)notification {
+    [self queueSearchRequest];
+}
+
+- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
+    if (commandSelector == @selector(insertNewline:)) { //pressed enter
+        [self queueSearchRequest];
+    }
+    return NO;
+}
+
+- (void)focusSearchField:(id)sender {
+    [_searchField selectText:self];
+    [[_searchField currentEditor] setSelectedRange:NSMakeRange(_searchField.stringValue.length, 0)];
+}
+
+- (void)keyDown:(NSEvent *)event {
+    NSLog(@"keyCode :%d",event.keyCode);
+    if (([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask){
+        if ([event keyCode] == 3) { //Command + F
+            [self focusSearchField:nil];
+        }
+    }
+}
+
+- (void)pasteShortcutWithEntry:(EShortcutEntry*)entry {
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    BOOL success = [pasteboard writeObjects:@[entry.key]];
+    if (success) {
+        _toastText.stringValue = entry.key;
+        [_toastPanel fadeInAnimated:NO];
+        [_toastPanel fadeOutAnimated:YES afterDelay:3];
+    }
 }
 
 - (void)onHandleDoubleClick:(id)sender {
-    if (_tableView.clickedColumn != 1) {
+    if (_tableView.clickedColumn > 1) {
         return;
     }
-    EShortcutEntry* entry = _mappingList[_tableView.clickedRow];
-    if (entry) {
-        [self.detailEditor initWithMappingEntry:entry];
-        self.detailEditor.editMode = DetailEditorModeUpdate;
-        [self.detailEditor showWindow:self];
+    
+    EShortcutEntry* entry = _matchingList[_tableView.clickedRow];
+    if (_tableView.clickedColumn == 0) { //clicked shortcut key
+        [self pasteShortcutWithEntry:entry];
+    } else {
+        [self presentDetailEditorWithEntry:entry];
     }
 }
 
@@ -90,11 +178,20 @@
     [myRowView setEmphasized:NO];
 }
 
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    if ([_searchKey isNotEmpty]) {
+        _matchingList = _filteringList;
+    } else {
+        _matchingList = _mappingList;
+    }
+    return [_matchingList count];
+}
+
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     
     // Get a new ViewCell
     NSTableCellView *cellView = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
-    EShortcutEntry* entry = _mappingList[row];
+    EShortcutEntry* entry = _matchingList[row];
     
     if( [tableColumn.identifier isEqualToString:@"cShortcut"] )
     {
@@ -135,21 +232,22 @@
     return cellView;
 }
 
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [self.mappingList count];
+- (void)presentDetailEditorWithEntry:(EShortcutEntry*)entry {
+    if (entry == nil) {
+        return;
+    }
+    
+    [self.detailEditor initWithMappingEntry:entry];
+    self.detailEditor.editMode = DetailEditorModeUpdate;
+    [self.detailEditor showWindow:self];
 }
 
 - (void)onEditCodeClick:(id)sender
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    EShortcutEntry* entry = _mappingList[row];
-    if (entry) {
-        [self.detailEditor initWithMappingEntry:entry];
-        self.detailEditor.editMode = DetailEditorModeUpdate;
-        [self.detailEditor showWindow:self];
-    }
+    EShortcutEntry* entry = _matchingList[row];
+    [self presentDetailEditorWithEntry:entry];
 }
 
 - (void)onAddEntryClick:(id)sender
@@ -164,7 +262,7 @@
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    EShortcutEntry* entry = _mappingList[row];
+    EShortcutEntry* entry = _matchingList[row];
     if (entry) {
         [_mappingList removeObject:entry];
         [self sortMappingList];

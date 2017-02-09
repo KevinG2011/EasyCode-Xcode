@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A26F2031E4C075C0091CF0F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A26F2021E4C075C0091CF0F /* NSString+Additions.m */; };
+		2A46CC141E4AF7260029198A /* NSWindow+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A46CC131E4AF7260029198A /* NSWindow+Additions.m */; };
 		670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED41DB2284400A1739F /* AppDelegate.m */; };
 		670F2ED81DB2284400A1739F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED71DB2284400A1739F /* main.m */; };
 		670F2EDA1DB2284400A1739F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 670F2ED91DB2284400A1739F /* Assets.xcassets */; };
@@ -96,6 +98,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A26F2011E4C075C0091CF0F /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		2A26F2021E4C075C0091CF0F /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		2A46CC121E4AF7260029198A /* NSWindow+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Additions.h"; sourceTree = "<group>"; };
+		2A46CC131E4AF7260029198A /* NSWindow+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Additions.m"; sourceTree = "<group>"; };
 		670F2ED01DB2284400A1739F /* EasyCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		670F2ED31DB2284400A1739F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		670F2ED41DB2284400A1739F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -323,6 +329,10 @@
 				6741CE781DB8B4DF000408E7 /* EEditorTableView.m */,
 				67F73FAF1DCC9625000780C3 /* CustomButton.h */,
 				67F73FB01DCC9625000780C3 /* CustomButton.m */,
+				2A46CC121E4AF7260029198A /* NSWindow+Additions.h */,
+				2A46CC131E4AF7260029198A /* NSWindow+Additions.m */,
+				2A26F2011E4C075C0091CF0F /* NSString+Additions.h */,
+				2A26F2021E4C075C0091CF0F /* NSString+Additions.m */,
 			);
 			path = MappingEditor;
 			sourceTree = "<group>";
@@ -589,6 +599,7 @@
 				6741CE571DB87CE8000408E7 /* ECMapping.m in Sources */,
 				6741CE7E1DB8BA19000408E7 /* DetailWindowController.m in Sources */,
 				6741CE681DB884DD000408E7 /* EditorWindowController.m in Sources */,
+				2A46CC141E4AF7260029198A /* NSWindow+Additions.m in Sources */,
 				6741CE761DB8A713000408E7 /* EVerticalScrollView.m in Sources */,
 				6741CE581DB87CE8000408E7 /* ECMappingForSwift.h in Sources */,
 				6741CE591DB87CE8000408E7 /* ECMappingForSwift.m in Sources */,
@@ -602,6 +613,7 @@
 				670F2ED81DB2284400A1739F /* main.m in Sources */,
 				6741CE4F1DB87340000408E7 /* ESharedUserDefault.m in Sources */,
 				670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */,
+				2A26F2031E4C075C0091CF0F /* NSString+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
