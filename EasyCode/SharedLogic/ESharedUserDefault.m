@@ -10,13 +10,10 @@
 #import "ECMappingForObjectiveC.h"
 #import "ECMappingForSwift.h"
 
-#define KeySharedContainerGroup @"2WQE6AU5PD.group.com.music4kid.easycode"
+#define KeySharedContainerGroup         @"2WQE6AU5PD.group.com.yingxiang.easycode"
 
-#define KeyCodeShortcutForObjectiveC @"KeyCodeShortcutForObjectiveC"
-#define KeyCodeShortcutForSwift @"KeyCodeShortcutForSwift"
-
-#define KeyCurrentUDVersion @"KeyCurrentUDVersion"
-#define ValueCurrentUDVersion @"1"
+#define KeyCurrentUDVersion             @"KeyCurrentUDVersion"
+#define ValueCurrentUDVersion           @"1"
 
 @interface ESharedUserDefault ()
 @property (nonatomic, strong) NSUserDefaults*                   sharedUD;
@@ -47,7 +44,6 @@
 {
     self = [super init];
     if (self) {
-        
         [self initSharedUD];
     }
     return self;
@@ -59,6 +55,17 @@
     if ([_sharedUD objectForKey:KeyCurrentUDVersion] == nil) {
         [_sharedUD setObject:ValueCurrentUDVersion forKey:KeyCurrentUDVersion];
     }
+}
+
+- (void)setBool:(BOOL)value forKey:(NSString*)defaultName
+{
+    [_sharedUD setBool:value forKey:defaultName];
+    [_sharedUD synchronize];
+}
+
+- (BOOL)boolForKey:(NSString*)defaultName
+{
+    return [_sharedUD boolForKey:defaultName];
 }
 
 - (void)clearMapping

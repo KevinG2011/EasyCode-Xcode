@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2A26F2031E4C075C0091CF0F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A26F2021E4C075C0091CF0F /* NSString+Additions.m */; };
+		2A2DBB171E6566E4008C78AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A2DBB161E6566E4008C78AF /* Localizable.strings */; };
+		2A2DBB191E657486008C78AF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2DBB181E657486008C78AF /* CloudKit.framework */; };
 		2A46CC141E4AF7260029198A /* NSWindow+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A46CC131E4AF7260029198A /* NSWindow+Additions.m */; };
 		670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED41DB2284400A1739F /* AppDelegate.m */; };
 		670F2ED81DB2284400A1739F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED71DB2284400A1739F /* main.m */; };
@@ -100,6 +102,8 @@
 /* Begin PBXFileReference section */
 		2A26F2011E4C075C0091CF0F /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		2A26F2021E4C075C0091CF0F /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		2A2DBB161E6566E4008C78AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		2A2DBB181E657486008C78AF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		2A46CC121E4AF7260029198A /* NSWindow+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Additions.h"; sourceTree = "<group>"; };
 		2A46CC131E4AF7260029198A /* NSWindow+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Additions.m"; sourceTree = "<group>"; };
 		670F2ED01DB2284400A1739F /* EasyCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A2DBB191E657486008C78AF /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +261,7 @@
 		670F2EE91DB228DD00A1739F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A2DBB181E657486008C78AF /* CloudKit.framework */,
 				670F2EEA1DB228DD00A1739F /* Cocoa.framework */,
 			);
 			name = Frameworks;
@@ -340,6 +346,7 @@
 		6741CE6D1DB89DFE000408E7 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				2A2DBB161E6566E4008C78AF /* Localizable.strings */,
 				67F73FAB1DCC9278000780C3 /* btnguide.png */,
 				67F73FAC1DCC9278000780C3 /* btnguide@2x.png */,
 				67F73FA71DCC8E31000780C3 /* btnbg2.png */,
@@ -515,7 +522,13 @@
 							com.apple.ApplicationGroups.Mac = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 							com.apple.Sandbox = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -569,6 +582,7 @@
 				67F73FA51DCC8BF7000780C3 /* btnbg.png in Resources */,
 				67F73FAA1DCC8E31000780C3 /* btnbg2@2x.png in Resources */,
 				6741CE691DB884DD000408E7 /* EditorWindowController.xib in Resources */,
+				2A2DBB171E6566E4008C78AF /* Localizable.strings in Resources */,
 				6741CE721DB8A04A000408E7 /* remove.png in Resources */,
 				67F73FA61DCC8BF7000780C3 /* btnbg@2x.png in Resources */,
 			);
@@ -765,7 +779,7 @@
 				INFOPLIST_FILE = EasyCode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.music4kid.ec;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yingxiang.easycode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -781,7 +795,7 @@
 				INFOPLIST_FILE = EasyCode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.music4kid.ec;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yingxiang.easycode;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -796,7 +810,7 @@
 				INFOPLIST_FILE = EC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.music4kid.ec.ec;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yingxiang.easycode.ec;
 				PRODUCT_NAME = EC;
 				SKIP_INSTALL = YES;
 			};
@@ -812,7 +826,7 @@
 				INFOPLIST_FILE = EC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.music4kid.ec.ec;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yingxiang.easycode.ec;
 				PRODUCT_NAME = EC;
 				SKIP_INSTALL = YES;
 			};

@@ -10,9 +10,15 @@
 
 #define _UD [ESharedUserDefault sharedInstance]
 
+#define KeyCodeShortcutForObjectiveC    @"KeyCodeShortcutForObjectiveC"
+#define KeyCodeShortcutForSwift         @"KeyCodeShortcutForSwift"
+#define KeyUseiCloudSync                @"KeyUseiCloudSync"
+
 @interface ESharedUserDefault : NSObject
 
 + (instancetype)sharedInstance;
+- (void)setBool:(BOOL)value forKey:(NSString*)defaultName;
+- (BOOL)boolForKey:(NSString*)defaultName;
 
 - (NSDictionary*)readMappingForOC;
 - (void)saveMappingForOC:(NSDictionary*)mapping;
@@ -21,5 +27,6 @@
 - (void)saveMappingForSwift:(NSDictionary*)mapping;
 
 - (void)clearMapping;
+
 
 @end

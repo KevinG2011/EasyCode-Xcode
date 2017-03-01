@@ -8,23 +8,81 @@
 
 #import "AppDelegate.h"
 #import "EditorWindowController.h"
+#import "ESharedUserDefault.h"
 
 @interface AppDelegate ()
-
 @property (weak) IBOutlet NSWindow *window;
+@property (weak) IBOutlet NSButton *useicloudBtn;
 @property (nonatomic, strong) EditorWindowController*                 editorOC;
 @property (nonatomic, strong) EditorWindowController*                 editorSwift;
-
+//icloud
+@property (nonatomic, strong) id ubiquityToken;
+@property (nonatomic, strong) NSURL *ubiquityURL;
 @end
 
 @implementation AppDelegate
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquityIdentityDidChangeNotification object:nil];
 }
 
+- (void)ubiquityIdentityChanged:(NSNotification *)notification
+{
+    id token = [[NSFileManager defaultManager] ubiquityIdentityToken];
+    if (token == nil)
+    {
+        NSAlert *warningAlert = [[NSAlert alloc] init];
+        warningAlert.messageText = NSLocalizedString(@"Logged_Out_Message", nil);
+        [warningAlert addButtonWithTitle:NSLocalizedString(@"OK_Button_Title", nil)];
+        warningAlert.informativeText = NSLocalizedString(@"Logged_Out_Message_Explain", nil);
+        warningAlert.alertStyle = NSWarningAlertStyle;
+        [warningAlert runModal];
+    } else {
+        if ([self.ubiquityToken isEqual:token])
+        {
+            NSLog(@"user has stayed logged in with same account");
+        }
+        else
+        {
+            // user logged in with a different account
+            NSLog(@"user logged in with a new account");
+        }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
+        // store off this token to compare later
+        self.ubiquityToken = token;
+    }
+}
+
+-(NSURL*)cloudDocumentURL
+{
+    if (_ubiquityURL) {
+        NSURL* documentURL = [_ubiquityURL URLByAppendingPathComponent:@"Documents"];
+        return documentURL;
+    }
+    return nil;
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    _useicloudBtn.state = [_UD boolForKey:KeyUseiCloudSync];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        _ubiquityURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+    });
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(ubiquityIdentityChanged:)
+                                                 name:NSUbiquityIdentityDidChangeNotification
+                                               object:nil];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+    _ubiquityToken = [[NSFileManager defaultManager] ubiquityIdentityToken];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
     // Insert code here to tear down your application
 }
 
@@ -37,13 +95,18 @@
     [_editorOC showWindow:self];
 }
 
-- (void)showEditorWindowForSwift:(id)sender
+- (IBAction)showEditorWindowForSwift:(id)sender
 {
     if (self.editorSwift == nil) {
         self.editorSwift = [[EditorWindowController alloc] initWithWindowNibName:@"EditorWindowController"];
         [_editorSwift initEditorWindow:EditorTypeSwift];
     }
     [_editorSwift showWindow:self];
+}
+
+- (IBAction)useiCloudCheck:(NSButton*)sender {
+    _useiCloud = (sender.state == NSOnState);
+    [_UD setBool:_useiCloud forKey:KeyUseiCloudSync];
 }
 
 - (IBAction)showHowToUse:(id)sender {

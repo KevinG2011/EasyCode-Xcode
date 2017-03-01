@@ -37,7 +37,7 @@
     NSMutableDictionary* dic = @{}.mutableCopy;
     for (NSString* key in keys) {
         if ([dic objectForKey:keys]) {
-            NSLog(@"detect duplicated keys!");
+//            NSLog(@"detect duplicated keys!");
         }
         else
         {
