@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BEB36941E670B7C0039FF67 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB36931E670B7C0039FF67 /* AppDelegate.m */; };
+		0BEB36971E670B7C0039FF67 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB36961E670B7C0039FF67 /* main.m */; };
+		0BEB369A1E670B7C0039FF67 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEB36991E670B7C0039FF67 /* Document.m */; };
+		0BEB369D1E670B7C0039FF67 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BEB369B1E670B7C0039FF67 /* Document.xib */; };
+		0BEB369F1E670B7C0039FF67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BEB369E1E670B7C0039FF67 /* Assets.xcassets */; };
+		0BEB36A21E670B7C0039FF67 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BEB36A01E670B7C0039FF67 /* MainMenu.xib */; };
 		2A2DBB171E6566E4008C78AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A2DBB161E6566E4008C78AF /* Localizable.strings */; };
 		2A2DBB191E657486008C78AF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2DBB181E657486008C78AF /* CloudKit.framework */; };
 		2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */; };
@@ -101,6 +107,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0BEB36901E670B7C0039FF67 /* AirCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BEB36921E670B7C0039FF67 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0BEB36931E670B7C0039FF67 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0BEB36961E670B7C0039FF67 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0BEB36981E670B7C0039FF67 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		0BEB36991E670B7C0039FF67 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		0BEB369C1E670B7C0039FF67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		0BEB369E1E670B7C0039FF67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0BEB36A11E670B7C0039FF67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		0BEB36A31E670B7C0039FF67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A2DBB161E6566E4008C78AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		2A2DBB181E657486008C78AF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		2A2DBB291E66A0F6008C78AF /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
@@ -198,6 +214,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0BEB368D1E670B7C0039FF67 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		670F2ECD1DB2284400A1739F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -217,6 +240,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BEB36911E670B7C0039FF67 /* AirCode */ = {
+			isa = PBXGroup;
+			children = (
+				0BEB36921E670B7C0039FF67 /* AppDelegate.h */,
+				0BEB36931E670B7C0039FF67 /* AppDelegate.m */,
+				0BEB36981E670B7C0039FF67 /* Document.h */,
+				0BEB36991E670B7C0039FF67 /* Document.m */,
+				0BEB369B1E670B7C0039FF67 /* Document.xib */,
+				0BEB369E1E670B7C0039FF67 /* Assets.xcassets */,
+				0BEB36A01E670B7C0039FF67 /* MainMenu.xib */,
+				0BEB36A31E670B7C0039FF67 /* Info.plist */,
+				0BEB36951E670B7C0039FF67 /* Supporting Files */,
+			);
+			path = AirCode;
+			sourceTree = "<group>";
+		};
+		0BEB36951E670B7C0039FF67 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0BEB36961E670B7C0039FF67 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		2A2DBB281E66A0F6008C78AF /* Additions */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +282,7 @@
 			children = (
 				670F2ED21DB2284400A1739F /* EasyCode */,
 				670F2EEC1DB228DD00A1739F /* EC */,
+				0BEB36911E670B7C0039FF67 /* AirCode */,
 				670F2EE91DB228DD00A1739F /* Frameworks */,
 				670F2ED11DB2284400A1739F /* Products */,
 			);
@@ -245,6 +293,7 @@
 			children = (
 				670F2ED01DB2284400A1739F /* EasyCode.app */,
 				670F2EE81DB228DC00A1739F /* EC.appex */,
+				0BEB36901E670B7C0039FF67 /* AirCode.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -482,6 +531,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0BEB368F1E670B7C0039FF67 /* AirCode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0BEB36A41E670B7C0039FF67 /* Build configuration list for PBXNativeTarget "AirCode" */;
+			buildPhases = (
+				0BEB368C1E670B7C0039FF67 /* Sources */,
+				0BEB368D1E670B7C0039FF67 /* Frameworks */,
+				0BEB368E1E670B7C0039FF67 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AirCode;
+			productName = AirCode;
+			productReference = 0BEB36901E670B7C0039FF67 /* AirCode.app */;
+			productType = "com.apple.product-type.application";
+		};
 		670F2ECF1DB2284400A1739F /* EasyCode */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 670F2EE11DB2284400A1739F /* Build configuration list for PBXNativeTarget "EasyCode" */;
@@ -527,6 +593,11 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = music4kid;
 				TargetAttributes = {
+					0BEB368F1E670B7C0039FF67 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 3KAP4AA829;
+						ProvisioningStyle = Automatic;
+					};
 					670F2ECF1DB2284400A1739F = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 3KAP4AA829;
@@ -572,12 +643,23 @@
 			projectRoot = "";
 			targets = (
 				670F2ECF1DB2284400A1739F /* EasyCode */,
+				0BEB368F1E670B7C0039FF67 /* AirCode */,
 				670F2EE71DB228DC00A1739F /* EC */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0BEB368E1E670B7C0039FF67 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BEB369F1E670B7C0039FF67 /* Assets.xcassets in Resources */,
+				0BEB369D1E670B7C0039FF67 /* Document.xib in Resources */,
+				0BEB36A21E670B7C0039FF67 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		670F2ECE1DB2284400A1739F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -618,6 +700,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0BEB368C1E670B7C0039FF67 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BEB369A1E670B7C0039FF67 /* Document.m in Sources */,
+				0BEB36971E670B7C0039FF67 /* main.m in Sources */,
+				0BEB36941E670B7C0039FF67 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		670F2ECC1DB2284400A1739F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -684,6 +776,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0BEB369B1E670B7C0039FF67 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0BEB369C1E670B7C0039FF67 /* Base */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		0BEB36A01E670B7C0039FF67 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0BEB36A11E670B7C0039FF67 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		670F2EDB1DB2284400A1739F /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -695,6 +803,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0BEB36A51E670B7C0039FF67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3KAP4AA829;
+				INFOPLIST_FILE = AirCode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yingxiang.aircode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0BEB36A61E670B7C0039FF67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3KAP4AA829;
+				INFOPLIST_FILE = AirCode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yingxiang.aircode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		670F2EDF1DB2284400A1739F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -849,6 +987,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0BEB36A41E670B7C0039FF67 /* Build configuration list for PBXNativeTarget "AirCode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BEB36A51E670B7C0039FF67 /* Debug */,
+				0BEB36A61E670B7C0039FF67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		670F2ECB1DB2284400A1739F /* Build configuration list for PBXProject "EasyCode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
