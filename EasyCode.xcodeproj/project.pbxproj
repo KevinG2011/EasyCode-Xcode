@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A26F2031E4C075C0091CF0F /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A26F2021E4C075C0091CF0F /* NSString+Additions.m */; };
 		2A2DBB171E6566E4008C78AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A2DBB161E6566E4008C78AF /* Localizable.strings */; };
 		2A2DBB191E657486008C78AF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2DBB181E657486008C78AF /* CloudKit.framework */; };
-		2A46CC141E4AF7260029198A /* NSWindow+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A46CC131E4AF7260029198A /* NSWindow+Additions.m */; };
+		2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */; };
+		2A2DBB2E1E66A0F6008C78AF /* NSWindow+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2C1E66A0F6008C78AF /* NSWindow+Additions.m */; };
+		2A2DBB311E66A133008C78AF /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */; };
 		670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED41DB2284400A1739F /* AppDelegate.m */; };
 		670F2ED81DB2284400A1739F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED71DB2284400A1739F /* main.m */; };
 		670F2EDA1DB2284400A1739F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 670F2ED91DB2284400A1739F /* Assets.xcassets */; };
@@ -100,12 +101,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2A26F2011E4C075C0091CF0F /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
-		2A26F2021E4C075C0091CF0F /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		2A2DBB161E6566E4008C78AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		2A2DBB181E657486008C78AF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		2A46CC121E4AF7260029198A /* NSWindow+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Additions.h"; sourceTree = "<group>"; };
-		2A46CC131E4AF7260029198A /* NSWindow+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Additions.m"; sourceTree = "<group>"; };
+		2A2DBB291E66A0F6008C78AF /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		2A2DBB2B1E66A0F6008C78AF /* NSWindow+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Additions.h"; sourceTree = "<group>"; };
+		2A2DBB2C1E66A0F6008C78AF /* NSWindow+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Additions.m"; sourceTree = "<group>"; };
+		2A2DBB2F1E66A133008C78AF /* NSFileManager+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Additions.h"; sourceTree = "<group>"; };
+		2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Additions.m"; sourceTree = "<group>"; };
 		670F2ED01DB2284400A1739F /* EasyCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		670F2ED31DB2284400A1739F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		670F2ED41DB2284400A1739F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -214,6 +217,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A2DBB281E66A0F6008C78AF /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				2A2DBB291E66A0F6008C78AF /* NSString+Additions.h */,
+				2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */,
+				2A2DBB2B1E66A0F6008C78AF /* NSWindow+Additions.h */,
+				2A2DBB2C1E66A0F6008C78AF /* NSWindow+Additions.m */,
+				2A2DBB2F1E66A133008C78AF /* NSFileManager+Additions.h */,
+				2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
 		670F2EC71DB2284400A1739F = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +252,7 @@
 		670F2ED21DB2284400A1739F /* EasyCode */ = {
 			isa = PBXGroup;
 			children = (
+				2A2DBB281E66A0F6008C78AF /* Additions */,
 				6741CE5E1DB87FEC000408E7 /* MappingEditor */,
 				6741CE4C1DB8732D000408E7 /* SharedLogic */,
 				676E320D1DB70B2000C9DC9B /* EasyCode.entitlements */,
@@ -335,10 +352,6 @@
 				6741CE781DB8B4DF000408E7 /* EEditorTableView.m */,
 				67F73FAF1DCC9625000780C3 /* CustomButton.h */,
 				67F73FB01DCC9625000780C3 /* CustomButton.m */,
-				2A46CC121E4AF7260029198A /* NSWindow+Additions.h */,
-				2A46CC131E4AF7260029198A /* NSWindow+Additions.m */,
-				2A26F2011E4C075C0091CF0F /* NSString+Additions.h */,
-				2A26F2021E4C075C0091CF0F /* NSString+Additions.m */,
 			);
 			path = MappingEditor;
 			sourceTree = "<group>";
@@ -609,25 +622,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A2DBB2E1E66A0F6008C78AF /* NSWindow+Additions.m in Sources */,
 				6741CE561DB87CE8000408E7 /* ECMapping.h in Sources */,
 				6741CE571DB87CE8000408E7 /* ECMapping.m in Sources */,
 				6741CE7E1DB8BA19000408E7 /* DetailWindowController.m in Sources */,
 				6741CE681DB884DD000408E7 /* EditorWindowController.m in Sources */,
-				2A46CC141E4AF7260029198A /* NSWindow+Additions.m in Sources */,
 				6741CE761DB8A713000408E7 /* EVerticalScrollView.m in Sources */,
+				2A2DBB311E66A133008C78AF /* NSFileManager+Additions.m in Sources */,
 				6741CE581DB87CE8000408E7 /* ECMappingForSwift.h in Sources */,
 				6741CE591DB87CE8000408E7 /* ECMappingForSwift.m in Sources */,
 				6741CE5A1DB87CE8000408E7 /* SwiftMapping.h in Sources */,
 				6741CE6C1DB89894000408E7 /* EShortcutEntry.m in Sources */,
 				6741CE5B1DB87CE8000408E7 /* ECMappingForObjectiveC.h in Sources */,
 				6741CE791DB8B4DF000408E7 /* EEditorTableView.m in Sources */,
+				2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */,
 				6741CE5C1DB87CE8000408E7 /* ECMappingForObjectiveC.m in Sources */,
 				6741CE5D1DB87CE8000408E7 /* OCMapping.h in Sources */,
 				67F73FB11DCC9625000780C3 /* CustomButton.m in Sources */,
 				670F2ED81DB2284400A1739F /* main.m in Sources */,
 				6741CE4F1DB87340000408E7 /* ESharedUserDefault.m in Sources */,
 				670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */,
-				2A26F2031E4C075C0091CF0F /* NSString+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
