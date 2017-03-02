@@ -26,16 +26,14 @@
 
 - (IBAction)showEditorWindowForOC:(id)sender {
     if (self.editorOC == nil) {
-        self.editorOC = [[EditorWindowController alloc] initWithWindowNibName:@"EditorWindowController"];
-        [_editorOC initEditorWindowForType:EditorTypeOC];
+        self.editorOC = [[EditorWindowController alloc] initEditorWindowForType:EditorTypeOC];
     }
     [_editorOC showWindow:self];
 }
 
 - (IBAction)showEditorWindowForSwift:(id)sender {
     if (self.editorSwift == nil) {
-        self.editorSwift = [[EditorWindowController alloc] initWithWindowNibName:@"EditorWindowController"];
-        [_editorSwift initEditorWindowForType:EditorTypeSwift];
+        self.editorSwift = [[EditorWindowController alloc] initEditorWindowForType:EditorTypeSwift];
     }
     [_editorSwift showWindow:self];
 }

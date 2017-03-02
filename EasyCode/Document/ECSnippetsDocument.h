@@ -7,8 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "EditorWindowController.h"
 
 @interface ECSnippetsDocument : NSDocument
-
+@property (nonatomic, assign) EditorType                            editorType;
+@property (nonatomic, strong,readonly) NSURL* dataURL;
+-(instancetype)initWithEditorType:(EditorType)editorType;
 @end
 

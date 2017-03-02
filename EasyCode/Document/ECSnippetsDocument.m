@@ -14,10 +14,10 @@
 @end
 
 @implementation ECSnippetsDocument
-- (instancetype)init {
+-(instancetype)initWithEditorType:(EditorType)editorType {
     self = [super init];
     if (self) {
-        //TODO
+        _editorType = editorType;
     }
     return self;
 }
@@ -27,7 +27,7 @@
 }
 
 -(NSString *)displayName {
-    return @"";
+    return @"代码详情";
 }
 
 + (BOOL)autosavesInPlace {

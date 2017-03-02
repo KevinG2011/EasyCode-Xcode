@@ -10,6 +10,7 @@
 #import "ESharedUserDefault.h"
 #import "EShortcutEntry.h"
 #import "DetailWindowController.h"
+#import "ECSnippetsDocument.h"
 #import "NSWindow+Additions.h"
 #import "NSString+Additions.h"
 
@@ -32,55 +33,69 @@ dispatch_sync(dispatch_get_main_queue(), block);\
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
 #endif
 
-@interface EditorWindowController () <NSTableViewDataSource, NSTabViewDelegate, DetailWindowEditorDelegate, NSWindowDelegate,NSSearchFieldDelegate>
+@interface EditorWindowController () <NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
+DetailWindowEditorDelegate,NSSearchFieldDelegate>
+@property (nonatomic, weak) IBOutlet NSWindow *toastPanel;
+@property (nonatomic, weak) IBOutlet NSTextField *toastText;
+@property (nonatomic, weak) IBOutlet NSScrollView *scrollView;
+@property (nonatomic, weak) IBOutlet NSTableView *tableView;
+@property (nonatomic, weak) IBOutlet NSTableColumn *filterColumn;
+
 @property (nonatomic, strong) NSMutableDictionary*                  mappingDic;
 @property (nonatomic, strong) NSMutableArray*                       mappingList;
 @property (nonatomic, assign) EditorType                            editorType;
 
-@property (nonatomic, strong) NSImage*                 imgEdit;
-@property (nonatomic, strong) NSImage*                 imgAdd;
-@property (nonatomic, strong) NSImage*                 imgRemove;
+@property (nonatomic, strong) NSImage*                              imgEdit;
+@property (nonatomic, strong) NSImage*                              imgAdd;
+@property (nonatomic, strong) NSImage*                              imgRemove;
 
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
 @property (nonatomic, strong) IBOutlet NSSearchField*               searchField;
 @property (nonatomic, strong) NSString*                             searchKey;
 @property (nonatomic, strong) NSArray*                              filteringList;
 @property (nonatomic, weak)   NSArray*                              matchingList;
+@property (nonatomic, strong) ECSnippetsDocument*                   snippetDoc;
 @end
 
 @implementation EditorWindowController
 
-- (void)initEditorWindowForType:(EditorType)editorType {
-    self.editorType = editorType;
-    
-    self.imgEdit = [NSImage imageNamed:@"edit"];
-    self.imgAdd = [NSImage imageNamed:@"add"];
-    self.imgRemove = [NSImage imageNamed:@"remove"];
-    
-    self.mappingList = @[].mutableCopy;
-    
-    if (_editorType == EditorTypeOC) {
-        self.mappingDic = [_UD readMappingForOC].mutableCopy;
-        self.window.title = @"Objective-C";
+- (instancetype)initEditorWindowForType:(EditorType)editorType {
+    self = [super initWithWindowNibName:@"EditorWindowController"];
+    if (self) {
+        self.editorType = editorType;
+        
+        self.imgEdit = [NSImage imageNamed:@"edit"];
+        self.imgAdd = [NSImage imageNamed:@"add"];
+        self.imgRemove = [NSImage imageNamed:@"remove"];
+        
+        self.snippetDoc = [[ECSnippetsDocument alloc] initWithEditorType:_editorType];
+        
+//        self.mappingList = @[].mutableCopy;
+//        
+//        if (_editorType == EditorTypeOC) {
+//            self.mappingDic = [_UD readMappingForOC].mutableCopy;
+//            self.window.title = @"Objective-C";
+//        }
+//        else if(_editorType == EditorTypeSwift) {
+//            self.mappingDic = [_UD readMappingForSwift].mutableCopy;
+//            self.window.title = @"Swift";
+//        }
+//        
+//        NSArray* keys = self.mappingDic.allKeys;
+//        keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//            NSString* str1 = obj1;
+//            NSString* str2 = obj2;
+//            return [str1 compare:str2];
+//        }];
+//        for (NSString* key in keys) {
+//            EShortcutEntry* entry = [EShortcutEntry new];
+//            entry.key = key;
+//            entry.code = _mappingDic[key];
+//            [_mappingList addObject:entry];
+//        }
+//        [self sortMappingList];
     }
-    else if(_editorType == EditorTypeSwift) {
-        self.mappingDic = [_UD readMappingForSwift].mutableCopy;
-        self.window.title = @"Swift";
-    }
-    
-    NSArray* keys = self.mappingDic.allKeys;
-    keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        NSString* str1 = obj1;
-        NSString* str2 = obj2;
-        return [str1 compare:str2];
-    }];
-    for (NSString* key in keys) {
-        EShortcutEntry* entry = [EShortcutEntry new];
-        entry.key = key;
-        entry.code = _mappingDic[key];
-        [_mappingList addObject:entry];
-    }
-    [self sortMappingList];
+    return self;
 }
 
 - (void)windowDidLoad {
