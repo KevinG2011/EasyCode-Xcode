@@ -20,6 +20,6 @@ typedef enum : NSUInteger {
 @property (weak) IBOutlet NSTableView *tableView;
 @property (weak) IBOutlet NSTableColumn *filterColumn;
 
-- (void)initEditorWindow:(EditorType)editorType;
+- (void)initEditorWindowForType:(EditorType)editorType;
 
 @end

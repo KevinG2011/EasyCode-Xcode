@@ -7,8 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+@class ECMainWindowController;
 @interface AppDelegate : NSObject <NSApplicationDelegate>
-@property (nonatomic, assign) BOOL useiCloud;
+//icloud
+@property (nonatomic, strong) id ubiquityToken;
+@property (nonatomic, strong) NSURL *ubiquityURL;
+@property (nonatomic, strong) ECMainWindowController* mainController;
 @end
 

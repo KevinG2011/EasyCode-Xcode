@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0BEB36A81E671F760039FF67 /* EditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE661DB884DD000408E7 /* EditorWindowController.m */; };
+		2A1CD1E41E68179A007A2700 /* NSWindowController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */; };
 		2A2DBB171E6566E4008C78AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A2DBB161E6566E4008C78AF /* Localizable.strings */; };
 		2A2DBB191E657486008C78AF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2DBB181E657486008C78AF /* CloudKit.framework */; };
 		2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */; };
@@ -15,7 +16,8 @@
 		2A2DBB311E66A133008C78AF /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */; };
 		2AD25BC71E67F2FE007AE3B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 670F2ED91DB2284400A1739F /* Assets.xcassets */; };
 		2AD25BCD1E67F6E7007AE3B8 /* ECSnippetsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD25BCC1E67F6E7007AE3B8 /* ECSnippetsDocument.m */; };
-		2AD25BCF1E67F6F4007AE3B8 /* ECSnippetsDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AD25BCE1E67F6F4007AE3B8 /* ECSnippetsDocument.xib */; };
+		2AD25BD31E6806AA007AE3B8 /* ECMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD25BD11E6806AA007AE3B8 /* ECMainWindowController.m */; };
+		2AD25BD41E6806AA007AE3B8 /* ECMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AD25BD21E6806AA007AE3B8 /* ECMainWindowController.xib */; };
 		670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED41DB2284400A1739F /* AppDelegate.m */; };
 		670F2ED81DB2284400A1739F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED71DB2284400A1739F /* main.m */; };
 		670F2EDD1DB2284400A1739F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 670F2EDB1DB2284400A1739F /* MainMenu.xib */; };
@@ -92,6 +94,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A1CD1E21E68179A007A2700 /* NSWindowController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindowController+Additions.h"; sourceTree = "<group>"; };
+		2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindowController+Additions.m"; sourceTree = "<group>"; };
 		2A2DBB161E6566E4008C78AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		2A2DBB181E657486008C78AF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		2A2DBB291E66A0F6008C78AF /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
@@ -102,7 +106,9 @@
 		2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Additions.m"; sourceTree = "<group>"; };
 		2AD25BCB1E67F6E7007AE3B8 /* ECSnippetsDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippetsDocument.h; sourceTree = "<group>"; };
 		2AD25BCC1E67F6E7007AE3B8 /* ECSnippetsDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippetsDocument.m; sourceTree = "<group>"; };
-		2AD25BCE1E67F6F4007AE3B8 /* ECSnippetsDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ECSnippetsDocument.xib; sourceTree = "<group>"; };
+		2AD25BD01E6806AA007AE3B8 /* ECMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECMainWindowController.h; sourceTree = "<group>"; };
+		2AD25BD11E6806AA007AE3B8 /* ECMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECMainWindowController.m; sourceTree = "<group>"; };
+		2AD25BD21E6806AA007AE3B8 /* ECMainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ECMainWindowController.xib; sourceTree = "<group>"; };
 		670F2ED01DB2284400A1739F /* EasyCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		670F2ED31DB2284400A1739F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		670F2ED41DB2284400A1739F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -209,6 +215,8 @@
 				2A2DBB2C1E66A0F6008C78AF /* NSWindow+Additions.m */,
 				2A2DBB2F1E66A133008C78AF /* NSFileManager+Additions.h */,
 				2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */,
+				2A1CD1E21E68179A007A2700 /* NSWindowController+Additions.h */,
+				2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -218,7 +226,6 @@
 			children = (
 				2AD25BCB1E67F6E7007AE3B8 /* ECSnippetsDocument.h */,
 				2AD25BCC1E67F6E7007AE3B8 /* ECSnippetsDocument.m */,
-				2AD25BCE1E67F6F4007AE3B8 /* ECSnippetsDocument.xib */,
 			);
 			path = Document;
 			sourceTree = "<group>";
@@ -245,11 +252,14 @@
 		670F2ED21DB2284400A1739F /* EasyCode */ = {
 			isa = PBXGroup;
 			children = (
+				676E320D1DB70B2000C9DC9B /* EasyCode.entitlements */,
 				2A2DBB281E66A0F6008C78AF /* Additions */,
 				6741CE5E1DB87FEC000408E7 /* MappingEditor */,
 				6741CE4C1DB8732D000408E7 /* SharedLogic */,
 				2AD25BCA1E67F6E7007AE3B8 /* Document */,
-				676E320D1DB70B2000C9DC9B /* EasyCode.entitlements */,
+				2AD25BD01E6806AA007AE3B8 /* ECMainWindowController.h */,
+				2AD25BD11E6806AA007AE3B8 /* ECMainWindowController.m */,
+				2AD25BD21E6806AA007AE3B8 /* ECMainWindowController.xib */,
 				670F2ED31DB2284400A1739F /* AppDelegate.h */,
 				670F2ED41DB2284400A1739F /* AppDelegate.m */,
 				6741CE6D1DB89DFE000408E7 /* Resource */,
@@ -566,8 +576,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6741CE7F1DB8BA19000408E7 /* DetailWindowController.xib in Resources */,
-				2AD25BCF1E67F6F4007AE3B8 /* ECSnippetsDocument.xib in Resources */,
 				670F2EDD1DB2284400A1739F /* MainMenu.xib in Resources */,
+				2AD25BD41E6806AA007AE3B8 /* ECMainWindowController.xib in Resources */,
 				6741CE691DB884DD000408E7 /* EditorWindowController.xib in Resources */,
 				2A2DBB171E6566E4008C78AF /* Localizable.strings in Resources */,
 				2AD25BC71E67F2FE007AE3B8 /* Assets.xcassets in Resources */,
@@ -609,6 +619,8 @@
 				6741CE6C1DB89894000408E7 /* EShortcutEntry.m in Sources */,
 				6741CE5B1DB87CE8000408E7 /* ECMappingForObjectiveC.h in Sources */,
 				6741CE791DB8B4DF000408E7 /* EEditorTableView.m in Sources */,
+				2A1CD1E41E68179A007A2700 /* NSWindowController+Additions.m in Sources */,
+				2AD25BD31E6806AA007AE3B8 /* ECMainWindowController.m in Sources */,
 				2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */,
 				6741CE5C1DB87CE8000408E7 /* ECMappingForObjectiveC.m in Sources */,
 				6741CE5D1DB87CE8000408E7 /* OCMapping.h in Sources */,

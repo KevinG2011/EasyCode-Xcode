@@ -9,5 +9,22 @@
 #import "EShortcutEntry.h"
 
 @implementation EShortcutEntry
+- (instancetype)initWithCoder:(NSCoder *)decoder {
+    _key = [decoder decodeObjectForKey:@"key"];
+    _code = [decoder decodeObjectForKey:@"code"];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:_key forKey:@"key"];
+    [encoder encodeObject:_code forKey:@"code"];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    EShortcutEntry *entry = [[[self class] allocWithZone:zone] init];
+    entry.key = _key;
+    entry.code = _code;
+    return entry;
+}
 
 @end

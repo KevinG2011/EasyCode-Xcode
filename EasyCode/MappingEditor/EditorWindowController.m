@@ -50,7 +50,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 
 @implementation EditorWindowController
 
-- (void)initEditorWindow:(EditorType)editorType {
+- (void)initEditorWindowForType:(EditorType)editorType {
     self.editorType = editorType;
     
     self.imgEdit = [NSImage imageNamed:@"edit"];
@@ -140,7 +140,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 }
 
 - (void)keyDown:(NSEvent *)event {
-    NSLog(@"keyCode :%d",event.keyCode);
+//    NSLog(@"keyCode :%d",event.keyCode);
     if (([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask){
         if ([event keyCode] == 3) { //Command + F
             [self focusSearchField:nil];

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
@@ -24,24 +24,22 @@
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="763" height="414"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
-            <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
+            <view key="contentView" wantsLayer="YES" misplaced="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="763" height="414"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CVw-k8-I86">
-                        <rect key="frame" x="0.0" y="0.0" width="763" height="414"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CVw-k8-I86">
+                        <rect key="frame" x="0.0" y="0.0" width="763" height="640"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="mainbg" id="yqf-4a-xk9"/>
                     </imageView>
-                    <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="UzU-eJ-ADV" customClass="EVerticalScrollView">
-                        <rect key="frame" x="0.0" y="30" width="763" height="384"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="MgM-QY-iFp">
-                            <rect key="frame" x="1" y="0.0" width="761" height="383"/>
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="UzU-eJ-ADV" customClass="EVerticalScrollView">
+                        <rect key="frame" x="0.0" y="30" width="763" height="610"/>
+                        <clipView key="contentView" drawsBackground="NO" id="MgM-QY-iFp">
+                            <rect key="frame" x="1" y="0.0" width="761" height="609"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" headerView="QjJ-Au-z3p" viewBased="YES" id="ETN-oh-Mwh" customClass="EEditorTableView">
-                                    <rect key="frame" x="0.0" y="0.0" width="761" height="360"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="761" height="586"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="4" height="4"/>
                                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -217,9 +215,12 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
-                    <searchField wantsLayer="YES" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HwD-I8-ZlK">
+                    <searchField wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HwD-I8-ZlK">
                         <rect key="frame" x="605" y="4" width="150" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="1W1-rk-Tgp"/>
+                            <constraint firstAttribute="height" constant="22" id="6T8-zW-9O0"/>
+                        </constraints>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="yrc-iD-034">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -227,6 +228,18 @@
                         </searchFieldCell>
                     </searchField>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="UzU-eJ-ADV" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="0N0-2v-oMj"/>
+                    <constraint firstAttribute="trailing" secondItem="HwD-I8-ZlK" secondAttribute="trailing" constant="8" id="4o1-pN-a58"/>
+                    <constraint firstAttribute="bottom" secondItem="HwD-I8-ZlK" secondAttribute="bottom" constant="4" id="7Xy-zJ-W8s"/>
+                    <constraint firstItem="CVw-k8-I86" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="F51-xF-T19"/>
+                    <constraint firstAttribute="bottom" secondItem="CVw-k8-I86" secondAttribute="bottom" id="N0r-I8-txF"/>
+                    <constraint firstAttribute="bottom" secondItem="UzU-eJ-ADV" secondAttribute="bottom" constant="30" id="NQa-Xe-U7Y"/>
+                    <constraint firstAttribute="trailing" secondItem="CVw-k8-I86" secondAttribute="trailing" id="jGj-sS-ZCM"/>
+                    <constraint firstItem="UzU-eJ-ADV" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="mcG-yb-utj"/>
+                    <constraint firstAttribute="trailing" secondItem="UzU-eJ-ADV" secondAttribute="trailing" id="ndd-f6-azk"/>
+                    <constraint firstItem="CVw-k8-I86" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="q8L-v7-JAl"/>
+                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
