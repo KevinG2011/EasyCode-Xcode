@@ -1,5 +1,5 @@
 //
-//  Document.h
+//  ECSnippetsDocument.h
 //  AirCode
 //
 //  Created by Loriya on 2017/3/1.
@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface Document : NSDocument
-
+@interface ECSnippetsDocument : NSDocument
 
 @end
 

@@ -53,15 +53,6 @@
     }
 }
 
--(NSURL*)cloudDocumentURL
-{
-    if (_ubiquityURL) {
-        NSURL* documentURL = [_ubiquityURL URLByAppendingPathComponent:@"Documents"];
-        return documentURL;
-    }
-    return nil;
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     _useicloudBtn.state = [_UD boolForKey:KeyUseiCloudSync];

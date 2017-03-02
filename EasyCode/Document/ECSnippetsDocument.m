@@ -1,23 +1,23 @@
 //
-//  Document.m
+//  ECSnippetsDocument.m
 //  AirCode
 //
 //  Created by Loriya on 2017/3/1.
 //  Copyright © 2017年 music4kid. All rights reserved.
 //
 
-#import "Document.h"
+#import "ECSnippetsDocument.h"
 
-@interface Document ()
+@interface ECSnippetsDocument ()
 
 @end
 
-@implementation Document
+@implementation ECSnippetsDocument
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        // Add your subclass-specific initialization here.
+        
     }
     return self;
 }
