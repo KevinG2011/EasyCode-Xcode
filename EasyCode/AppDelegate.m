@@ -15,6 +15,12 @@
 @end
 
 @implementation AppDelegate
+
++(instancetype)sharedInstance {
+    AppDelegate* appDelegate = [NSApplication sharedApplication].delegate;
+    return appDelegate;
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquityIdentityDidChangeNotification object:nil];
 }

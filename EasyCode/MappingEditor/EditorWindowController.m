@@ -57,9 +57,13 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 @property (nonatomic, weak)   NSArray*                              matchingList;
 @property (nonatomic, strong) ECSnippetsDocument*                   snippetDoc;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
+@property (nonatomic, copy) NSString*                               fileName;
 @end
 
 @implementation EditorWindowController
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquityIdentityDidChangeNotification object:nil];
+}
 
 - (instancetype)initEditorWindowForType:(EditorType)editorType {
     self = [super initWithWindowNibName:@"EditorWindowController"];
@@ -70,17 +74,19 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
         self.imgAdd = [NSImage imageNamed:@"add"];
         self.imgRemove = [NSImage imageNamed:@"remove"];
         
+        if (_editorType == EditorTypeOC) {
+            self.window.title = @"Objective-C";
+            self.fileName = FileOCName;
+        } else if(_editorType == EditorTypeSwift) {
+            self.window.title = @"Swift";
+            self.fileName = FileSwiftName;
+        }
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(ubiquityIdentityChanged:)
+                                                     name:NSUbiquityIdentityDidChangeNotification
+                                                   object:nil];
 //        self.mappingList = @[].mutableCopy;
-//        
-//        if (_editorType == EditorTypeOC) {
-//            self.mappingDic = [_UD readMappingForOC].mutableCopy;
-//            self.window.title = @"Objective-C";
-//        }
-//        else if(_editorType == EditorTypeSwift) {
-//            self.mappingDic = [_UD readMappingForSwift].mutableCopy;
-//            self.window.title = @"Swift";
-//        }
-//        
 //        NSArray* keys = self.mappingDic.allKeys;
 //        keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
 //            NSString* str1 = obj1;
@@ -104,9 +110,10 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
     [self loadView];
 }
 
-- (void)queryDidStartGathering:(NSNotification *)notification {
-    
+- (void)ubiquityIdentityChanged:(NSNotification*)notification {
+    [self loadDocument];
 }
+
 
 - (void)queryDidFinishGathering:(NSNotification *)notification {
     NSMetadataQuery *query = [notification object];
@@ -121,30 +128,35 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 }
 
 - (void)loadDocument {
-    _query = [[NSMetadataQuery alloc] init];
-    _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,FileOCName];
-    [_query setPredicate:pred];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(queryDidFinishGathering:)
-                                                 name:NSMetadataQueryDidFinishGatheringNotification
-                                               object:nil];
-
-    [_query startQuery];
+    id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
+    if (ubiq) { //iCloud Enabled
+        _query = [[NSMetadataQuery alloc] init];
+        _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,FileOCName];
+        [_query setPredicate:pred];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(queryDidFinishGathering:)
+                                                     name:NSMetadataQueryDidFinishGatheringNotification
+                                                   object:nil];
+        
+        [_query startQuery];
+    } else { //iCloud Disabled
+        [self loadSnippetsData:nil];
+    }
 }
 
 - (void)loadSnippetsData:(NSMetadataQuery*)query {
-    if ([query resultCount] == 1) { //load from remote
+    if (query && [query resultCount] >= 1) {
+        //load from remote
         NSMetadataItem* dataItem = [query resultAtIndex:0];
         NSURL* itemURL = [dataItem valueForAttribute:NSMetadataItemURLKey];
         NSError* error = nil;
         _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"ec" error:&error];
-        _mappingList = _snippetDoc.entryList;
-    } else { //load from local
+    } else {
+        //load from local
         NSURL* itemURL = [[NSFileManager defaultManager] localOCSnippetsURL];
         NSError* error = nil;
         _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"ec" error:&error];
-        _mappingList = _snippetDoc.entryList;
     }
     [self.tableView reloadData];    
 }

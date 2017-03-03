@@ -10,7 +10,6 @@
 		0BEB36A81E671F760039FF67 /* EditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE661DB884DD000408E7 /* EditorWindowController.m */; };
 		2A1CD1E41E68179A007A2700 /* NSWindowController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */; };
 		2A2DBB171E6566E4008C78AF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A2DBB161E6566E4008C78AF /* Localizable.strings */; };
-		2A2DBB191E657486008C78AF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2DBB181E657486008C78AF /* CloudKit.framework */; };
 		2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */; };
 		2A2DBB2E1E66A0F6008C78AF /* NSWindow+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2C1E66A0F6008C78AF /* NSWindow+Additions.m */; };
 		2A2DBB311E66A133008C78AF /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */; };
@@ -97,7 +96,6 @@
 		2A1CD1E21E68179A007A2700 /* NSWindowController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindowController+Additions.h"; sourceTree = "<group>"; };
 		2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindowController+Additions.m"; sourceTree = "<group>"; };
 		2A2DBB161E6566E4008C78AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		2A2DBB181E657486008C78AF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		2A2DBB291E66A0F6008C78AF /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		2A2DBB2B1E66A0F6008C78AF /* NSWindow+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+Additions.h"; sourceTree = "<group>"; };
@@ -191,7 +189,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A2DBB191E657486008C78AF /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,7 +279,6 @@
 		670F2EE91DB228DD00A1739F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2A2DBB181E657486008C78AF /* CloudKit.framework */,
 				670F2EEA1DB228DD00A1739F /* Cocoa.framework */,
 			);
 			name = Frameworks;
