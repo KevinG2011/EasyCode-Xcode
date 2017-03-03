@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+EC_EXTERN NSString* const ECiCloudSyncChangedNotification;
 @interface ECMainWindowController : NSWindowController
 
 @end

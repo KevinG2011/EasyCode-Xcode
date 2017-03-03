@@ -7,13 +7,15 @@
 //
 
 #import "EditorWindowController.h"
+#import "ECMainWindowController.h"
+#import "DetailWindowController.h"
 #import "ESharedUserDefault.h"
 #import "EShortcutEntry.h"
-#import "DetailWindowController.h"
 #import "ECSnippetsDocument.h"
 #import "NSWindow+Additions.h"
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
+
 
 #ifndef dispatch_main_sync_safe
 #define dispatch_main_sync_safe(block)\
@@ -57,12 +59,13 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 @property (nonatomic, weak)   NSArray*                              matchingList;
 @property (nonatomic, strong) ECSnippetsDocument*                   snippetDoc;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
-@property (nonatomic, copy) NSString*                               fileName;
+@property (nonatomic, copy)   NSString*                             docName;
+@property (nonatomic, strong) NSMetadataItem*                       dataItem;
 @end
 
 @implementation EditorWindowController
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquityIdentityDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (instancetype)initEditorWindowForType:(EditorType)editorType {
@@ -76,16 +79,21 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
         
         if (_editorType == EditorTypeOC) {
             self.window.title = @"Objective-C";
-            self.fileName = FileOCName;
+            self.docName = FileOCName;
         } else if(_editorType == EditorTypeSwift) {
             self.window.title = @"Swift";
-            self.fileName = FileSwiftName;
+            self.docName = FileSwiftName;
         }
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(ubiquityIdentityChanged:)
                                                      name:NSUbiquityIdentityDidChangeNotification
                                                    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(iCloudSyncChanged:)
+                                                     name:ECiCloudSyncChangedNotification
+                                                   object:nil];
+        
 //        self.mappingList = @[].mutableCopy;
 //        NSArray* keys = self.mappingDic.allKeys;
 //        keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
@@ -114,6 +122,15 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
     [self loadDocument];
 }
 
+- (void)iCloudSyncChanged:(NSNotification*)notification {
+    BOOL useiCloud = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
+    NSURL* baseURL = [[NSFileManager defaultManager] localURL];
+    if (useiCloud) {
+        baseURL = [[NSFileManager defaultManager] ubiquityURL];
+    }
+    NSURL* destURL = [baseURL URLByAppendingPathComponent:_docName];
+    [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:nil];
+}
 
 - (void)queryDidFinishGathering:(NSNotification *)notification {
     NSMetadataQuery *query = [notification object];
@@ -123,13 +140,14 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:NSMetadataQueryDidFinishGatheringNotification
                                                   object:nil];
-    [self loadSnippetsData:query];
+    [self loadDataWithQuery:query];
     _query = nil;
 }
 
 - (void)loadDocument {
     id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
-    if (ubiq) { //iCloud Enabled
+    BOOL useiCloud = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
+    if (ubiq && useiCloud) { //iCloud Enabled and Checked
         _query = [[NSMetadataQuery alloc] init];
         _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,FileOCName];
@@ -138,25 +156,24 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
                                                  selector:@selector(queryDidFinishGathering:)
                                                      name:NSMetadataQueryDidFinishGatheringNotification
                                                    object:nil];
-        
         [_query startQuery];
     } else { //iCloud Disabled
-        [self loadSnippetsData:nil];
+        [self loadDataWithQuery:nil];
     }
 }
 
-- (void)loadSnippetsData:(NSMetadataQuery*)query {
+- (void)loadDataWithQuery:(NSMetadataQuery*)query {
     if (query && [query resultCount] >= 1) {
         //load from remote
-        NSMetadataItem* dataItem = [query resultAtIndex:0];
-        NSURL* itemURL = [dataItem valueForAttribute:NSMetadataItemURLKey];
+        _dataItem = [query resultAtIndex:0];
+        NSURL* itemURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
         NSError* error = nil;
-        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"ec" error:&error];
+        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"" error:&error];
     } else {
         //load from local
-        NSURL* itemURL = [[NSFileManager defaultManager] localOCSnippetsURL];
+        NSURL* itemURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:_docName];
         NSError* error = nil;
-        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"ec" error:&error];
+        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"" error:&error];
     }
     [self.tableView reloadData];    
 }

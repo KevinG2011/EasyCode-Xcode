@@ -25,7 +25,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquityIdentityDidChangeNotification object:nil];
 }
 
-- (void)ubiquityIdentityChanged:(NSNotification *)notification {
+- (void)ubiquityIdentityChanged:(NSNotification *)notification
+{
     id token = [[NSFileManager defaultManager] ubiquityIdentityToken];
     if (token == nil) {
         NSAlert *warningAlert = [[NSAlert alloc] init];
@@ -48,7 +49,6 @@
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         _ubiquityURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-        NSLog(@"ubiquity url :%@",_ubiquityURL);
     });
     
     [[NSNotificationCenter defaultCenter] addObserver:self

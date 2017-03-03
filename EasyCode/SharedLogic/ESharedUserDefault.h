@@ -12,7 +12,6 @@
 
 #define KeyCodeShortcutForObjectiveC    @"KeyCodeShortcutForObjectiveC"
 #define KeyCodeShortcutForSwift         @"KeyCodeShortcutForSwift"
-#define KeyUseiCloudSync                @"KeyUseiCloudSync"
 
 @interface ESharedUserDefault : NSObject
 

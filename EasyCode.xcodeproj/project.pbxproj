@@ -95,6 +95,7 @@
 /* Begin PBXFileReference section */
 		2A1CD1E21E68179A007A2700 /* NSWindowController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindowController+Additions.h"; sourceTree = "<group>"; };
 		2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindowController+Additions.m"; sourceTree = "<group>"; };
+		2A1CD20A1E697AAA007A2700 /* easycode.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = easycode.pch; sourceTree = "<group>"; };
 		2A2DBB161E6566E4008C78AF /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		2A2DBB291E66A0F6008C78AF /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
@@ -259,6 +260,7 @@
 				2AD25BD21E6806AA007AE3B8 /* ECMainWindowController.xib */,
 				670F2ED31DB2284400A1739F /* AppDelegate.h */,
 				670F2ED41DB2284400A1739F /* AppDelegate.m */,
+				2A1CD20A1E697AAA007A2700 /* easycode.pch */,
 				6741CE6D1DB89DFE000408E7 /* Resource */,
 				670F2ED91DB2284400A1739F /* Assets.xcassets */,
 				670F2EDB1DB2284400A1739F /* MainMenu.xib */,
@@ -772,6 +774,8 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3KAP4AA829;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EasyCode/easycode.pch;
 				INFOPLIST_FILE = EasyCode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -788,6 +792,8 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3KAP4AA829;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = EasyCode/easycode.pch;
 				INFOPLIST_FILE = EasyCode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;

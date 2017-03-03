@@ -12,54 +12,43 @@ enum {
     DirectoryLocationErrorFileExistsAtLocation
 };
 NSString *const DirectoryLocationDomain = @"DirectoryLocationDomain";
-NSString *const DirectoryUbiquityDocuments = @"Documents";
-NSString *const FileOCName = @"objective-c";
+NSString *const DirectoryDocuments = @"Documents";
+NSString *const FileOCName = @"objective";
 NSString *const FileSwiftName = @"swift";
 
 @implementation NSFileManager (Additions)
--(NSURL*)localSnippetsURL {
-    NSString* supportPath = [self applicationSupportDirectory];
+-(NSURL*)localURL
+{
+    NSString* supportPath = [self supportDocumentDirectory];
     NSURL* url = [NSURL fileURLWithPath:supportPath];
     return url;
 }
 
--(NSURL*)localOCSnippetsURL {
-    NSURL* localURL = [self localSnippetsURL];
-    NSURL* url = [localURL URLByAppendingPathComponent:FileOCName];
+-(NSURL*)localSnippetsURLWithFilename:(NSString*)filename
+{
+    NSURL* localURL = [self localURL];
+    NSURL* url = [localURL URLByAppendingPathComponent:filename];
+    
     NSError *error = nil;
     BOOL success = [self createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
     if (!success) {
         NSLog(@"create local directory error :%@",[error localizedDescription]);
     }
+    
     return url;
 }
 
--(NSURL*)localSwiftSnippetsURL {
-    NSURL* localURL = [self localSnippetsURL];
-    NSURL* url = [localURL URLByAppendingPathComponent:FileSwiftName];
-    NSError *error = nil;
-    BOOL success = [self createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
-    if (!success) {
-        NSLog(@"create local directory error :%@",[error localizedDescription]);
-    }
-    return url;
-}
-
--(NSURL*)ubiquitySnippetsURL {
+-(NSURL*)ubiquityURL
+{
     NSURL* ubiURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    NSURL* url = [ubiURL URLByAppendingPathComponent:DirectoryUbiquityDocuments];
-    return url;
+    ubiURL = [ubiURL URLByAppendingPathComponent:DirectoryDocuments];
+    return ubiURL;
 }
 
--(NSURL*)ubiquityOCSnippetsURL {
-    NSURL* ubiURL = [self ubiquitySnippetsURL];
-    NSURL* url = [ubiURL URLByAppendingPathComponent:FileOCName];
-    return url;
-}
-
--(NSURL*)ubiquitySwiftSnippetsURL {
-    NSURL* ubiURL = [self ubiquitySnippetsURL];
-    NSURL* url = [ubiURL URLByAppendingPathComponent:FileSwiftName];
+-(NSURL*)ubiquitySnippetsURLWithFilename:(NSString*)filename
+{
+    NSURL* ubiURL = [self ubiquityURL];
+    NSURL* url = [ubiURL URLByAppendingPathComponent:filename];
     return url;
 }
 
@@ -105,12 +94,12 @@ NSString *const FileSwiftName = @"swift";
     return resolvedPath;
 }
 
--(NSString*)applicationSupportDirectory {
-    NSString *executableName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
+-(NSString*)supportDocumentDirectory {
+    NSString *documentPath = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"] stringByAppendingPathComponent:DirectoryDocuments];
     NSError *error = nil;
     NSString *result = [self findOrCreateDirectory:NSApplicationSupportDirectory
                                           inDomain:NSUserDomainMask
-                               appendPathComponent:executableName
+                               appendPathComponent:documentPath
                                              error:&error];
     if (!result) {
         NSLog(@"Unable to find or create application support directory:\n%@", error);

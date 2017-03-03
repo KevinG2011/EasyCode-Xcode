@@ -8,23 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const DirectoryLocationDomain;
-extern NSString *const DirectoryUbiquityDocuments;
-extern NSString *const FileOCName;
-extern NSString *const FileSwiftName;
+EC_EXTERN NSString *const DirectoryLocationDomain;
+EC_EXTERN NSString *const DirectoryUbiquityDocuments;
+EC_EXTERN NSString *const FileOCName;
+EC_EXTERN NSString *const FileSwiftName;
 
 @interface NSFileManager (Additions)
--(NSURL*)localSnippetsURL;
--(NSURL*)localOCSnippetsURL;
--(NSURL*)localSwiftSnippetsURL;
-
--(NSURL*)ubiquitySnippetsURL;
--(NSURL*)ubiquityOCSnippetsURL;
--(NSURL*)ubiquitySwiftSnippetsURL;
+-(NSURL*)localURL;
+-(NSURL*)localSnippetsURLWithFilename:(NSString*)filename;
+-(NSURL*)ubiquityURL;
+-(NSURL*)ubiquitySnippetsURLWithFilename:(NSString*)filename;
 
 - (NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
                            inDomain:(NSSearchPathDomainMask)domainMask
                 appendPathComponent:(NSString *)appendComponent
                               error:(NSError **)errorOut;
--(NSString*)applicationSupportDirectory;
+-(NSString*)supportDocumentDirectory;
 @end

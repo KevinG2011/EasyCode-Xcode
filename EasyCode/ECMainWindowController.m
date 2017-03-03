@@ -8,7 +8,8 @@
 
 #import "ECMainWindowController.h"
 #import "EditorWindowController.h"
-#import "ESharedUserDefault.h"
+
+NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotification";
 
 @interface ECMainWindowController ()
 @property (nonatomic, assign) BOOL useiCloud;
@@ -21,7 +22,7 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    _useicloudBtn.state = [_UD boolForKey:KeyUseiCloudSync];
+    _useicloudBtn.state = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
 }
 
 - (IBAction)showEditorWindowForOC:(id)sender {
@@ -40,7 +41,9 @@
 
 - (IBAction)useiCloudCheck:(NSButton*)sender {
     _useiCloud = (sender.state == NSOnState);
-    [_UD setBool:_useiCloud forKey:KeyUseiCloudSync];
+    [[NSUserDefaults standardUserDefaults] setBool:_useiCloud forKey:KeyUseiCloudSync];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];
 }
 
 - (IBAction)showHowToUse:(id)sender {
