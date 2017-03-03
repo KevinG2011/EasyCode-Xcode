@@ -11,6 +11,4 @@
 
 @interface ECMappingForSwift : ECMapping
 
-- (NSDictionary*)provideMapping;
-
 @end

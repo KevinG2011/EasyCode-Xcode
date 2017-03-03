@@ -11,7 +11,7 @@
 
 @implementation ECMappingForSwift
 
-- (NSDictionary*)provideMapping {
++ (NSDictionary*)provideMapping {
     NSDictionary* mapping = @{
                              
                               

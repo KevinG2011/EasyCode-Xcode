@@ -9,7 +9,7 @@
 #import "ECMapping.h"
 
 @implementation ECMapping
-- (NSDictionary*)provideMapping {
++ (NSDictionary*)provideMapping {
     return nil;
 }
 @end

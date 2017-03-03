@@ -11,6 +11,4 @@
 
 @interface ECMappingForObjectiveC : ECMapping
 
-- (NSDictionary*)provideMapping;
-
 @end

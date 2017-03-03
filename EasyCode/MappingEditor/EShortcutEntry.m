@@ -9,6 +9,14 @@
 #import "EShortcutEntry.h"
 
 @implementation EShortcutEntry
+
++(instancetype)entryWithKey:(NSString*)key code:(NSString*)code {
+    EShortcutEntry* entry = [[[self class] alloc] init];
+    entry.key = key;
+    entry.code = code;
+    return entry;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     _key = [decoder decodeObjectForKey:@"key"];
     _code = [decoder decodeObjectForKey:@"code"];

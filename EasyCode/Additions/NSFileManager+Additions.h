@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const DirectoryLocationDomain;
+extern NSString *const DirectoryUbiquityDocuments;
+extern NSString *const FileOCName;
+extern NSString *const FileSwiftName;
+
 @interface NSFileManager (Additions)
 -(NSURL*)localSnippetsURL;
 -(NSURL*)localOCSnippetsURL;

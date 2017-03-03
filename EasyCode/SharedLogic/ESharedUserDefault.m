@@ -108,7 +108,7 @@
 - (NSDictionary*)ocMappingDefault
 {
     if (_ocMappingDefault == nil) {
-        _ocMappingDefault = [[ECMappingForObjectiveC new] provideMapping];
+        _ocMappingDefault = [ECMappingForObjectiveC provideMapping];
     }
     return _ocMappingDefault;
 }
@@ -144,7 +144,7 @@
 - (NSDictionary*)swiftMappingDefault
 {
     if (_swiftMappingDefault == nil) {
-        _swiftMappingDefault = [[ECMappingForSwift new] provideMapping];
+        _swiftMappingDefault = [ECMappingForSwift provideMapping];
     }
     return _swiftMappingDefault;
 }

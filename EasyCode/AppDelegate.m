@@ -42,6 +42,7 @@
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         _ubiquityURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+        NSLog(@"ubiquity url :%@",_ubiquityURL);
     });
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -55,6 +56,7 @@
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
     _ubiquityToken = [[NSFileManager defaultManager] ubiquityIdentityToken];
+    NSLog(@"ubiquity token :%@",_ubiquityToken);
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification

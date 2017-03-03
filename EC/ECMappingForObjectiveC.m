@@ -11,7 +11,7 @@
 
 @implementation ECMappingForObjectiveC
 
-- (NSDictionary*)provideMapping {
++ (NSDictionary*)provideMapping {
     NSDictionary* mapping = @{
              //UIViewController
              KeyOC_UIViewController_VDL:KeyOC_UIViewController_VDL_Value,

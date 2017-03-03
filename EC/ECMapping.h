@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface ECMapping : NSObject
-- (NSDictionary*)provideMapping;
++ (NSDictionary*)provideMapping;
 @end
 

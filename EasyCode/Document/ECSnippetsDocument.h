@@ -8,10 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EditorWindowController.h"
+@class EShortcutEntry;
 
 @interface ECSnippetsDocument : NSDocument
+@property (nonatomic, strong) NSMutableArray<EShortcutEntry*>*                            entryList;
 @property (nonatomic, assign) EditorType                            editorType;
-@property (nonatomic, strong,readonly) NSURL* dataURL;
+@property (nonatomic, strong,readonly) NSURL* itemURL;
 -(instancetype)initWithEditorType:(EditorType)editorType;
+-(instancetype)initWithItemURL:(NSURL*)itemURL;
 @end
 

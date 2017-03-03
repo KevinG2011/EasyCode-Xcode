@@ -12,9 +12,9 @@ enum {
     DirectoryLocationErrorFileExistsAtLocation
 };
 NSString *const DirectoryLocationDomain = @"DirectoryLocationDomain";
-NSString *const DirectoryOCName = @"DirectoryOCName";
-NSString *const DirectorySwiftName = @"DirectorySwiftName";
 NSString *const DirectoryUbiquityDocuments = @"Documents";
+NSString *const FileOCName = @"objective-c";
+NSString *const FileSwiftName = @"swift";
 
 @implementation NSFileManager (Additions)
 -(NSURL*)localSnippetsURL {
@@ -25,7 +25,7 @@ NSString *const DirectoryUbiquityDocuments = @"Documents";
 
 -(NSURL*)localOCSnippetsURL {
     NSURL* localURL = [self localSnippetsURL];
-    NSURL* url = [localURL URLByAppendingPathComponent:DirectoryOCName];
+    NSURL* url = [localURL URLByAppendingPathComponent:FileOCName];
     NSError *error = nil;
     BOOL success = [self createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
     if (!success) {
@@ -36,7 +36,7 @@ NSString *const DirectoryUbiquityDocuments = @"Documents";
 
 -(NSURL*)localSwiftSnippetsURL {
     NSURL* localURL = [self localSnippetsURL];
-    NSURL* url = [localURL URLByAppendingPathComponent:DirectorySwiftName];
+    NSURL* url = [localURL URLByAppendingPathComponent:FileSwiftName];
     NSError *error = nil;
     BOOL success = [self createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
     if (!success) {
@@ -53,13 +53,13 @@ NSString *const DirectoryUbiquityDocuments = @"Documents";
 
 -(NSURL*)ubiquityOCSnippetsURL {
     NSURL* ubiURL = [self ubiquitySnippetsURL];
-    NSURL* url = [ubiURL URLByAppendingPathComponent:DirectoryOCName];
+    NSURL* url = [ubiURL URLByAppendingPathComponent:FileOCName];
     return url;
 }
 
 -(NSURL*)ubiquitySwiftSnippetsURL {
     NSURL* ubiURL = [self ubiquitySnippetsURL];
-    NSURL* url = [ubiURL URLByAppendingPathComponent:DirectorySwiftName];
+    NSURL* url = [ubiURL URLByAppendingPathComponent:FileSwiftName];
     return url;
 }
 

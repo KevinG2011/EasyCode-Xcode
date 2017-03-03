@@ -13,6 +13,7 @@
 #import "ECSnippetsDocument.h"
 #import "NSWindow+Additions.h"
 #import "NSString+Additions.h"
+#import "NSFileManager+Additions.h"
 
 #ifndef dispatch_main_sync_safe
 #define dispatch_main_sync_safe(block)\
@@ -42,7 +43,7 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 @property (nonatomic, weak) IBOutlet NSTableColumn *filterColumn;
 
 @property (nonatomic, strong) NSMutableDictionary*                  mappingDic;
-@property (nonatomic, strong) NSMutableArray*                       mappingList;
+@property (nonatomic, strong) NSMutableArray<EShortcutEntry*>*                       mappingList;
 @property (nonatomic, assign) EditorType                            editorType;
 
 @property (nonatomic, strong) NSImage*                              imgEdit;
@@ -55,6 +56,7 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 @property (nonatomic, strong) NSArray*                              filteringList;
 @property (nonatomic, weak)   NSArray*                              matchingList;
 @property (nonatomic, strong) ECSnippetsDocument*                   snippetDoc;
+@property (nonatomic, strong) NSMetadataQuery*                      query;
 @end
 
 @implementation EditorWindowController
@@ -67,8 +69,6 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
         self.imgEdit = [NSImage imageNamed:@"edit"];
         self.imgAdd = [NSImage imageNamed:@"add"];
         self.imgRemove = [NSImage imageNamed:@"remove"];
-        
-        self.snippetDoc = [[ECSnippetsDocument alloc] initWithEditorType:_editorType];
         
 //        self.mappingList = @[].mutableCopy;
 //        
@@ -100,6 +100,56 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 
 - (void)windowDidLoad {
     [super windowDidLoad];
+    [self loadDocument];
+    [self loadView];
+}
+
+- (void)queryDidStartGathering:(NSNotification *)notification {
+    
+}
+
+- (void)queryDidFinishGathering:(NSNotification *)notification {
+    NSMetadataQuery *query = [notification object];
+    [query disableUpdates];
+    [query stopQuery];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSMetadataQueryDidFinishGatheringNotification
+                                                  object:nil];
+    [self loadSnippetsData:query];
+    _query = nil;
+}
+
+- (void)loadDocument {
+    _query = [[NSMetadataQuery alloc] init];
+    _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,FileOCName];
+    [_query setPredicate:pred];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(queryDidFinishGathering:)
+                                                 name:NSMetadataQueryDidFinishGatheringNotification
+                                               object:nil];
+
+    [_query startQuery];
+}
+
+- (void)loadSnippetsData:(NSMetadataQuery*)query {
+    if ([query resultCount] == 1) { //load from remote
+        NSMetadataItem* dataItem = [query resultAtIndex:0];
+        NSURL* itemURL = [dataItem valueForAttribute:NSMetadataItemURLKey];
+        NSError* error = nil;
+        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"ec" error:&error];
+        _mappingList = _snippetDoc.entryList;
+    } else { //load from local
+        NSURL* itemURL = [[NSFileManager defaultManager] localOCSnippetsURL];
+        NSError* error = nil;
+        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"ec" error:&error];
+        _mappingList = _snippetDoc.entryList;
+    }
+    [self.tableView reloadData];    
+}
+
+- (void)loadView {
     _searchField.delegate = self;
     _toastPanel.backgroundColor = [NSColor colorWithWhite:0 alpha:0.5];
     [_toastPanel setCornRadius:12];
@@ -115,6 +165,7 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
     self.window.delegate = self;
     [self.window center];
 }
+
 
 - (void)onFireSearchRequest {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
