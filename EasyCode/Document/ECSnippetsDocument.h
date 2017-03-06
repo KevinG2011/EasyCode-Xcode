@@ -19,14 +19,13 @@ typedef NS_ENUM(NSInteger,ECSnippetActionType) {
 };
 
 @interface ECSnippetsDocument : NSDocument
-@property (nonatomic, assign) EditorType                            editorType;
-@property (nonatomic, strong,readonly) NSURL* itemURL;
-@property (nonatomic,copy,readonly) NSArray<EShortcutEntry*>*                            entryList;
-@property (nonatomic, weak) id<ECSnippetsDocumentDelegate> delegate;
+@property (nonatomic, assign)           EditorType                              editorType;
+@property (nonatomic, strong,readonly)  NSURL*                                  itemURL;
+@property (nonatomic, copy,readonly)    NSArray<EShortcutEntry*>*               snippetList;
+@property (nonatomic, weak)             id<ECSnippetsDocumentDelegate>          delegate;
 
--(instancetype)initWithEditorType:(EditorType)editorType;
--(instancetype)initWithItemURL:(NSURL*)itemURL;
-
+-(instancetype)initWithFileURL:(NSURL*)itemURL editorType:(EditorType)type;
+-(NSInteger)snippetCount;
 //根据键查找片段
 -(EShortcutEntry*)snippetForKey:(NSString*)key;
 //插入片段

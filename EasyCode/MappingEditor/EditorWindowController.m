@@ -188,7 +188,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 
 - (void)onFireSearchRequest {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray* cloneList = [_snippetDoc.entryList copy];
+        NSArray* cloneList = [_snippetDoc.snippetList copy];
         if (_searchKey.length > 0) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"key contains[cd] %@", _searchKey];
             cloneList = [cloneList filteredArrayUsingPredicate:predicate];
@@ -262,7 +262,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     if ([_searchKey isNotEmpty]) {
         _matchingList = _filteringList;
     } else {
-        _matchingList = _snippetDoc.entryList;
+        _matchingList = _snippetDoc.snippetList;
     }
     return [_matchingList count];
 }

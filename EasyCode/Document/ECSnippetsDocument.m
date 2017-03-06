@@ -12,48 +12,43 @@
 #import "ECMappingForObjectiveC.h"
 #import "ECMappingForSwift.h"
 
+static NSString *const SnippetFileName = @"snippets.dat";
 static NSString *const ECDocumentChangedNotification = @"ECDocumentChangedNotification";
 
 @interface ECSnippetsDocument ()  {
-    NSMutableArray* _entryList;
+    NSMutableArray* _snippetList;
 }
+@property (nonatomic, strong) NSFileWrapper *fileWrapper;
 @end
 
 @implementation ECSnippetsDocument
--(instancetype)initWithEditorType:(EditorType)editorType {
-    self = [super init];
-    if (self) {
-        _editorType = editorType;
-    }
-    return self;
-}
-
--(instancetype)initWithItemURL:(NSURL*)itemURL {
-    self = [super init];
+-(instancetype)initWithFileURL:(NSURL *)itemURL editorType:(EditorType)type {
+    self = [super initWithContentsOfURL:itemURL ofType:@"" error:nil];
     if (self) {
         _itemURL = itemURL;
+        _editorType = type;
     }
     return self;
 }
 
--(void)makeWindowControllers {
-    [super makeWindowControllers];
-}
-
--(EShortcutEntry*)entryList {
-    return [_entryList copy];
+-(EShortcutEntry*)snippetList {
+    return [_snippetList copy];
 }
 
 //排序
 -(void)sortedSnippets {
-    [_entryList sortUsingComparator:^NSComparisonResult(EShortcutEntry*  _Nonnull s1, EShortcutEntry*  _Nonnull s2) {
+    [_snippetList sortUsingComparator:^NSComparisonResult(EShortcutEntry*  _Nonnull s1, EShortcutEntry*  _Nonnull s2) {
         return [s1.key compare:s2.key];
     }];
 }
 
+-(NSInteger)snippetCount {
+    return _snippetList.count;
+}
+
 -(EShortcutEntry*)snippetForKey:(NSString*)key {
     NSString* trimKey = [key trimWhiteSpace];
-    NSUInteger index = [_entryList indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(EShortcutEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSUInteger index = [_snippetList indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(EShortcutEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
         BOOL result = [snippet.key isEqualToString:trimKey];
         if (result) {
             *stop = YES;
@@ -61,7 +56,7 @@ static NSString *const ECDocumentChangedNotification = @"ECDocumentChangedNotifi
         return result;
     }];
     if (index != NSNotFound) {
-        return _entryList[index];
+        return _snippetList[index];
     }
     return nil;
 }
@@ -72,7 +67,7 @@ static NSString *const ECDocumentChangedNotification = @"ECDocumentChangedNotifi
     }
     EShortcutEntry* hitSnippet = [self snippetForKey:snippet.key];
     if (hitSnippet == nil) { //add
-        [_entryList addObject:snippet];
+        [_snippetList addObject:snippet];
         [self saveDocumentCompletionHandler:^{
             if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
                 [_delegate snippetsDocument:self performActionWithType:ECSnippetActionTypeCreate withSnippet:snippet];
@@ -86,7 +81,7 @@ static NSString *const ECDocumentChangedNotification = @"ECDocumentChangedNotifi
 -(void)removeSnippetForKey:(NSString*)key {
     EShortcutEntry* hitSnippet = [self snippetForKey:key];
     if (hitSnippet) {
-        [_entryList removeObject:hitSnippet];
+        [_snippetList removeObject:hitSnippet];
         [self saveDocumentCompletionHandler:^{
             if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
                 [_delegate snippetsDocument:self performActionWithType:ECSnippetActionTypeDelete withSnippet:hitSnippet];
@@ -114,40 +109,43 @@ static NSString *const ECDocumentChangedNotification = @"ECDocumentChangedNotifi
 #pragma mark - Override Documents
 
 -(NSString *)displayName {
-    return @"代码详情";
+    return @"Code Snippet";
 }
 
 + (BOOL)autosavesInPlace {
     return YES;
 }
 
-- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
-    [self sortedSnippets];
-    NSArray* snippetsList = [_entryList copy];
-    NSData* entryData = [NSKeyedArchiver archivedDataWithRootObject:snippetsList];
-    return entryData;
-}
-
-- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
-    if ([data length] > 0) {
-        _entryList = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+- (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)outError {
+    NSData* snippetData = [NSKeyedArchiver archivedDataWithRootObject:_snippetList];
+    NSFileWrapper* newWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:snippetData];
+    newWrapper.preferredFilename = SnippetFileName;
+    if (_fileWrapper == nil) {
+        NSDictionary<NSString*,NSFileWrapper*>* fileWrappers = @{ SnippetFileName:newWrapper };
+        _fileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];
     } else {
-        EShortcutEntry* snippet = [EShortcutEntry entryWithKey:@"key" code:@"code"];
-        _entryList = [NSMutableArray arrayWithObject:snippet];
+        NSFileWrapper* oldWrapper = [[_fileWrapper fileWrappers] objectForKey:SnippetFileName];
+        if (oldWrapper) {
+            [_fileWrapper removeFileWrapper:oldWrapper];
+        }
+        [_fileWrapper addFileWrapper:newWrapper];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:ECDocumentChangedNotification
-                                                        object:self];
-    
-    return YES;
-}
-
-- (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)outError {
-    return nil;
+    return _fileWrapper;
 }
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper ofType:(NSString *)typeName error:(NSError * _Nullable *)outError {
-    
+    NSDictionary *fileWrappers = [fileWrapper fileWrappers];
+    NSFileWrapper *dataWrapper = [fileWrappers objectForKey:SnippetFileName];
+    NSData* data = [dataWrapper regularFileContents];
+    if (data.length > 0) {
+        _snippetList = [NSKeyedUnarchiver unarchiveObjectWithData:[dataWrapper regularFileContents]];
+    } else {
+        EShortcutEntry* snippet = [EShortcutEntry entryWithKey:@"key" code:@"code"];
+        _snippetList = [NSMutableArray arrayWithObject:snippet];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:ECDocumentChangedNotification
+                                                        object:self];
     return YES;
 }
 

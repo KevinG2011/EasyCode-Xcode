@@ -11,6 +11,9 @@
 @interface EShortcutEntry : NSObject<NSCoding,NSCopying>
 @property (nonatomic, copy) NSString* key;
 @property (nonatomic, copy) NSString* code;
+@property (nonatomic, copy) NSString* createAt;
+
 +(instancetype)entryWithKey:(NSString*)key code:(NSString*)code;
+
 -(void)updateBySnippet:(EShortcutEntry*)snippet;
 @end

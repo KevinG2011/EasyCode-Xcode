@@ -5,4 +5,6 @@
 "Logged_Out_Message" = "You have been using iCloud, but it has now become unavailable.";
 "Logged_Out_Message_Explain" = "Please check your network connection and make sure you are signed in.";
 "OK_Button_Title" = "OK";
-
+"Cancel_Button_Title" = "Cancel";
+"iCloud_Attention" = "Attention";
+"iCloud_Attention_Message" = "This will delete notes from your iCloud account. Are you sure?";
