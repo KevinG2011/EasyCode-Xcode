@@ -36,17 +36,18 @@ dispatch_sync(dispatch_get_main_queue(), block);\
 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
 #endif
 
-@interface EditorWindowController () <NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
-DetailWindowEditorDelegate,NSSearchFieldDelegate>
+@interface EditorWindowController ()<NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
+                                    DetailWindowEditorDelegate,NSSearchFieldDelegate,
+                                    ECSnippetsDocumentDelegate>
 @property (nonatomic, weak) IBOutlet NSWindow *toastPanel;
 @property (nonatomic, weak) IBOutlet NSTextField *toastText;
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet NSTableView *tableView;
 @property (nonatomic, weak) IBOutlet NSTableColumn *filterColumn;
 
-@property (nonatomic, strong) NSMutableDictionary*                  mappingDic;
-@property (nonatomic, strong) NSMutableArray<EShortcutEntry*>*                       mappingList;
 @property (nonatomic, assign) EditorType                            editorType;
+@property (nonatomic, strong) NSArray*                              filteringList;
+@property (nonatomic, weak)   NSArray*                              matchingList;
 
 @property (nonatomic, strong) NSImage*                              imgEdit;
 @property (nonatomic, strong) NSImage*                              imgAdd;
@@ -54,9 +55,7 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
 @property (nonatomic, strong) IBOutlet NSSearchField*               searchField;
-@property (nonatomic, strong) NSString*                             searchKey;
-@property (nonatomic, strong) NSArray*                              filteringList;
-@property (nonatomic, weak)   NSArray*                              matchingList;
+@property (nonatomic, copy)   NSString*                             searchKey;
 @property (nonatomic, strong) ECSnippetsDocument*                   snippetDoc;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
 @property (nonatomic, copy)   NSString*                             docName;
@@ -93,21 +92,6 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
                                                  selector:@selector(iCloudSyncChanged:)
                                                      name:ECiCloudSyncChangedNotification
                                                    object:nil];
-        
-//        self.mappingList = @[].mutableCopy;
-//        NSArray* keys = self.mappingDic.allKeys;
-//        keys = [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-//            NSString* str1 = obj1;
-//            NSString* str2 = obj2;
-//            return [str1 compare:str2];
-//        }];
-//        for (NSString* key in keys) {
-//            EShortcutEntry* entry = [EShortcutEntry new];
-//            entry.key = key;
-//            entry.code = _mappingDic[key];
-//            [_mappingList addObject:entry];
-//        }
-//        [self sortMappingList];
     }
     return self;
 }
@@ -129,7 +113,13 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
         baseURL = [[NSFileManager defaultManager] ubiquityURL];
     }
     NSURL* destURL = [baseURL URLByAppendingPathComponent:_docName];
-    [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:nil];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //TODO: HUD Mask
+        [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)queryDidFinishGathering:(NSNotification *)notification {
@@ -175,7 +165,8 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
         NSError* error = nil;
         _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"" error:&error];
     }
-    [self.tableView reloadData];    
+    _snippetDoc.delegate = self;
+    [self.tableView reloadData];
 }
 
 - (void)loadView {
@@ -195,19 +186,14 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
     [self.window center];
 }
 
-
 - (void)onFireSearchRequest {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray* cloneList = [_mappingList copy];
+        NSArray* cloneList = [_snippetDoc.entryList copy];
         if (_searchKey.length > 0) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"key contains[cd] %@", _searchKey];
             cloneList = [cloneList filteredArrayUsingPredicate:predicate];
         }
         _filteringList = cloneList;
-        
-        dispatch_main_sync_safe(^{
-            [_tableView reloadData];
-        });
     });
 }
 
@@ -235,7 +221,6 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 }
 
 - (void)keyDown:(NSEvent *)event {
-//    NSLog(@"keyCode :%d",event.keyCode);
     if (([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask){
         if ([event keyCode] == 3) { //Command + F
             [self focusSearchField:nil];
@@ -277,7 +262,7 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
     if ([_searchKey isNotEmpty]) {
         _matchingList = _filteringList;
     } else {
-        _matchingList = _mappingList;
+        _matchingList = _snippetDoc.entryList;
     }
     return [_matchingList count];
 }
@@ -341,14 +326,14 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    EShortcutEntry* entry = _matchingList[row];
-    [self presentDetailEditorWithEntry:entry];
+    EShortcutEntry* snippet = _matchingList[row];
+    [self presentDetailEditorWithEntry:snippet];
 }
 
 - (void)onAddEntryClick:(id)sender
 {
-    EShortcutEntry* entry = [EShortcutEntry new];
-    [self.detailEditor initWithMappingEntry:entry];
+    EShortcutEntry* snippet = [EShortcutEntry new];
+    [self.detailEditor initWithMappingEntry:snippet];
     self.detailEditor.editMode = DetailEditorModeInsert;
     [self.detailEditor showWindow:self];
 }
@@ -357,14 +342,8 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    EShortcutEntry* entry = _matchingList[row];
-    if (entry) {
-        [_mappingList removeObject:entry];
-        [self sortMappingList];
-        [_tableView reloadData];
-        
-        [self saveMapping];
-    }
+    EShortcutEntry* snippet = _matchingList[row];
+    [self onEntryRemoved:snippet];
 }
 
 - (DetailWindowController*)detailEditor
@@ -377,59 +356,25 @@ DetailWindowEditorDelegate,NSSearchFieldDelegate>
 }
 
 #pragma mark - DetailWindowEditorDelegate
-- (void)onEntryInserted:(EShortcutEntry*)entry {
-    if (entry.key.length > 0 && entry.code.length > 0) {
-        [_mappingList addObject:entry];
-        [self sortMappingList];
-        [_tableView reloadData];
-        
-        [self saveMapping];
-    }
+-(void)snippetsDocument:(ECSnippetsDocument*)document performActionWithType:(ECSnippetActionType)actionType withSnippet:(EShortcutEntry*)entry {
+    //TODO:
 }
 
-- (void)onEntryUpdated:(EShortcutEntry*)entry {
-    [self sortMappingList];
-	[_tableView reloadData];
-    
-    [self saveMapping];
+#pragma mark - DetailWindowEditorDelegate
+- (void)onEntryInserted:(EShortcutEntry*)snippet {
+    [_snippetDoc addSnippet:snippet];
 }
 
-- (void)windowWillClose:(NSNotification *)notification
-{
-    [self saveMapping];
+- (void)onEntryRemoved:(EShortcutEntry*)snippet {
+    [_snippetDoc removeSnippetForKey:snippet.key];
 }
 
-#pragma mark - Other
-- (void)saveMapping
-{
-    NSMutableDictionary* newMapping = @{}.mutableCopy;
-    for (EShortcutEntry* entry in _mappingList) {
-        [newMapping setObject:entry.code forKey:entry.key];
-    }
-    
-    if (_editorType == EditorTypeOC) {
-        [_UD saveMappingForOC:newMapping];
-    }
-    else if(_editorType == EditorTypeSwift)
-    {
-        [_UD saveMappingForSwift:newMapping];
-    }
+- (void)onEntryUpdated:(EShortcutEntry*)snippet {
+    [_snippetDoc updateSnippet:snippet];
 }
 
-- (void)sortMappingList
-{
-    if (_mappingList.count == 0) {
-        EShortcutEntry* testEntry = [EShortcutEntry new];
-        testEntry.key = @"key";
-        testEntry.code = @"code";
-        [_mappingList addObject:testEntry];
-    }
-    
-    [_mappingList sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        EShortcutEntry* entry1 = obj1;
-        EShortcutEntry* entry2 = obj2;
-        return [entry1.key compare:entry2.key];
-    }];
+- (void)windowWillClose:(NSNotification *)notification {
+    [_snippetDoc saveDocumentCompletionHandler:NULL];
 }
 
 @end

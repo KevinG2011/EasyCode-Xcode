@@ -18,8 +18,8 @@
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
-    _key = [decoder decodeObjectForKey:@"key"];
-    _code = [decoder decodeObjectForKey:@"code"];
+    self.key = [decoder decodeObjectForKey:@"key"];
+    self.code = [decoder decodeObjectForKey:@"code"];
     return self;
 }
 
@@ -33,6 +33,16 @@
     entry.key = _key;
     entry.code = _code;
     return entry;
+}
+
+- (void)setKey:(NSString *)key {
+    _key = [key trimWhiteSpace];
+}
+
+-(void)updateBySnippet:(EShortcutEntry*)snippet {
+    if ([self.key isEqualToString:snippet.key]) {
+        self.code = snippet.code;
+    }
 }
 
 @end

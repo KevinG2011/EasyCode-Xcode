@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface EShortcutEntry : NSObject<NSCoding,NSCopying>
-@property (nonatomic, strong) NSString* key;
-@property (nonatomic, strong) NSString* code;
+@property (nonatomic, copy) NSString* key;
+@property (nonatomic, copy) NSString* code;
 +(instancetype)entryWithKey:(NSString*)key code:(NSString*)code;
+-(void)updateBySnippet:(EShortcutEntry*)snippet;
 @end
