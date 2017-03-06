@@ -46,7 +46,7 @@
 		6741CE5C1DB87CE8000408E7 /* ECMappingForObjectiveC.m in Sources */ = {isa = PBXBuildFile; fileRef = 67302B0F1DB23C010030C360 /* ECMappingForObjectiveC.m */; };
 		6741CE5D1DB87CE8000408E7 /* OCMapping.h in Sources */ = {isa = PBXBuildFile; fileRef = 6751C6251DB23D5500004735 /* OCMapping.h */; };
 		6741CE691DB884DD000408E7 /* EditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6741CE671DB884DD000408E7 /* EditorWindowController.xib */; };
-		6741CE6C1DB89894000408E7 /* EShortcutEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE6B1DB89894000408E7 /* EShortcutEntry.m */; };
+		6741CE6C1DB89894000408E7 /* ECSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE6B1DB89894000408E7 /* ECSnippet.m */; };
 		6741CE761DB8A713000408E7 /* EVerticalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE751DB8A713000408E7 /* EVerticalScrollView.m */; };
 		6741CE791DB8B4DF000408E7 /* EEditorTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE781DB8B4DF000408E7 /* EEditorTableView.m */; };
 		6741CE7E1DB8BA19000408E7 /* DetailWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE7C1DB8BA19000408E7 /* DetailWindowController.m */; };
@@ -141,8 +141,8 @@
 		6741CE651DB884DD000408E7 /* EditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorWindowController.h; sourceTree = "<group>"; };
 		6741CE661DB884DD000408E7 /* EditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorWindowController.m; sourceTree = "<group>"; };
 		6741CE671DB884DD000408E7 /* EditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditorWindowController.xib; sourceTree = "<group>"; };
-		6741CE6A1DB89894000408E7 /* EShortcutEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EShortcutEntry.h; sourceTree = "<group>"; };
-		6741CE6B1DB89894000408E7 /* EShortcutEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EShortcutEntry.m; sourceTree = "<group>"; };
+		6741CE6A1DB89894000408E7 /* ECSnippet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippet.h; sourceTree = "<group>"; };
+		6741CE6B1DB89894000408E7 /* ECSnippet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippet.m; sourceTree = "<group>"; };
 		6741CE741DB8A713000408E7 /* EVerticalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVerticalScrollView.h; sourceTree = "<group>"; };
 		6741CE751DB8A713000408E7 /* EVerticalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVerticalScrollView.m; sourceTree = "<group>"; };
 		6741CE771DB8B4DF000408E7 /* EEditorTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EEditorTableView.h; sourceTree = "<group>"; };
@@ -346,8 +346,8 @@
 				6741CE651DB884DD000408E7 /* EditorWindowController.h */,
 				6741CE661DB884DD000408E7 /* EditorWindowController.m */,
 				6741CE671DB884DD000408E7 /* EditorWindowController.xib */,
-				6741CE6A1DB89894000408E7 /* EShortcutEntry.h */,
-				6741CE6B1DB89894000408E7 /* EShortcutEntry.m */,
+				6741CE6A1DB89894000408E7 /* ECSnippet.h */,
+				6741CE6B1DB89894000408E7 /* ECSnippet.m */,
 				6741CE741DB8A713000408E7 /* EVerticalScrollView.h */,
 				6741CE751DB8A713000408E7 /* EVerticalScrollView.m */,
 				6741CE771DB8B4DF000408E7 /* EEditorTableView.h */,
@@ -614,7 +614,7 @@
 				6741CE581DB87CE8000408E7 /* ECMappingForSwift.h in Sources */,
 				6741CE591DB87CE8000408E7 /* ECMappingForSwift.m in Sources */,
 				6741CE5A1DB87CE8000408E7 /* SwiftMapping.h in Sources */,
-				6741CE6C1DB89894000408E7 /* EShortcutEntry.m in Sources */,
+				6741CE6C1DB89894000408E7 /* ECSnippet.m in Sources */,
 				6741CE5B1DB87CE8000408E7 /* ECMappingForObjectiveC.h in Sources */,
 				6741CE791DB8B4DF000408E7 /* EEditorTableView.m in Sources */,
 				2A1CD1E41E68179A007A2700 /* NSWindowController+Additions.m in Sources */,

@@ -13,7 +13,7 @@ enum {
 };
 NSString *const DirectoryLocationDomain = @"DirectoryLocationDomain";
 NSString *const DirectoryDocuments = @"Documents";
-NSString *const FileOCName = @"objective";
+NSString *const FileOCName = @"objective-c";
 NSString *const FileSwiftName = @"swift";
 
 @implementation NSFileManager (Additions)

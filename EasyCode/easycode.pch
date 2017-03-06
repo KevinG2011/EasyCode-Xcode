@@ -14,6 +14,7 @@
 
 #import "AppDelegate.h"
 #import "NSString+Additions.h"
+#import "NSFileManager+Additions.h"
 
 typedef enum : NSUInteger {
     EditorTypeOC,

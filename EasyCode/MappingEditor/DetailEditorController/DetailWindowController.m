@@ -9,7 +9,7 @@
 #import "DetailWindowController.h"
 
 @interface DetailWindowController () <NSTextFieldDelegate, NSWindowDelegate, NSControlTextEditingDelegate>
-@property (nonatomic, strong) EShortcutEntry*                 curEntry;
+@property (nonatomic, strong) ECSnippet*                 curEntry;
 
 @end
 
@@ -37,9 +37,9 @@
     }
 }
 
-- (void)initWithMappingEntry:(EShortcutEntry*)entry
+- (void)initWithMappingEntry:(ECSnippet*)snippet
 {
-    self.curEntry = entry;
+    self.curEntry = snippet;
     [self updateEntryDisplay];
 }
 

@@ -11,13 +11,9 @@
 
 @implementation ECMappingForSwift
 
-+ (NSDictionary*)provideMapping {
-    NSDictionary* mapping = @{
-                             
-                              
-                              }.mutableCopy;
-    
-    return mapping;
++ (NSArray<ECSnippet*>*)defaultSnippets {
+    NSArray* snippets = @[];
+    return snippets;
 }
 
 

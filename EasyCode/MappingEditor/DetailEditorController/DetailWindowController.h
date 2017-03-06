@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "EShortcutEntry.h"
+#import "ECSnippet.h"
 
 typedef enum : NSUInteger {
     DetailEditorModeUpdate,
@@ -16,15 +16,15 @@ typedef enum : NSUInteger {
 
 @protocol DetailWindowEditorDelegate <NSObject>
 
-- (void)onEntryUpdated:(EShortcutEntry*)entry;
-- (void)onEntryInserted:(EShortcutEntry*)entry;
+- (void)onEntryUpdated:(ECSnippet*)snippet;
+- (void)onEntryInserted:(ECSnippet*)snippet;
 
 @end
 
 
 @interface DetailWindowController : NSWindowController
 
-- (void)initWithMappingEntry:(EShortcutEntry*)entry;
+- (void)initWithMappingEntry:(ECSnippet*)snippet;
 
 @property (nonatomic, weak) id<DetailWindowEditorDelegate>         delegate;
 @property (nonatomic, assign) DetailEditorMode                     editMode;

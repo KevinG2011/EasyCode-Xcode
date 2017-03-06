@@ -8,8 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import "EditorWindowController.h"
-@class EShortcutEntry;
+@class ECSnippet;
 @protocol ECSnippetsDocumentDelegate;
+
+EC_EXTERN NSString *const ECDocumentLoadedNotification;
 
 typedef NS_ENUM(NSInteger,ECSnippetActionType) {
     ECSnippetActionTypeCreate,
@@ -21,25 +23,25 @@ typedef NS_ENUM(NSInteger,ECSnippetActionType) {
 @interface ECSnippetsDocument : NSDocument
 @property (nonatomic, assign)           EditorType                              editorType;
 @property (nonatomic, strong,readonly)  NSURL*                                  itemURL;
-@property (nonatomic, copy,readonly)    NSArray<EShortcutEntry*>*               snippetList;
+@property (nonatomic, copy,readonly)    NSArray<ECSnippet*>*               snippetList;
 @property (nonatomic, weak)             id<ECSnippetsDocumentDelegate>          delegate;
 
 -(instancetype)initWithFileURL:(NSURL*)itemURL editorType:(EditorType)type;
 -(NSInteger)snippetCount;
 //根据键查找片段
--(EShortcutEntry*)snippetForKey:(NSString*)key;
+-(ECSnippet*)snippetForKey:(NSString*)key;
 //插入片段
--(void)addSnippet:(EShortcutEntry*)entry;
+-(void)addSnippet:(ECSnippet*)snippet;
 //根据键删除片段
 -(void)removeSnippetForKey:(NSString*)key;
 //根据键更新片段
--(void)updateSnippet:(EShortcutEntry*)entry;
+-(void)updateSnippet:(ECSnippet*)snippet;
 //保存文档
 -(void)saveDocumentCompletionHandler:(void (^)(void))handler;
 @end
 
 @protocol ECSnippetsDocumentDelegate <NSObject>
--(void)snippetsDocument:(ECSnippetsDocument*)document performActionWithType:(ECSnippetActionType)actionType withSnippet:(EShortcutEntry*)entry;
+-(void)snippetsDocument:(ECSnippetsDocument*)document performActionWithType:(ECSnippetActionType)actionType withSnippet:(ECSnippet*)snippet;
 @end
 
 

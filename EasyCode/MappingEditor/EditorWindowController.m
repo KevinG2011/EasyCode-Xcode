@@ -10,7 +10,7 @@
 #import "ECMainWindowController.h"
 #import "DetailWindowController.h"
 #import "ESharedUserDefault.h"
-#import "EShortcutEntry.h"
+#import "ECSnippet.h"
 #import "ECSnippetsDocument.h"
 #import "NSWindow+Additions.h"
 #import "NSString+Additions.h"
@@ -39,26 +39,25 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 @interface EditorWindowController ()<NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
                                     DetailWindowEditorDelegate,NSSearchFieldDelegate,
                                     ECSnippetsDocumentDelegate>
-@property (nonatomic, weak) IBOutlet NSWindow *toastPanel;
-@property (nonatomic, weak) IBOutlet NSTextField *toastText;
-@property (nonatomic, weak) IBOutlet NSScrollView *scrollView;
-@property (nonatomic, weak) IBOutlet NSTableView *tableView;
-@property (nonatomic, weak) IBOutlet NSTableColumn *filterColumn;
-
-@property (nonatomic, assign) EditorType                            editorType;
-@property (nonatomic, strong) NSArray*                              filteringList;
-@property (nonatomic, weak)   NSArray*                              matchingList;
-
+@property (nonatomic, weak) IBOutlet NSWindow                       *toastPanel;
+@property (nonatomic, weak) IBOutlet NSTextField                    *toastText;
+@property (nonatomic, weak) IBOutlet NSScrollView                   *scrollView;
+@property (nonatomic, weak) IBOutlet NSTableView                    *tableView;
+@property (nonatomic, weak) IBOutlet NSTableColumn                  *filterColumn;
+@property (nonatomic, weak) IBOutlet NSSearchField                  *searchField;
 @property (nonatomic, strong) NSImage*                              imgEdit;
 @property (nonatomic, strong) NSImage*                              imgAdd;
 @property (nonatomic, strong) NSImage*                              imgRemove;
 
+@property (nonatomic, assign) EditorType                            editorType;
+@property (nonatomic, strong) NSArray*                              filteringList;
+@property (nonatomic, strong) NSArray*                              matchingList;
+
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
-@property (nonatomic, strong) IBOutlet NSSearchField*               searchField;
-@property (nonatomic, copy)   NSString*                             searchKey;
 @property (nonatomic, strong) ECSnippetsDocument*                   snippetDoc;
-@property (nonatomic, strong) NSMetadataQuery*                      query;
+@property (nonatomic, copy)   NSString*                             searchKey;
 @property (nonatomic, copy)   NSString*                             docName;
+@property (nonatomic, strong) NSMetadataQuery*                      query;
 @property (nonatomic, strong) NSMetadataItem*                       dataItem;
 @end
 
@@ -70,43 +69,73 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 - (instancetype)initEditorWindowForType:(EditorType)editorType {
     self = [super initWithWindowNibName:@"EditorWindowController"];
     if (self) {
-        self.editorType = editorType;
-        
-        self.imgEdit = [NSImage imageNamed:@"edit"];
-        self.imgAdd = [NSImage imageNamed:@"add"];
-        self.imgRemove = [NSImage imageNamed:@"remove"];
-        
-        if (_editorType == EditorTypeOC) {
-            self.window.title = @"Objective-C";
-            self.docName = FileOCName;
-        } else if(_editorType == EditorTypeSwift) {
-            self.window.title = @"Swift";
-            self.docName = FileSwiftName;
-        }
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(ubiquityIdentityChanged:)
-                                                     name:NSUbiquityIdentityDidChangeNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(iCloudSyncChanged:)
-                                                     name:ECiCloudSyncChangedNotification
-                                                   object:nil];
+        _editorType = editorType;
     }
     return self;
 }
 
+- (void)setupData {
+    if (_editorType == EditorTypeOC) {
+        self.window.title = @"Objective-C";
+        self.docName = FileOCName;
+    } else if(_editorType == EditorTypeSwift) {
+        self.window.title = @"Swift";
+        self.docName = FileSwiftName;
+    }
+    
+    self.imgEdit = [NSImage imageNamed:@"edit"];
+    self.imgAdd = [NSImage imageNamed:@"add"];
+    self.imgRemove = [NSImage imageNamed:@"remove"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onDocumentLoaded:)
+                                                 name:ECDocumentLoadedNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onUbiquityIdentityChanged:)
+                                                 name:NSUbiquityIdentityDidChangeNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(oniCloudSyncChanged:)
+                                                 name:ECiCloudSyncChangedNotification
+                                               object:nil];
+}
+
+- (void)setupView {
+    [_tableView setDoubleAction:@selector(onHandleDoubleClick:)];
+    [_tableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
+    
+    _searchField.delegate = self;
+    _toastPanel.backgroundColor = [NSColor colorWithWhite:0 alpha:0.5];
+    [_toastPanel setCornRadius:12];
+    [_toastPanel orderOut:self];
+    
+    self.window.delegate = self;
+    [self.window center];
+}
+
+
 - (void)windowDidLoad {
     [super windowDidLoad];
-    [self loadDocument];
-    [self loadView];
-}
-
-- (void)ubiquityIdentityChanged:(NSNotification*)notification {
+    [self setupData];
+    [self setupView];
     [self loadDocument];
 }
 
-- (void)iCloudSyncChanged:(NSNotification*)notification {
+- (void)reloadData {
+    [_tableView reloadData];
+}
+
+- (void)onDocumentLoaded:(NSNotification*)notification {
+    _snippetDoc = [notification object];
+    [self reloadData];
+}
+
+- (void)onUbiquityIdentityChanged:(NSNotification*)notification {
+    [self loadDocument];
+}
+
+- (void)oniCloudSyncChanged:(NSNotification*)notification {
     BOOL useiCloud = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
     NSURL* baseURL = [[NSFileManager defaultManager] localURL];
     if (useiCloud) {
@@ -117,7 +146,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
         //TODO: HUD Mask
         [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
+            [self reloadData];
         });
     });
 }
@@ -153,37 +182,16 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 }
 
 - (void)loadDataWithQuery:(NSMetadataQuery*)query {
+    //load from local default
+    NSURL* itemURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:_docName];
     if (query && [query resultCount] >= 1) {
         //load from remote
         _dataItem = [query resultAtIndex:0];
-        NSURL* itemURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
-        NSError* error = nil;
-        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"" error:&error];
-    } else {
-        //load from local
-        NSURL* itemURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:_docName];
-        NSError* error = nil;
-        _snippetDoc = [[ECSnippetsDocument alloc] initWithContentsOfURL:itemURL ofType:@"" error:&error];
+        itemURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
     }
+    _snippetDoc = [[ECSnippetsDocument alloc] initWithFileURL:itemURL editorType:_editorType];
     _snippetDoc.delegate = self;
-    [self.tableView reloadData];
-}
-
-- (void)loadView {
-    _searchField.delegate = self;
-    _toastPanel.backgroundColor = [NSColor colorWithWhite:0 alpha:0.5];
-    [_toastPanel setCornRadius:12];
-    [_toastPanel orderOut:self];
-    
-    _tableView.allowsColumnSelection = NO;
-    [_tableView setDoubleAction:@selector(onHandleDoubleClick:)];
-    [_tableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_tableView reloadData];
-    });
-    
-    self.window.delegate = self;
-    [self.window center];
+    self.document = _snippetDoc;
 }
 
 - (void)onFireSearchRequest {
@@ -199,7 +207,6 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 
 - (void)queueSearchRequest {
     _searchKey = [_searchField.stringValue trimWhiteSpace];
-//    NSLog(@"searchText :%@",_searchKey);
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(onFireSearchRequest) object:nil];
     [self performSelector:@selector(onFireSearchRequest) withObject:nil afterDelay:0.2f];
 }
@@ -228,12 +235,12 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     }
 }
 
-- (void)pasteShortcutWithEntry:(EShortcutEntry*)entry {
+- (void)pasteShortcutWithEntry:(ECSnippet*)snippet {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     [pasteboard clearContents];
-    BOOL success = [pasteboard writeObjects:@[entry.key]];
+    BOOL success = [pasteboard writeObjects:@[snippet.key]];
     if (success) {
-        _toastText.stringValue = entry.key;
+        _toastText.stringValue = snippet.key;
         [_toastPanel fadeInAnimated:NO];
         [_toastPanel fadeOutAnimated:YES afterDelay:3];
     }
@@ -244,11 +251,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
         return;
     }
     
-    EShortcutEntry* entry = _matchingList[_tableView.clickedRow];
+    ECSnippet* snippet = _matchingList[_tableView.clickedRow];
     if (_tableView.clickedColumn == 0) { //clicked shortcut key
-        [self pasteShortcutWithEntry:entry];
+        [self pasteShortcutWithEntry:snippet];
     } else {
-        [self presentDetailEditorWithEntry:entry];
+        [self presentDetailEditorWithEntry:snippet];
     }
 }
 
@@ -268,19 +275,18 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    
     // Get a new ViewCell
     NSTableCellView *cellView = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
-    EShortcutEntry* entry = _matchingList[row];
+    ECSnippet* snippet = _matchingList[row];
     
     if( [tableColumn.identifier isEqualToString:@"cShortcut"] )
     {
-        cellView.textField.stringValue = entry.key;
+        cellView.textField.stringValue = snippet.key;
         return cellView;
     }
     if( [tableColumn.identifier isEqualToString:@"cCode"] )
     {
-        cellView.textField.stringValue = entry.code;
+        cellView.textField.stringValue = snippet.code;
         cellView.textField.textColor = [NSColor colorWithWhite:0.5 alpha:1];
         return cellView;
     }
@@ -312,12 +318,12 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     return cellView;
 }
 
-- (void)presentDetailEditorWithEntry:(EShortcutEntry*)entry {
-    if (entry == nil) {
+- (void)presentDetailEditorWithEntry:(ECSnippet*)snippet {
+    if (snippet == nil) {
         return;
     }
     
-    [self.detailEditor initWithMappingEntry:entry];
+    [self.detailEditor initWithMappingEntry:snippet];
     self.detailEditor.editMode = DetailEditorModeUpdate;
     [self.detailEditor showWindow:self];
 }
@@ -326,13 +332,13 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    EShortcutEntry* snippet = _matchingList[row];
+    ECSnippet* snippet = _matchingList[row];
     [self presentDetailEditorWithEntry:snippet];
 }
 
 - (void)onAddEntryClick:(id)sender
 {
-    EShortcutEntry* snippet = [EShortcutEntry new];
+    ECSnippet* snippet = [ECSnippet new];
     [self.detailEditor initWithMappingEntry:snippet];
     self.detailEditor.editMode = DetailEditorModeInsert;
     [self.detailEditor showWindow:self];
@@ -342,34 +348,34 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    EShortcutEntry* snippet = _matchingList[row];
+    ECSnippet* snippet = _matchingList[row];
     [self onEntryRemoved:snippet];
 }
 
 - (DetailWindowController*)detailEditor
 {
     if (_detailEditor == nil) {
-        self.detailEditor = [[DetailWindowController alloc] initWithWindowNibName:@"DetailWindowController"];
+        _detailEditor = [[DetailWindowController alloc] initWithWindowNibName:@"DetailWindowController"];
         _detailEditor.delegate = self;
     }
     return _detailEditor;
 }
 
 #pragma mark - DetailWindowEditorDelegate
--(void)snippetsDocument:(ECSnippetsDocument*)document performActionWithType:(ECSnippetActionType)actionType withSnippet:(EShortcutEntry*)entry {
-    //TODO:
+-(void)snippetsDocument:(ECSnippetsDocument*)document performActionWithType:(ECSnippetActionType)actionType withSnippet:(ECSnippet*)snippet {
+    [self reloadData];
 }
 
 #pragma mark - DetailWindowEditorDelegate
-- (void)onEntryInserted:(EShortcutEntry*)snippet {
+- (void)onEntryInserted:(ECSnippet*)snippet {
     [_snippetDoc addSnippet:snippet];
 }
 
-- (void)onEntryRemoved:(EShortcutEntry*)snippet {
+- (void)onEntryRemoved:(ECSnippet*)snippet {
     [_snippetDoc removeSnippetForKey:snippet.key];
 }
 
-- (void)onEntryUpdated:(EShortcutEntry*)snippet {
+- (void)onEntryUpdated:(ECSnippet*)snippet {
     [_snippetDoc updateSnippet:snippet];
 }
 
