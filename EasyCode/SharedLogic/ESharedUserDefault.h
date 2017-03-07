@@ -18,14 +18,4 @@
 + (instancetype)sharedInstance;
 - (void)setBool:(BOOL)value forKey:(NSString*)defaultName;
 - (BOOL)boolForKey:(NSString*)defaultName;
-
-- (NSDictionary*)readMappingForOC;
-- (void)saveMappingForOC:(NSDictionary*)mapping;
-
-- (NSDictionary*)readMappingForSwift;
-- (void)saveMappingForSwift:(NSDictionary*)mapping;
-
-- (void)clearMapping;
-
-
 @end

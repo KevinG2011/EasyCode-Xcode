@@ -28,7 +28,7 @@
 			<key>LSTypeIsPackage</key>
 			<integer>1</integer>
 			<key>NSDocumentClass</key>
-			<string>ECSnippetsDocument</string>
+			<string>ECSnippetEntrysDocument</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>

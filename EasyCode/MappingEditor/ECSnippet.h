@@ -2,18 +2,14 @@
 //  ECSnippet.h
 //  EasyCode
 //
-//  Created by gao feng on 2016/10/20.
-//  Copyright © 2016年 music4kid. All rights reserved.
+//  Created by lijia on 07/03/2017.
+//  Copyright © 2017 music4kid. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "ECSnippetEntry.h"
 
-@interface ECSnippet : NSObject<NSCoding,NSCopying>
-@property (nonatomic, copy) NSString* key;
-@property (nonatomic, copy) NSString* code;
-@property (nonatomic, copy) NSString* createAt;
-
-+(instancetype)snippetWithKey:(NSString*)key code:(NSString*)code;
-
--(void)updateBySnippet:(ECSnippet*)snippet;
+@interface ECSnippet : NSObject <NSCopying,NSCoding>
+@property (nonatomic, copy) NSString* version;
+@property (nonatomic, copy) NSArray<ECSnippetEntry*>* entries;
 @end

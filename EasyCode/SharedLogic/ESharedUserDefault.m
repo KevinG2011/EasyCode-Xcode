@@ -17,13 +17,6 @@
 
 @interface ESharedUserDefault ()
 @property (nonatomic, strong) NSUserDefaults*                   sharedUD;
-
-@property (nonatomic, strong) NSDictionary*                     ocMappingDefault;
-@property (nonatomic, strong) NSDictionary*                     swiftMappingDefault;
-
-@property (nonatomic, strong) NSMutableDictionary*              ocMapping;
-@property (nonatomic, strong) NSMutableDictionary*              swiftMapping;
-
 @end
 
 @implementation ESharedUserDefault
@@ -66,87 +59,6 @@
 - (BOOL)boolForKey:(NSString*)defaultName
 {
     return [_sharedUD boolForKey:defaultName];
-}
-
-- (void)clearMapping
-{
-    _ocMapping = nil;
-    _swiftMapping = nil;
-}
-
-#pragma mark - Objective-C
-
-- (NSDictionary*)readMappingForOC
-{
-    if (_ocMapping == nil) {
-        _ocMapping = [_sharedUD dictionaryForKey:KeyCodeShortcutForObjectiveC].mutableCopy;
-        
-        BOOL isMappingEmpty = false;
-        if (_ocMapping == nil || (_ocMapping.allKeys.count == 1 && [_ocMapping[@"key"] isEqualToString:@"code"])) {
-            isMappingEmpty = true;
-        }
-        
-        if (isMappingEmpty == true) {
-            _ocMapping = self.ocMappingDefault.mutableCopy;
-            [self saveMappingForOC:self.ocMappingDefault];
-        }
-    }
-    
-    return _ocMapping;
-}
-
-- (void)saveMappingForOC:(NSDictionary*)mapping
-{
-    if (mapping.allKeys.count == 0 || mapping.allKeys.count == 1) {
-        return;
-    }
-    self.ocMapping = mapping.mutableCopy;
-    [_sharedUD setObject:mapping forKey:KeyCodeShortcutForObjectiveC];
-    [_sharedUD synchronize];
-}
-
-- (NSDictionary*)ocMappingDefault
-{
-    if (_ocMappingDefault == nil) {
-        _ocMappingDefault = [ECMappingForObjectiveC provideMapping];
-    }
-    return _ocMappingDefault;
-}
-
-#pragma mark - Swift
-
-- (NSDictionary*)readMappingForSwift
-{
-    if (_swiftMapping == nil) {
-        _swiftMapping = [_sharedUD dictionaryForKey:KeyCodeShortcutForSwift].mutableCopy;
-        
-        BOOL isMappingEmpty = false;
-        if (_ocMapping == nil || (_ocMapping.allKeys.count == 1 && [_ocMapping[@"key"] isEqualToString:@"code"])) {
-            isMappingEmpty = true;
-        }
-
-        if (isMappingEmpty) {
-            _swiftMapping = self.swiftMappingDefault.mutableCopy;
-            [self saveMappingForOC:self.swiftMappingDefault];
-        }
-    }
-    
-    return _swiftMapping;
-}
-
-- (void)saveMappingForSwift:(NSDictionary*)mapping
-{
-    self.swiftMapping = mapping.mutableCopy;
-    [_sharedUD setObject:mapping forKey:KeyCodeShortcutForSwift];
-    [_sharedUD synchronize];
-}
-
-- (NSDictionary*)swiftMappingDefault
-{
-    if (_swiftMappingDefault == nil) {
-        _swiftMappingDefault = [ECMappingForSwift provideMapping];
-    }
-    return _swiftMappingDefault;
 }
 
 @end

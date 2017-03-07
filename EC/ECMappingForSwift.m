@@ -11,7 +11,7 @@
 
 @implementation ECMappingForSwift
 
-+ (NSArray<ECSnippet*>*)defaultSnippets {
++ (NSArray*)defaultEntries {
     NSArray* snippets = @[];
     return snippets;
 }

@@ -10,5 +10,5 @@
 #import "ECMapping.h"
 
 @interface ECMappingForObjectiveC : ECMapping
-
++ (NSArray*)defaultEntries;
 @end

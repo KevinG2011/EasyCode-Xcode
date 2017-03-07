@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ECSnippet.h"
+#import "ECSnippetEntry.h"
+
 @interface ECMapping : NSObject
-+ (NSArray<ECSnippet*>*)defaultSnippets;
++ (NSArray*)defaultEntries;
 @end
 

@@ -7,13 +7,10 @@
 //
 
 #import "ECMappingHelper.h"
-#import "ECMappingForObjectiveC.h"
-#import "ECMappingForSwift.h"
-#import "ESharedUserDefault.h"
+//#import "ESharedUserDefault.h"
 
 @interface ECMappingHelper ()
-@property (nonatomic, strong) NSMutableDictionary*                 mappingOC;
-@property (nonatomic, strong) NSMutableDictionary*                 mappingSwift;
+
 @end
 
 @implementation ECMappingHelper
@@ -46,10 +43,16 @@
     }
 }
 
+
+
 - (BOOL)handleInvocation:(XCSourceEditorCommandInvocation *)invocation {
+    BOOL isOC = true;
+    if ([invocation.buffer.contentUTI isEqualToString:@"public.swift-source"]) {
+        isOC = false;
+    }
     
     //read from NSUserDefault each time
-    [self clearMapping];
+//    [self clearMapping];
     
     XCSourceTextRange *selection = invocation.buffer.selections.firstObject;
     NSMutableArray* lines = invocation.buffer.lines;
@@ -58,12 +61,11 @@
     
     int matchedCount = 0;
     
-    if (index > lines.count-1) {
+    if (index > lines.count - 1) {
         return false;
     }
     
     NSString* originalLine = lines[index];
-    
     int matchLength = 8;//max match length for shortcut
     while (matchLength >= 1) {
         
@@ -72,10 +74,7 @@
             NSRange targetRange = NSMakeRange(column-matchLength, matchLength);
             NSString* lastNStr = [originalLine substringWithRange:targetRange];
             
-            BOOL isOC = true;
-            if ([invocation.buffer.contentUTI isEqualToString:@"public.swift-source"]) {
-                isOC = false;
-            }
+
             NSString* matchedVal = [self getMatchedCode:lastNStr isOC:isOC];
             
             if (matchedVal.length > 0) {
@@ -108,7 +107,7 @@
             }
         }
         
-        matchLength --;
+        matchLength--;
         
     }
     
@@ -127,13 +126,13 @@
     //need to detect swift or oc
     NSDictionary* mappingDic = nil;
     
-    if (isOC) {
-        mappingDic = self.mappingOC;
-    }
-    else
-    {
-        mappingDic = self.mappingSwift;
-    }
+//    if (isOC) {
+//        mappingDic = self.mappingOC;
+//    }
+//    else
+//    {
+//        mappingDic = self.mappingSwift;
+//    }
     
     __block NSString* matchKey = nil;
     [mappingDic enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSString*  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -160,28 +159,28 @@
     return lines;
 }
 
-- (NSMutableDictionary*)mappingOC
-{
-    if (_mappingOC == nil) {
-        _mappingOC = [_UD readMappingForOC].mutableCopy;
-    }
-    return _mappingOC;
-}
-
-- (NSMutableDictionary*)mappingSwift
-{
-    if (_mappingSwift == nil) {
-        _mappingSwift = [_UD readMappingForSwift].mutableCopy;
-    }
-    return _mappingSwift;
-}
-
-- (void)clearMapping
-{
-    self.mappingOC = nil;
-    self.mappingSwift = nil;
-    
-    [_UD clearMapping];
-}
+//- (NSMutableDictionary*)mappingOC
+//{
+//    if (_mappingOC == nil) {
+//        _mappingOC = [_UD readMappingForOC].mutableCopy;
+//    }
+//    return _mappingOC;
+//}
+//
+//- (NSMutableDictionary*)mappingSwift
+//{
+//    if (_mappingSwift == nil) {
+//        _mappingSwift = [_UD readMappingForSwift].mutableCopy;
+//    }
+//    return _mappingSwift;
+//}
+//
+//- (void)clearMapping
+//{
+//    self.mappingOC = nil;
+//    self.mappingSwift = nil;
+//    
+//    [_UD clearMapping];
+//}
 
 @end

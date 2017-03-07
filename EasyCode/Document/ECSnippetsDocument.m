@@ -1,5 +1,5 @@
 //
-//  ECSnippetsDocument.m
+//  ECSnippetEntrysDocument.m
 //  AirCode
 //
 //  Created by Loriya on 2017/3/1.
@@ -8,7 +8,7 @@
 
 #import "ECSnippetsDocument.h"
 #import "NSWindowController+Additions.h"
-#import "ECSnippet.h"
+#import "ECSnippetEntry.h"
 #import "ECMappingForObjectiveC.h"
 #import "ECMappingForSwift.h"
 #import "ECMappingForObjectiveC.h"
@@ -16,13 +16,13 @@
 static NSString *const SnippetFileName = @"snippets.dat";
 NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
-@interface ECSnippetsDocument ()  {
+@interface ECSnippetEntrysDocument ()  {
     NSMutableArray* _snippetList;
 }
 @property (nonatomic, strong) NSFileWrapper *fileWrapper;
 @end
 
-@implementation ECSnippetsDocument
+@implementation ECSnippetEntrysDocument
 -(instancetype)initWithFileURL:(NSURL *)itemURL editorType:(EditorType)type {
     self = [super initWithContentsOfURL:itemURL ofType:@"" error:nil];
     if (self) {
@@ -32,13 +32,13 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     return self;
 }
 
--(ECSnippet*)snippetList {
+-(ECSnippetEntry*)snippetList {
     return [_snippetList copy];
 }
 
 //排序
 -(void)sortedSnippets {
-    [_snippetList sortUsingComparator:^NSComparisonResult(ECSnippet*  _Nonnull s1, ECSnippet*  _Nonnull s2) {
+    [_snippetList sortUsingComparator:^NSComparisonResult(ECSnippetEntry*  _Nonnull s1, ECSnippetEntry*  _Nonnull s2) {
         return [s1.key compare:s2.key];
     }];
 }
@@ -47,9 +47,9 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     return _snippetList.count;
 }
 
--(ECSnippet*)snippetForKey:(NSString*)key {
+-(ECSnippetEntry*)snippetForKey:(NSString*)key {
     NSString* trimKey = [key trimWhiteSpace];
-    NSUInteger index = [_snippetList indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ECSnippet*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSUInteger index = [_snippetList indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ECSnippetEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
         BOOL result = [snippet.key isEqualToString:trimKey];
         if (result) {
             *stop = YES;
@@ -62,16 +62,16 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     return nil;
 }
 
--(void)addSnippet:(ECSnippet*)snippet {
+-(void)addSnippet:(ECSnippetEntry*)snippet {
     if ([snippet.key isNotEmpty] == NO) {
         return;
     }
-    ECSnippet* hitSnippet = [self snippetForKey:snippet.key];
+    ECSnippetEntry* hitSnippet = [self snippetForKey:snippet.key];
     if (hitSnippet == nil) { //add
         [_snippetList addObject:snippet];
         [self saveDocumentCompletionHandler:^{
             if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
-                [_delegate snippetsDocument:self performActionWithType:ECSnippetActionTypeCreate withSnippet:snippet];
+                [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeCreate withSnippet:snippet];
             }
         }];
     } else {
@@ -80,22 +80,22 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 -(void)removeSnippetForKey:(NSString*)key {
-    ECSnippet* hitSnippet = [self snippetForKey:key];
+    ECSnippetEntry* hitSnippet = [self snippetForKey:key];
     if (hitSnippet) {
         [_snippetList removeObject:hitSnippet];
         [self saveDocumentCompletionHandler:^{
             if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
-                [_delegate snippetsDocument:self performActionWithType:ECSnippetActionTypeDelete withSnippet:hitSnippet];
+                [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeDelete withSnippet:hitSnippet];
             }
         }];
     }
 }
 
--(void)updateSnippet:(ECSnippet*)snippet {
-    ECSnippet* hitSnippet = [self snippetForKey:snippet.key];
+-(void)updateSnippet:(ECSnippetEntry*)snippet {
+    ECSnippetEntry* hitSnippet = [self snippetForKey:snippet.key];
     [hitSnippet updateBySnippet:snippet];
     if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
-        [_delegate snippetsDocument:self performActionWithType:ECSnippetActionTypeUpdate withSnippet:hitSnippet];
+        [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeUpdate withSnippet:hitSnippet];
     }
 }
 
@@ -144,9 +144,9 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     } else {
         NSString* fileName = [self.fileURL lastPathComponent];
         if ([fileName isEqualToString:FileOCName]) {
-            _snippetList = [[ECMappingForObjectiveC defaultSnippets] mutableCopy];
+            _snippetList = [[ECMappingForObjectiveC defaultEntries] mutableCopy];
         } else {
-            _snippetList = [[ECMappingForSwift defaultSnippets] mutableCopy];
+            _snippetList = [[ECMappingForSwift defaultEntries] mutableCopy];
         }
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:ECDocumentLoadedNotification

@@ -10,7 +10,7 @@
 #import "ECMainWindowController.h"
 #import "DetailWindowController.h"
 #import "ESharedUserDefault.h"
-#import "ECSnippet.h"
+#import "ECSnippetEntry.h"
 #import "ECSnippetsDocument.h"
 #import "NSWindow+Additions.h"
 #import "NSString+Additions.h"
@@ -38,7 +38,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 
 @interface EditorWindowController ()<NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
                                     DetailWindowEditorDelegate,NSSearchFieldDelegate,
-                                    ECSnippetsDocumentDelegate>
+                                    ECSnippetEntrysDocumentDelegate>
 @property (nonatomic, weak) IBOutlet NSWindow                       *toastPanel;
 @property (nonatomic, weak) IBOutlet NSTextField                    *toastText;
 @property (nonatomic, weak) IBOutlet NSScrollView                   *scrollView;
@@ -54,7 +54,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 @property (nonatomic, strong) NSArray*                              matchingList;
 
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
-@property (nonatomic, strong) ECSnippetsDocument*                   snippetDoc;
+@property (nonatomic, strong) ECSnippetEntrysDocument*                   snippetDoc;
 @property (nonatomic, copy)   NSString*                             searchKey;
 @property (nonatomic, copy)   NSString*                             docName;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
@@ -189,7 +189,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
         _dataItem = [query resultAtIndex:0];
         itemURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
     }
-    _snippetDoc = [[ECSnippetsDocument alloc] initWithFileURL:itemURL editorType:_editorType];
+    _snippetDoc = [[ECSnippetEntrysDocument alloc] initWithFileURL:itemURL editorType:_editorType];
     _snippetDoc.delegate = self;
     self.document = _snippetDoc;
 }
@@ -235,7 +235,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     }
 }
 
-- (void)pasteShortcutWithEntry:(ECSnippet*)snippet {
+- (void)pasteShortcutWithEntry:(ECSnippetEntry*)snippet {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     [pasteboard clearContents];
     BOOL success = [pasteboard writeObjects:@[snippet.key]];
@@ -251,7 +251,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
         return;
     }
     
-    ECSnippet* snippet = _matchingList[_tableView.clickedRow];
+    ECSnippetEntry* snippet = _matchingList[_tableView.clickedRow];
     if (_tableView.clickedColumn == 0) { //clicked shortcut key
         [self pasteShortcutWithEntry:snippet];
     } else {
@@ -277,7 +277,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     // Get a new ViewCell
     NSTableCellView *cellView = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
-    ECSnippet* snippet = _matchingList[row];
+    ECSnippetEntry* snippet = _matchingList[row];
     
     if( [tableColumn.identifier isEqualToString:@"cShortcut"] )
     {
@@ -318,12 +318,12 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     return cellView;
 }
 
-- (void)presentDetailEditorWithEntry:(ECSnippet*)snippet {
+- (void)presentDetailEditorWithEntry:(ECSnippetEntry*)snippet {
     if (snippet == nil) {
         return;
     }
     
-    [self.detailEditor initWithMappingEntry:snippet];
+    [self.detailEditor initWithSnippet:snippet];
     self.detailEditor.editMode = DetailEditorModeUpdate;
     [self.detailEditor showWindow:self];
 }
@@ -332,14 +332,14 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    ECSnippet* snippet = _matchingList[row];
+    ECSnippetEntry* snippet = _matchingList[row];
     [self presentDetailEditorWithEntry:snippet];
 }
 
 - (void)onAddEntryClick:(id)sender
 {
-    ECSnippet* snippet = [ECSnippet new];
-    [self.detailEditor initWithMappingEntry:snippet];
+    ECSnippetEntry* snippet = [ECSnippetEntry new];
+    [self.detailEditor initWithSnippet:snippet];
     self.detailEditor.editMode = DetailEditorModeInsert;
     [self.detailEditor showWindow:self];
 }
@@ -348,7 +348,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 {
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    ECSnippet* snippet = _matchingList[row];
+    ECSnippetEntry* snippet = _matchingList[row];
     [self onEntryRemoved:snippet];
 }
 
@@ -362,20 +362,20 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 }
 
 #pragma mark - DetailWindowEditorDelegate
--(void)snippetsDocument:(ECSnippetsDocument*)document performActionWithType:(ECSnippetActionType)actionType withSnippet:(ECSnippet*)snippet {
+-(void)snippetsDocument:(ECSnippetEntrysDocument*)document performActionWithType:(ECSnippetEntryActionType)actionType withSnippet:(ECSnippetEntry*)snippet {
     [self reloadData];
 }
 
 #pragma mark - DetailWindowEditorDelegate
-- (void)onEntryInserted:(ECSnippet*)snippet {
+- (void)onSnippetInserted:(ECSnippetEntry*)snippet {
     [_snippetDoc addSnippet:snippet];
 }
 
-- (void)onEntryRemoved:(ECSnippet*)snippet {
+- (void)onEntryRemoved:(ECSnippetEntry*)snippet {
     [_snippetDoc removeSnippetForKey:snippet.key];
 }
 
-- (void)onEntryUpdated:(ECSnippet*)snippet {
+- (void)onSnippetUpdated:(ECSnippetEntry*)snippet {
     [_snippetDoc updateSnippet:snippet];
 }
 

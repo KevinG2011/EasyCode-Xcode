@@ -9,7 +9,7 @@
 #import "DetailWindowController.h"
 
 @interface DetailWindowController () <NSTextFieldDelegate, NSWindowDelegate, NSControlTextEditingDelegate>
-@property (nonatomic, strong) ECSnippet*                 curEntry;
+@property (nonatomic, strong) ECSnippetEntry*                 curSnippet;
 
 @end
 
@@ -17,9 +17,7 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    
     [self updateEntryDisplay];
-    
     self.window.delegate = self;
     [self.window center];
 }
@@ -28,36 +26,36 @@
 {
     if (_delegate) {
         if (_editMode == DetailEditorModeUpdate) {
-            [_delegate onEntryUpdated:_curEntry];
+            [_delegate onSnippetUpdated:_curSnippet];
         }
         else if(_editMode == DetailEditorModeInsert)
         {
-            [_delegate onEntryInserted:_curEntry];
+            [_delegate onSnippetInserted:_curSnippet];
         }
     }
 }
 
-- (void)initWithMappingEntry:(ECSnippet*)snippet
+- (void)initWithSnippet:(ECSnippetEntry*)snippet
 {
-    self.curEntry = snippet;
+    self.curSnippet = snippet;
     [self updateEntryDisplay];
 }
 
 - (void)updateEntryDisplay
 {
     self.window.title = [NSString stringWithFormat:@"Create New"];
-    if (_curEntry.key.length > 0) {
-        self.window.title = [NSString stringWithFormat:@"Edit %@", _curEntry.key];
+    if (_curSnippet.key.length > 0) {
+        self.window.title = [NSString stringWithFormat:@"Edit %@", _curSnippet.key];
     }
     
     [self.txtKey setStringValue:@""];
-    if (_curEntry.key.length > 0) {
-        [self.txtKey setStringValue:_curEntry.key];
+    if (_curSnippet.key.length > 0) {
+        [self.txtKey setStringValue:_curSnippet.key];
     }
 
     [self.txtCode setStringValue:@""];
-    if (_curEntry.code.length > 0) {
-        [self.txtCode setStringValue:_curEntry.code];
+    if (_curSnippet.code.length > 0) {
+        [self.txtCode setStringValue:_curSnippet.code];
     }
     
     _txtKey.delegate = self;
@@ -70,11 +68,11 @@
     NSTextField *textField = [notification object];
     
     if (textField == _txtKey) {
-        _curEntry.key = [textField stringValue];
+        _curSnippet.key = [textField stringValue];
     }
     else if(textField == _txtCode)
     {
-        _curEntry.code = [textField stringValue];
+        _curSnippet.code = [textField stringValue];
     }
 }
 

@@ -17,6 +17,11 @@
 		2AD25BCD1E67F6E7007AE3B8 /* ECSnippetsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD25BCC1E67F6E7007AE3B8 /* ECSnippetsDocument.m */; };
 		2AD25BD31E6806AA007AE3B8 /* ECMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD25BD11E6806AA007AE3B8 /* ECMainWindowController.m */; };
 		2AD25BD41E6806AA007AE3B8 /* ECMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AD25BD21E6806AA007AE3B8 /* ECMainWindowController.xib */; };
+		2AD4BADD1E6E5195007A443C /* ECMappingForObjectiveC.m in Sources */ = {isa = PBXBuildFile; fileRef = 67302B0F1DB23C010030C360 /* ECMappingForObjectiveC.m */; };
+		2AD4BADF1E6E5205007A443C /* ECSnippetEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE6B1DB89894000408E7 /* ECSnippetEntry.m */; };
+		2AD4BAE01E6E5210007A443C /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */; };
+		2AD4BAE31E6E5272007A443C /* ECSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAE21E6E5272007A443C /* ECSnippet.m */; };
+		2AD4BAE41E6E5272007A443C /* ECSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAE21E6E5272007A443C /* ECSnippet.m */; };
 		670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED41DB2284400A1739F /* AppDelegate.m */; };
 		670F2ED81DB2284400A1739F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED71DB2284400A1739F /* main.m */; };
 		670F2EDD1DB2284400A1739F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 670F2EDB1DB2284400A1739F /* MainMenu.xib */; };
@@ -43,10 +48,9 @@
 		6741CE591DB87CE8000408E7 /* ECMappingForSwift.m in Sources */ = {isa = PBXBuildFile; fileRef = 67AFF68D1DB5B45400697135 /* ECMappingForSwift.m */; };
 		6741CE5A1DB87CE8000408E7 /* SwiftMapping.h in Sources */ = {isa = PBXBuildFile; fileRef = 67AFF68B1DB5B44000697135 /* SwiftMapping.h */; };
 		6741CE5B1DB87CE8000408E7 /* ECMappingForObjectiveC.h in Sources */ = {isa = PBXBuildFile; fileRef = 67302B0E1DB23C010030C360 /* ECMappingForObjectiveC.h */; };
-		6741CE5C1DB87CE8000408E7 /* ECMappingForObjectiveC.m in Sources */ = {isa = PBXBuildFile; fileRef = 67302B0F1DB23C010030C360 /* ECMappingForObjectiveC.m */; };
 		6741CE5D1DB87CE8000408E7 /* OCMapping.h in Sources */ = {isa = PBXBuildFile; fileRef = 6751C6251DB23D5500004735 /* OCMapping.h */; };
 		6741CE691DB884DD000408E7 /* EditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6741CE671DB884DD000408E7 /* EditorWindowController.xib */; };
-		6741CE6C1DB89894000408E7 /* ECSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE6B1DB89894000408E7 /* ECSnippet.m */; };
+		6741CE6C1DB89894000408E7 /* ECSnippetEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE6B1DB89894000408E7 /* ECSnippetEntry.m */; };
 		6741CE761DB8A713000408E7 /* EVerticalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE751DB8A713000408E7 /* EVerticalScrollView.m */; };
 		6741CE791DB8B4DF000408E7 /* EEditorTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE781DB8B4DF000408E7 /* EEditorTableView.m */; };
 		6741CE7E1DB8BA19000408E7 /* DetailWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6741CE7C1DB8BA19000408E7 /* DetailWindowController.m */; };
@@ -108,6 +112,8 @@
 		2AD25BD01E6806AA007AE3B8 /* ECMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECMainWindowController.h; sourceTree = "<group>"; };
 		2AD25BD11E6806AA007AE3B8 /* ECMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECMainWindowController.m; sourceTree = "<group>"; };
 		2AD25BD21E6806AA007AE3B8 /* ECMainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ECMainWindowController.xib; sourceTree = "<group>"; };
+		2AD4BAE11E6E5272007A443C /* ECSnippet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippet.h; sourceTree = "<group>"; };
+		2AD4BAE21E6E5272007A443C /* ECSnippet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippet.m; sourceTree = "<group>"; };
 		670F2ED01DB2284400A1739F /* EasyCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		670F2ED31DB2284400A1739F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		670F2ED41DB2284400A1739F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -141,8 +147,8 @@
 		6741CE651DB884DD000408E7 /* EditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditorWindowController.h; sourceTree = "<group>"; };
 		6741CE661DB884DD000408E7 /* EditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditorWindowController.m; sourceTree = "<group>"; };
 		6741CE671DB884DD000408E7 /* EditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditorWindowController.xib; sourceTree = "<group>"; };
-		6741CE6A1DB89894000408E7 /* ECSnippet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippet.h; sourceTree = "<group>"; };
-		6741CE6B1DB89894000408E7 /* ECSnippet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippet.m; sourceTree = "<group>"; };
+		6741CE6A1DB89894000408E7 /* ECSnippetEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippetEntry.h; sourceTree = "<group>"; };
+		6741CE6B1DB89894000408E7 /* ECSnippetEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippetEntry.m; sourceTree = "<group>"; };
 		6741CE741DB8A713000408E7 /* EVerticalScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVerticalScrollView.h; sourceTree = "<group>"; };
 		6741CE751DB8A713000408E7 /* EVerticalScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVerticalScrollView.m; sourceTree = "<group>"; };
 		6741CE771DB8B4DF000408E7 /* EEditorTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EEditorTableView.h; sourceTree = "<group>"; };
@@ -346,8 +352,10 @@
 				6741CE651DB884DD000408E7 /* EditorWindowController.h */,
 				6741CE661DB884DD000408E7 /* EditorWindowController.m */,
 				6741CE671DB884DD000408E7 /* EditorWindowController.xib */,
-				6741CE6A1DB89894000408E7 /* ECSnippet.h */,
-				6741CE6B1DB89894000408E7 /* ECSnippet.m */,
+				6741CE6A1DB89894000408E7 /* ECSnippetEntry.h */,
+				6741CE6B1DB89894000408E7 /* ECSnippetEntry.m */,
+				2AD4BAE11E6E5272007A443C /* ECSnippet.h */,
+				2AD4BAE21E6E5272007A443C /* ECSnippet.m */,
 				6741CE741DB8A713000408E7 /* EVerticalScrollView.h */,
 				6741CE751DB8A713000408E7 /* EVerticalScrollView.m */,
 				6741CE771DB8B4DF000408E7 /* EEditorTableView.h */,
@@ -612,15 +620,16 @@
 				2A2DBB311E66A133008C78AF /* NSFileManager+Additions.m in Sources */,
 				0BEB36A81E671F760039FF67 /* EditorWindowController.m in Sources */,
 				6741CE581DB87CE8000408E7 /* ECMappingForSwift.h in Sources */,
+				2AD4BAE31E6E5272007A443C /* ECSnippet.m in Sources */,
 				6741CE591DB87CE8000408E7 /* ECMappingForSwift.m in Sources */,
 				6741CE5A1DB87CE8000408E7 /* SwiftMapping.h in Sources */,
-				6741CE6C1DB89894000408E7 /* ECSnippet.m in Sources */,
+				6741CE6C1DB89894000408E7 /* ECSnippetEntry.m in Sources */,
 				6741CE5B1DB87CE8000408E7 /* ECMappingForObjectiveC.h in Sources */,
 				6741CE791DB8B4DF000408E7 /* EEditorTableView.m in Sources */,
 				2A1CD1E41E68179A007A2700 /* NSWindowController+Additions.m in Sources */,
+				2AD4BADD1E6E5195007A443C /* ECMappingForObjectiveC.m in Sources */,
 				2AD25BD31E6806AA007AE3B8 /* ECMainWindowController.m in Sources */,
 				2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */,
-				6741CE5C1DB87CE8000408E7 /* ECMappingForObjectiveC.m in Sources */,
 				6741CE5D1DB87CE8000408E7 /* OCMapping.h in Sources */,
 				67F73FB11DCC9625000780C3 /* CustomButton.m in Sources */,
 				670F2ED81DB2284400A1739F /* main.m in Sources */,
@@ -641,6 +650,8 @@
 				67AFF6F01DB5CC2E00697135 /* NSString+PDRegex.m in Sources */,
 				67AFF6E51DB5CBE000697135 /* FSExtensionProcessor.m in Sources */,
 				67AFF68E1DB5B45400697135 /* ECMappingForSwift.m in Sources */,
+				2AD4BADF1E6E5205007A443C /* ECSnippetEntry.m in Sources */,
+				2AD4BAE41E6E5272007A443C /* ECSnippet.m in Sources */,
 				670F2EF11DB228DD00A1739F /* SourceEditorExtension.m in Sources */,
 				67AFF6E31DB5CBE000697135 /* FSCategoryProcessor.m in Sources */,
 				67AFF6F31DB5CC5B00697135 /* FSElementProperty.m in Sources */,
@@ -652,6 +663,7 @@
 				67AFF6E71DB5CBE000697135 /* FSInterfaceProcessor.m in Sources */,
 				67AFF6E81DB5CBE000697135 /* FSProtocolProcessor.m in Sources */,
 				67AFF6E21DB5CBE000697135 /* FSElementCache.m in Sources */,
+				2AD4BAE01E6E5210007A443C /* NSString+Additions.m in Sources */,
 				67AFF6EB1DB5CBF500697135 /* ECFileParser.m in Sources */,
 				67AFF6E61DB5CBE000697135 /* FSImpProcessor.m in Sources */,
 			);
