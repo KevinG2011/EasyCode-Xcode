@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define KeyUseiCloudSync                @"KeyUseiCloudSync"
+
 typedef NS_ENUM(NSInteger,EditorType) {
     EditorTypeOC,
     EditorTypeSwift

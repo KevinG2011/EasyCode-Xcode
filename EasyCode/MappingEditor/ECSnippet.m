@@ -34,13 +34,13 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:_version forKey:@"version"];
-    [encoder encodeObject:_entries forKey:@"entries"];
+    [encoder encodeObject:[self entries] forKey:@"entries"];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
     ECSnippet* snippet = [[[self class] allocWithZone:zone] init];
     snippet.version = _version;
-    snippet.entries = _entries;
+    snippet.entries = [_entryList copy];
     return snippet;
 }
 
@@ -48,21 +48,26 @@
     return [_entryList copy];
 }
 
+-(void)setEntries:(NSArray<ECSnippetEntry *> *)entries {
+    _entryList = [entries mutableCopy];
+}
+
 //排序
 -(void)sortedEntry {
-    _entries = [_entries sortedArrayUsingComparator:^NSComparisonResult(ECSnippetEntry*  _Nonnull e1, ECSnippetEntry*  _Nonnull e2) {
+    [_entryList sortUsingComparator:^NSComparisonResult(ECSnippetEntry*  _Nonnull e1, ECSnippetEntry*  _Nonnull e2) {
         return [e1.key compare:e2.key];
     }];
 }
 
 //条目数量
 -(NSInteger)entryCount {
-    return _entries.count;
+    return _entryList.count;
 }
 
 -(ECSnippetEntry*)entryForKey:(NSString*)key {
     NSString* trimKey = [key trimWhiteSpace];
-    NSUInteger index = [_entries indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ECSnippetEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSArray* entryList = [self entries];
+    NSUInteger index = [entryList indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ECSnippetEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
         BOOL result = [snippet.key isEqualToString:trimKey];
         if (result) {
             *stop = YES;
@@ -70,7 +75,7 @@
         return result;
     }];
     if (index != NSNotFound) {
-        return _entries[index];
+        return _entryList[index];
     }
     return nil;
 }

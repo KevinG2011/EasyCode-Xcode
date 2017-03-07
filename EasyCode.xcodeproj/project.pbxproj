@@ -26,6 +26,7 @@
 		2AD4BAFD1E6E6183007A443C /* NSFileWrapper+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAFB1E6E6183007A443C /* NSFileWrapper+Additions.m */; };
 		2AD4BB001E6E67E2007A443C /* ECSnippetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAFF1E6E67E2007A443C /* ECSnippetHelper.m */; };
 		2AD4BB011E6E67E2007A443C /* ECSnippetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAFF1E6E67E2007A443C /* ECSnippetHelper.m */; };
+		2AD4BB0A1E6EAD6F007A443C /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */; };
 		670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED41DB2284400A1739F /* AppDelegate.m */; };
 		670F2ED81DB2284400A1739F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED71DB2284400A1739F /* main.m */; };
 		670F2EDD1DB2284400A1739F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 670F2EDB1DB2284400A1739F /* MainMenu.xib */; };
@@ -659,6 +660,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6729B1BA1DB8CFA300885A9A /* ESharedUserDefault.h in Sources */,
+				2AD4BB0A1E6EAD6F007A443C /* NSFileManager+Additions.m in Sources */,
 				2AD4BB011E6E67E2007A443C /* ECSnippetHelper.m in Sources */,
 				6729B1BB1DB8CFA300885A9A /* ESharedUserDefault.m in Sources */,
 				67AFF6A01DB5C8A100697135 /* ECGenerateHelper.m in Sources */,

@@ -55,7 +55,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
 @property (nonatomic, strong) ECSnippetEntrysDocument*              snippetDoc;
 @property (nonatomic, copy)   NSString*                             searchKey;
-@property (nonatomic, copy)   NSString*                             docName;
+@property (nonatomic, copy)   NSString*                             dirname;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
 @property (nonatomic, strong) NSMetadataItem*                       dataItem;
 @end
@@ -76,10 +76,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 - (void)setupData {
     if (_editorType == EditorTypeOC) {
         self.window.title = @"Objective-C";
-        self.docName = DirectoryOCName;
+        self.dirname = DirectoryOCName;
     } else if(_editorType == EditorTypeSwift) {
         self.window.title = @"Swift";
-        self.docName = DirectorySwiftName;
+        self.dirname = DirectorySwiftName;
     }
     
     self.imgEdit = [NSImage imageNamed:@"edit"];
@@ -122,7 +122,9 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 }
 
 - (void)reloadData {
-    [_tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_tableView reloadData];
+    });
 }
 
 - (void)onDocumentLoaded:(NSNotification*)notification {
@@ -140,7 +142,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     if (useiCloud) {
         baseURL = [[NSFileManager defaultManager] ubiquityURL];
     }
-    NSURL* destURL = [baseURL URLByAppendingPathComponent:_docName];
+    NSURL* destURL = [baseURL URLByAppendingPathComponent:_dirname];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //TODO: HUD Mask
         [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:nil];
@@ -168,7 +170,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     if (ubiq && useiCloud) { //iCloud Enabled and Checked
         _query = [[NSMetadataQuery alloc] init];
         _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,DirectoryOCName];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,_dirname];
         [_query setPredicate:pred];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(queryDidFinishGathering:)
@@ -182,13 +184,13 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 
 - (void)loadDataWithQuery:(NSMetadataQuery*)query {
     //load from local default
-    NSURL* itemURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:_docName];
+    NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:_dirname];
     if (query && [query resultCount] >= 1) {
         //load from remote
         _dataItem = [query resultAtIndex:0];
-        itemURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
+        fileURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
     }
-    _snippetDoc = [[ECSnippetEntrysDocument alloc] initWithFileURL:itemURL editorType:_editorType];
+    _snippetDoc = [[ECSnippetEntrysDocument alloc] initWithFileURL:fileURL editorType:_editorType];
     _snippetDoc.delegate = self;
     self.document = _snippetDoc;
 }
@@ -201,6 +203,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
             cloneList = [cloneList filteredArrayUsingPredicate:predicate];
         }
         _filteringList = cloneList;
+        [self reloadData];
     });
 }
 

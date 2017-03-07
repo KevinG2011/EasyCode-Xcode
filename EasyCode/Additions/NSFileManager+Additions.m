@@ -7,6 +7,7 @@
 //
 
 #import "NSFileManager+Additions.h"
+
 enum {
     DirectoryLocationErrorNoPathFound,
     DirectoryLocationErrorFileExistsAtLocation
@@ -15,6 +16,8 @@ NSString *const DirectoryLocationDomain = @"DirectoryLocationDomain";
 NSString *const DirectoryDocuments = @"Documents";
 NSString *const DirectoryOCName = @"objective-c";
 NSString *const DirectorySwiftName = @"swift";
+NSString *const SnippetFileName = @"snippets.dat";
+NSString *const VersionFileName = @"version.dat";
 
 @implementation NSFileManager (Additions)
 -(NSURL*)localURL
@@ -50,6 +53,26 @@ NSString *const DirectorySwiftName = @"swift";
     NSURL* ubiURL = [self ubiquityURL];
     NSURL* url = [ubiURL URLByAppendingPathComponent:filename];
     return url;
+}
+
+-(NSURL*)detectURLForEditorType:(EditorType)editorType
+{
+    NSString* dirname = DirectoryOCName;
+    if (editorType == EditorTypeSwift) {
+        dirname = DirectorySwiftName;
+    }
+    
+    NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:dirname];
+    
+    BOOL useiCloud = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
+    if (useiCloud) {
+        id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
+        if (ubiq) {
+            fileURL = [[NSFileManager defaultManager] ubiquitySnippetsURLWithFilename:dirname];
+        }
+    }
+    
+    return fileURL;
 }
 
 - (NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory

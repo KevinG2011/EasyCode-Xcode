@@ -11,6 +11,6 @@
 #import "ECDefine.h"
 
 @interface ECSnippetHelper : NSObject
--(ECSnippet*)snippetWithURL:(NSURL*)fileURL;
--(ECSnippet*)snippetWithEditorType:(EditorType)editorType;
++(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper;
++(ECSnippet*)snippetWithEditorType:(EditorType)editorType;
 @end

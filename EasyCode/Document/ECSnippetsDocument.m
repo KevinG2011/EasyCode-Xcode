@@ -13,9 +13,7 @@
 #import "ECMappingForSwift.h"
 #import "ECMappingForObjectiveC.h"
 #import "NSFileWrapper+Additions.h"
-
-static NSString *const SnippetFileName = @"snippets.dat";
-static NSString *const VersionFileName = @"version.dat";
+#import "ECSnippetHelper.h"
 
 NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
@@ -87,7 +85,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 + (BOOL)autosavesInPlace {
-    return YES;
+    return NO;
 }
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)outError {
@@ -110,21 +108,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper ofType:(NSString *)typeName error:(NSError * _Nullable *)outError {
-    NSDictionary *fileWrappers = [fileWrapper fileWrappers];
-    NSFileWrapper *dataWrapper = [fileWrappers objectForKey:SnippetFileName];
-    NSData* data = [dataWrapper regularFileContents];
-    if (data.length > 0) {
-        _snippet = [NSKeyedUnarchiver unarchiveObjectWithData:[dataWrapper regularFileContents]];
-    } else {
-        NSString* fileName = [self.fileURL lastPathComponent];
-        NSArray* entries = nil;
-        if ([fileName isEqualToString:DirectoryOCName]) {
-            entries = [ECMappingForObjectiveC defaultEntries];
-        } else {
-            entries = [ECMappingForSwift defaultEntries];
-        }
-        _snippet = [[ECSnippet alloc] initWithEntries:entries];
-    }
+    _snippet = [ECSnippetHelper snippetWithFileWrapper:fileWrapper];
     [[NSNotificationCenter defaultCenter] postNotificationName:ECDocumentLoadedNotification
                                                         object:self];
     return YES;

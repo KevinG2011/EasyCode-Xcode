@@ -17,7 +17,5 @@
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
 
-#define KeyUseiCloudSync                @"KeyUseiCloudSync"
-
 #define APP_OBJ                 [NSApplication sharedApplication]
 #define APP_DELEGATE            ((AppDelegate *)[APP_OBJ delegate])

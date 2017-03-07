@@ -8,19 +8,35 @@
 
 #import "ECSnippetHelper.h"
 #import "NSFileManager+Additions.h"
+#import "ECMappingForObjectiveC.h"
+#import "ECMappingForSwift.h"
 
 @implementation ECSnippetHelper
--(ECSnippet*)snippetWithURL:(NSURL*)fileURL {
-//    if ([fileURL isFileURL] == NO) {
-//        return nil;
-//    }
-//    NSError* error = nil;
-//    NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL options:NSFileWrapperReadingWithoutMapping error:&error];
-//    NSDictionary *fileWrappers = [fileWrapper fileWrappers];
-    return nil;
+
++(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper {
+    NSDictionary *fileWrappers = [fileWrapper fileWrappers];
+    NSFileWrapper *snippetWrapper = [fileWrappers objectForKey:SnippetFileName];
+    NSData* data = [snippetWrapper regularFileContents];
+    ECSnippet* snippet = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    if (snippet == nil) {
+        NSArray* entries = nil;
+        if ([[fileWrapper filename] isEqualToString:DirectoryOCName]) {
+            entries = [ECMappingForObjectiveC defaultEntries];
+        } else {
+            entries = [ECMappingForSwift defaultEntries];
+        }
+        snippet = [[ECSnippet alloc] initWithEntries:entries];
+    }
+    
+    return snippet;
 }
 
--(ECSnippet*)snippetWithEditorType:(EditorType)editorType {
-    return nil;
++(ECSnippet*)snippetWithEditorType:(EditorType)editorType {
+    NSURL* fileURL = [[NSFileManager defaultManager] detectURLForEditorType:editorType];
+    NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL
+                                                            options:NSFileWrapperReadingWithoutMapping
+                                                              error:nil];
+    ECSnippet* snippet = [self snippetWithFileWrapper:fileWrapper];
+    return snippet;
 }
 @end
