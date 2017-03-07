@@ -16,25 +16,6 @@
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
 
-#ifndef dispatch_main_sync_safe
-#define dispatch_main_sync_safe(block)\
-if ([NSThread isMainThread]) {\
-if(block){\
-block();\
-}\
-}\
-else {\
-if(block){\
-dispatch_sync(dispatch_get_main_queue(), block);\
-}\
-}
-#endif
-
-#ifndef dispatch_async_safe
-#define dispatch_async_safe(block) \
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
-#endif
-
 @interface EditorWindowController ()<NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
                                     DetailWindowEditorDelegate,NSSearchFieldDelegate,
                                     ECSnippetEntrysDocumentDelegate>
