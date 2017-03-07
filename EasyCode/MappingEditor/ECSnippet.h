@@ -10,6 +10,22 @@
 #import "ECSnippetEntry.h"
 
 @interface ECSnippet : NSObject <NSCopying,NSCoding>
-@property (nonatomic, copy) NSString* version;
+@property (nonatomic, copy) NSNumber* version;
 @property (nonatomic, copy) NSArray<ECSnippetEntry*>* entries;
+
+-(instancetype)initWithEntries:(NSArray<ECSnippetEntry*>*)entries;
+
+//排序
+-(void)sortedEntry;
+//条目数量
+-(NSInteger)entryCount;
+//根据键查找片段
+-(ECSnippetEntry*)entryForKey:(NSString*)key;
+//插入片段
+-(void)addEntry:(ECSnippetEntry*)entry;
+//根据键删除片段
+-(ECSnippetEntry*)removeEntryForKey:(NSString*)key;
+//根据键更新片段
+-(void)updateEntry:(ECSnippetEntry*)entry;
+
 @end

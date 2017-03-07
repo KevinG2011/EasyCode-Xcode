@@ -16,7 +16,6 @@
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
 
-
 #ifndef dispatch_main_sync_safe
 #define dispatch_main_sync_safe(block)\
 if ([NSThread isMainThread]) {\
@@ -50,11 +49,11 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 @property (nonatomic, strong) NSImage*                              imgRemove;
 
 @property (nonatomic, assign) EditorType                            editorType;
-@property (nonatomic, strong) NSArray*                              filteringList;
-@property (nonatomic, strong) NSArray*                              matchingList;
+@property (nonatomic, strong) NSArray<ECSnippetEntry*>*              filteringList;
+@property (nonatomic, strong) NSArray<ECSnippetEntry*>*             matchingList;
 
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
-@property (nonatomic, strong) ECSnippetEntrysDocument*                   snippetDoc;
+@property (nonatomic, strong) ECSnippetEntrysDocument*              snippetDoc;
 @property (nonatomic, copy)   NSString*                             searchKey;
 @property (nonatomic, copy)   NSString*                             docName;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
@@ -77,10 +76,10 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 - (void)setupData {
     if (_editorType == EditorTypeOC) {
         self.window.title = @"Objective-C";
-        self.docName = FileOCName;
+        self.docName = DirectoryOCName;
     } else if(_editorType == EditorTypeSwift) {
         self.window.title = @"Swift";
-        self.docName = FileSwiftName;
+        self.docName = DirectorySwiftName;
     }
     
     self.imgEdit = [NSImage imageNamed:@"edit"];
@@ -169,7 +168,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     if (ubiq && useiCloud) { //iCloud Enabled and Checked
         _query = [[NSMetadataQuery alloc] init];
         _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,FileOCName];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey,DirectoryOCName];
         [_query setPredicate:pred];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(queryDidFinishGathering:)
@@ -196,7 +195,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 
 - (void)onFireSearchRequest {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray* cloneList = [_snippetDoc.snippetList copy];
+        NSArray* cloneList = _snippetDoc.snippet.entries;
         if (_searchKey.length > 0) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"key contains[cd] %@", _searchKey];
             cloneList = [cloneList filteredArrayUsingPredicate:predicate];
@@ -269,7 +268,7 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
     if ([_searchKey isNotEmpty]) {
         _matchingList = _filteringList;
     } else {
-        _matchingList = _snippetDoc.snippetList;
+        _matchingList = _snippetDoc.snippet.entries;
     }
     return [_matchingList count];
 }
@@ -362,21 +361,21 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), bl
 }
 
 #pragma mark - DetailWindowEditorDelegate
--(void)snippetsDocument:(ECSnippetEntrysDocument*)document performActionWithType:(ECSnippetEntryActionType)actionType withSnippet:(ECSnippetEntry*)snippet {
+-(void)snippetsDocument:(ECSnippetEntrysDocument*)document performActionWithType:(ECSnippetEntryActionType)actionType withEntry:(ECSnippetEntry*)entry {
     [self reloadData];
 }
 
 #pragma mark - DetailWindowEditorDelegate
 - (void)onSnippetInserted:(ECSnippetEntry*)snippet {
-    [_snippetDoc addSnippet:snippet];
+    [_snippetDoc addSnippetEntry:snippet];
 }
 
 - (void)onEntryRemoved:(ECSnippetEntry*)snippet {
-    [_snippetDoc removeSnippetForKey:snippet.key];
+    [_snippetDoc removeSnippetEntryForKey:snippet.key];
 }
 
 - (void)onSnippetUpdated:(ECSnippetEntry*)snippet {
-    [_snippetDoc updateSnippet:snippet];
+    [_snippetDoc updateSnippetEntry:snippet];
 }
 
 - (void)windowWillClose:(NSNotification *)notification {

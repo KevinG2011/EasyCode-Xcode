@@ -10,9 +10,6 @@
 
 #define _UD [ESharedUserDefault sharedInstance]
 
-#define KeyCodeShortcutForObjectiveC    @"KeyCodeShortcutForObjectiveC"
-#define KeyCodeShortcutForSwift         @"KeyCodeShortcutForSwift"
-
 @interface ESharedUserDefault : NSObject
 
 + (instancetype)sharedInstance;

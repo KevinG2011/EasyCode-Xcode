@@ -7,8 +7,25 @@
 //
 
 #import "ECSnippet.h"
+#import "NSString+Additions.h"
+
+
+@interface ECSnippet () {
+    NSMutableArray<ECSnippetEntry*>* _entryList;
+}
+@end
+
 
 @implementation ECSnippet
+-(instancetype)initWithEntries:(NSArray<ECSnippetEntry*>*)entries {
+    self = [super init];
+    if (self) {
+        _entryList = [entries mutableCopy];
+        _version = @(1);
+    }
+    return self;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     self.version = [decoder decodeObjectForKey:@"version"];
     self.entries = [decoder decodeObjectForKey:@"entries"];
@@ -26,4 +43,64 @@
     snippet.entries = _entries;
     return snippet;
 }
+
+-(NSArray<ECSnippetEntry *> *)entries {
+    return [_entryList copy];
+}
+
+//排序
+-(void)sortedEntry {
+    _entries = [_entries sortedArrayUsingComparator:^NSComparisonResult(ECSnippetEntry*  _Nonnull e1, ECSnippetEntry*  _Nonnull e2) {
+        return [e1.key compare:e2.key];
+    }];
+}
+
+//条目数量
+-(NSInteger)entryCount {
+    return _entries.count;
+}
+
+-(ECSnippetEntry*)entryForKey:(NSString*)key {
+    NSString* trimKey = [key trimWhiteSpace];
+    NSUInteger index = [_entries indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ECSnippetEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
+        BOOL result = [snippet.key isEqualToString:trimKey];
+        if (result) {
+            *stop = YES;
+        }
+        return result;
+    }];
+    if (index != NSNotFound) {
+        return _entries[index];
+    }
+    return nil;
+}
+
+-(void)addEntry:(ECSnippetEntry*)entry {
+    if ([entry.key isNotEmpty] == NO) {
+        return;
+    }
+    ECSnippetEntry* hitEntry = [self entryForKey:entry.key];
+    if (hitEntry == nil) { //add
+        [_entryList addObject:entry];
+    } else {
+        [self updateEntry:entry];
+    }
+    _version = @(_version.unsignedIntegerValue + 1);
+}
+
+-(ECSnippetEntry*)removeEntryForKey:(NSString*)key {
+    ECSnippetEntry* hitEntry = [self entryForKey:key];
+    if (hitEntry) {
+        [_entryList removeObject:hitEntry];
+        _version = @(_version.unsignedIntegerValue + 1);
+    }
+    return hitEntry;
+}
+
+-(void)updateEntry:(ECSnippetEntry*)entry {
+    ECSnippetEntry* hitEntry = [self entryForKey:entry.key];
+    [hitEntry updateBySnippet:hitEntry];
+    _version = @(_version.unsignedIntegerValue + 1);
+}
+
 @end

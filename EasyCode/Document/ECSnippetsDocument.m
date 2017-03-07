@@ -12,13 +12,14 @@
 #import "ECMappingForObjectiveC.h"
 #import "ECMappingForSwift.h"
 #import "ECMappingForObjectiveC.h"
+#import "NSFileWrapper+Additions.h"
 
 static NSString *const SnippetFileName = @"snippets.dat";
+static NSString *const VersionFileName = @"version.dat";
+
 NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
-@interface ECSnippetEntrysDocument ()  {
-    NSMutableArray* _snippetList;
-}
+@interface ECSnippetEntrysDocument ()
 @property (nonatomic, strong) NSFileWrapper *fileWrapper;
 @end
 
@@ -32,71 +33,43 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     return self;
 }
 
--(ECSnippetEntry*)snippetList {
-    return [_snippetList copy];
-}
-
-//排序
 -(void)sortedSnippets {
-    [_snippetList sortUsingComparator:^NSComparisonResult(ECSnippetEntry*  _Nonnull s1, ECSnippetEntry*  _Nonnull s2) {
-        return [s1.key compare:s2.key];
-    }];
+    
 }
 
--(NSInteger)snippetCount {
-    return _snippetList.count;
+-(NSInteger)snippetEntryCount {
+    return [_snippet entryCount];
 }
 
--(ECSnippetEntry*)snippetForKey:(NSString*)key {
-    NSString* trimKey = [key trimWhiteSpace];
-    NSUInteger index = [_snippetList indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ECSnippetEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
-        BOOL result = [snippet.key isEqualToString:trimKey];
-        if (result) {
-            *stop = YES;
+-(ECSnippetEntry*)snippetEntryForKey:(NSString*)key {
+    return [_snippet entryForKey:key];
+}
+
+-(void)addSnippetEntry:(ECSnippetEntry*)entry {
+    [_snippet addEntry:entry];
+    [self saveDocumentCompletionHandler:^{
+        if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withEntry:)]) {
+            [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeCreate withEntry:entry];
         }
-        return result;
     }];
-    if (index != NSNotFound) {
-        return _snippetList[index];
-    }
-    return nil;
 }
 
--(void)addSnippet:(ECSnippetEntry*)snippet {
-    if ([snippet.key isNotEmpty] == NO) {
-        return;
-    }
-    ECSnippetEntry* hitSnippet = [self snippetForKey:snippet.key];
-    if (hitSnippet == nil) { //add
-        [_snippetList addObject:snippet];
-        [self saveDocumentCompletionHandler:^{
-            if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
-                [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeCreate withSnippet:snippet];
-            }
-        }];
-    } else {
-        [self updateSnippet:snippet];
-    }
+-(void)removeSnippetEntryForKey:(NSString*)key {
+    ECSnippetEntry* hitEntry = [_snippet removeEntryForKey:key];
+    [self saveDocumentCompletionHandler:^{
+        if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withEntry:)]) {
+            [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeDelete withEntry:hitEntry];
+        }
+    }];
 }
 
--(void)removeSnippetForKey:(NSString*)key {
-    ECSnippetEntry* hitSnippet = [self snippetForKey:key];
-    if (hitSnippet) {
-        [_snippetList removeObject:hitSnippet];
-        [self saveDocumentCompletionHandler:^{
-            if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
-                [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeDelete withSnippet:hitSnippet];
-            }
-        }];
-    }
-}
-
--(void)updateSnippet:(ECSnippetEntry*)snippet {
-    ECSnippetEntry* hitSnippet = [self snippetForKey:snippet.key];
-    [hitSnippet updateBySnippet:snippet];
-    if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withSnippet:)]) {
-        [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeUpdate withSnippet:hitSnippet];
-    }
+-(void)updateSnippetEntry:(ECSnippetEntry*)entry {
+    ECSnippetEntry* hitEntry = entry;
+    [self saveDocumentCompletionHandler:^{
+        if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withEntry:)]) {
+            [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeUpdate withEntry:hitEntry];
+        }
+    }];
 }
 
 //保存文档
@@ -118,18 +91,19 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 - (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)outError {
-    NSData* snippetData = [NSKeyedArchiver archivedDataWithRootObject:_snippetList];
-    NSFileWrapper* newWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:snippetData];
-    newWrapper.preferredFilename = SnippetFileName;
+    //snippet data
+    NSData* snippetData = [NSKeyedArchiver archivedDataWithRootObject:_snippet];
+    NSFileWrapper* snippetWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:snippetData];
+    //version data    
+    NSData* verData = [_snippet.version.stringValue dataUsingEncoding:NSUTF8StringEncoding];
+    NSFileWrapper* verWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:verData];
     if (_fileWrapper == nil) {
-        NSDictionary<NSString*,NSFileWrapper*>* fileWrappers = @{ SnippetFileName:newWrapper };
+        NSDictionary<NSString*,NSFileWrapper*>* fileWrappers = @{ SnippetFileName:snippetWrapper,
+                                                                  VersionFileName:verWrapper};
         _fileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];
     } else {
-        NSFileWrapper* oldWrapper = [[_fileWrapper fileWrappers] objectForKey:SnippetFileName];
-        if (oldWrapper) {
-            [_fileWrapper removeFileWrapper:oldWrapper];
-        }
-        [_fileWrapper addFileWrapper:newWrapper];
+        [_fileWrapper replaceFileWrapper:snippetWrapper forKey:SnippetFileName];
+        [_fileWrapper replaceFileWrapper:verWrapper forKey:VersionFileName];
     }
     
     return _fileWrapper;
@@ -140,14 +114,16 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     NSFileWrapper *dataWrapper = [fileWrappers objectForKey:SnippetFileName];
     NSData* data = [dataWrapper regularFileContents];
     if (data.length > 0) {
-        _snippetList = [NSKeyedUnarchiver unarchiveObjectWithData:[dataWrapper regularFileContents]];
+        _snippet = [NSKeyedUnarchiver unarchiveObjectWithData:[dataWrapper regularFileContents]];
     } else {
         NSString* fileName = [self.fileURL lastPathComponent];
-        if ([fileName isEqualToString:FileOCName]) {
-            _snippetList = [[ECMappingForObjectiveC defaultEntries] mutableCopy];
+        NSArray* entries = nil;
+        if ([fileName isEqualToString:DirectoryOCName]) {
+            entries = [ECMappingForObjectiveC defaultEntries];
         } else {
-            _snippetList = [[ECMappingForSwift defaultEntries] mutableCopy];
+            entries = [ECMappingForSwift defaultEntries];
         }
+        _snippet = [[ECSnippet alloc] initWithEntries:entries];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:ECDocumentLoadedNotification
                                                         object:self];

@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-EC_EXTERN NSString *const DirectoryLocationDomain;
-EC_EXTERN NSString *const DirectoryUbiquityDocuments;
-EC_EXTERN NSString *const FileOCName;
-EC_EXTERN NSString *const FileSwiftName;
+extern NSString *const DirectoryLocationDomain;
+extern NSString *const DirectoryUbiquityDocuments;
+extern NSString *const DirectoryOCName;
+extern NSString *const DirectorySwiftName;
 
 @interface NSFileManager (Additions)
 -(NSURL*)localURL;

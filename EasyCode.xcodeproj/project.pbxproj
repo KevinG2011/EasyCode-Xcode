@@ -22,6 +22,10 @@
 		2AD4BAE01E6E5210007A443C /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */; };
 		2AD4BAE31E6E5272007A443C /* ECSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAE21E6E5272007A443C /* ECSnippet.m */; };
 		2AD4BAE41E6E5272007A443C /* ECSnippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAE21E6E5272007A443C /* ECSnippet.m */; };
+		2AD4BAFC1E6E6183007A443C /* NSFileWrapper+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAFB1E6E6183007A443C /* NSFileWrapper+Additions.m */; };
+		2AD4BAFD1E6E6183007A443C /* NSFileWrapper+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAFB1E6E6183007A443C /* NSFileWrapper+Additions.m */; };
+		2AD4BB001E6E67E2007A443C /* ECSnippetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAFF1E6E67E2007A443C /* ECSnippetHelper.m */; };
+		2AD4BB011E6E67E2007A443C /* ECSnippetHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD4BAFF1E6E67E2007A443C /* ECSnippetHelper.m */; };
 		670F2ED51DB2284400A1739F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED41DB2284400A1739F /* AppDelegate.m */; };
 		670F2ED81DB2284400A1739F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 670F2ED71DB2284400A1739F /* main.m */; };
 		670F2EDD1DB2284400A1739F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 670F2EDB1DB2284400A1739F /* MainMenu.xib */; };
@@ -114,6 +118,11 @@
 		2AD25BD21E6806AA007AE3B8 /* ECMainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ECMainWindowController.xib; sourceTree = "<group>"; };
 		2AD4BAE11E6E5272007A443C /* ECSnippet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippet.h; sourceTree = "<group>"; };
 		2AD4BAE21E6E5272007A443C /* ECSnippet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippet.m; sourceTree = "<group>"; };
+		2AD4BAFA1E6E6183007A443C /* NSFileWrapper+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileWrapper+Additions.h"; sourceTree = "<group>"; };
+		2AD4BAFB1E6E6183007A443C /* NSFileWrapper+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileWrapper+Additions.m"; sourceTree = "<group>"; };
+		2AD4BAFE1E6E67E2007A443C /* ECSnippetHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippetHelper.h; sourceTree = "<group>"; };
+		2AD4BAFF1E6E67E2007A443C /* ECSnippetHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippetHelper.m; sourceTree = "<group>"; };
+		2AD4BB021E6E85B4007A443C /* ECDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ECDefine.h; sourceTree = "<group>"; };
 		670F2ED01DB2284400A1739F /* EasyCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		670F2ED31DB2284400A1739F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		670F2ED41DB2284400A1739F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -221,6 +230,8 @@
 				2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */,
 				2A1CD1E21E68179A007A2700 /* NSWindowController+Additions.h */,
 				2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */,
+				2AD4BAFA1E6E6183007A443C /* NSFileWrapper+Additions.h */,
+				2AD4BAFB1E6E6183007A443C /* NSFileWrapper+Additions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -335,6 +346,9 @@
 		6741CE4C1DB8732D000408E7 /* SharedLogic */ = {
 			isa = PBXGroup;
 			children = (
+				2AD4BB021E6E85B4007A443C /* ECDefine.h */,
+				2AD4BAFE1E6E67E2007A443C /* ECSnippetHelper.h */,
+				2AD4BAFF1E6E67E2007A443C /* ECSnippetHelper.m */,
 				6741CE4D1DB87340000408E7 /* ESharedUserDefault.h */,
 				6741CE4E1DB87340000408E7 /* ESharedUserDefault.m */,
 				6741CE501DB87BC2000408E7 /* ECMapping.h */,
@@ -352,10 +366,10 @@
 				6741CE651DB884DD000408E7 /* EditorWindowController.h */,
 				6741CE661DB884DD000408E7 /* EditorWindowController.m */,
 				6741CE671DB884DD000408E7 /* EditorWindowController.xib */,
-				6741CE6A1DB89894000408E7 /* ECSnippetEntry.h */,
-				6741CE6B1DB89894000408E7 /* ECSnippetEntry.m */,
 				2AD4BAE11E6E5272007A443C /* ECSnippet.h */,
 				2AD4BAE21E6E5272007A443C /* ECSnippet.m */,
+				6741CE6A1DB89894000408E7 /* ECSnippetEntry.h */,
+				6741CE6B1DB89894000408E7 /* ECSnippetEntry.m */,
 				6741CE741DB8A713000408E7 /* EVerticalScrollView.h */,
 				6741CE751DB8A713000408E7 /* EVerticalScrollView.m */,
 				6741CE771DB8B4DF000408E7 /* EEditorTableView.h */,
@@ -612,6 +626,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A2DBB2E1E66A0F6008C78AF /* NSWindow+Additions.m in Sources */,
+				2AD4BB001E6E67E2007A443C /* ECSnippetHelper.m in Sources */,
 				6741CE561DB87CE8000408E7 /* ECMapping.h in Sources */,
 				6741CE571DB87CE8000408E7 /* ECMapping.m in Sources */,
 				2AD25BCD1E67F6E7007AE3B8 /* ECSnippetsDocument.m in Sources */,
@@ -625,6 +640,7 @@
 				6741CE5A1DB87CE8000408E7 /* SwiftMapping.h in Sources */,
 				6741CE6C1DB89894000408E7 /* ECSnippetEntry.m in Sources */,
 				6741CE5B1DB87CE8000408E7 /* ECMappingForObjectiveC.h in Sources */,
+				2AD4BAFC1E6E6183007A443C /* NSFileWrapper+Additions.m in Sources */,
 				6741CE791DB8B4DF000408E7 /* EEditorTableView.m in Sources */,
 				2A1CD1E41E68179A007A2700 /* NSWindowController+Additions.m in Sources */,
 				2AD4BADD1E6E5195007A443C /* ECMappingForObjectiveC.m in Sources */,
@@ -643,6 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6729B1BA1DB8CFA300885A9A /* ESharedUserDefault.h in Sources */,
+				2AD4BB011E6E67E2007A443C /* ECSnippetHelper.m in Sources */,
 				6729B1BB1DB8CFA300885A9A /* ESharedUserDefault.m in Sources */,
 				67AFF6A01DB5C8A100697135 /* ECGenerateHelper.m in Sources */,
 				67AFF6931DB5B71200697135 /* ECMappingHelper.m in Sources */,
@@ -656,6 +673,7 @@
 				67AFF6E31DB5CBE000697135 /* FSCategoryProcessor.m in Sources */,
 				67AFF6F31DB5CC5B00697135 /* FSElementProperty.m in Sources */,
 				67302B0D1DB23ACA0030C360 /* EasyCodeManager.m in Sources */,
+				2AD4BAFD1E6E6183007A443C /* NSFileWrapper+Additions.m in Sources */,
 				6741CE521DB87BC2000408E7 /* ECMapping.m in Sources */,
 				670F2EF41DB228DD00A1739F /* SourceEditorCommand.m in Sources */,
 				67AFF6E41DB5CBE000697135 /* FSElementProcessor.m in Sources */,
@@ -788,6 +806,7 @@
 				DEVELOPMENT_TEAM = 3KAP4AA829;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = EasyCode/easycode.pch;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/EasyCode/SharedLogic\"";
 				INFOPLIST_FILE = EasyCode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -806,6 +825,7 @@
 				DEVELOPMENT_TEAM = 3KAP4AA829;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = EasyCode/easycode.pch;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/EasyCode/SharedLogic\"";
 				INFOPLIST_FILE = EasyCode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -821,6 +841,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3KAP4AA829;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/EasyCode/SharedLogic\"";
 				INFOPLIST_FILE = EC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -837,6 +858,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3KAP4AA829;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/EasyCode/SharedLogic\"";
 				INFOPLIST_FILE = EC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;

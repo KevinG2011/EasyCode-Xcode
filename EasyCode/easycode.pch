@@ -12,14 +12,10 @@
 #define EC_EXTERN extern
 #endif
 
+#import "ECDefine.h"
 #import "AppDelegate.h"
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
-
-typedef enum : NSUInteger {
-    EditorTypeOC,
-    EditorTypeSwift,
-} EditorType;
 
 #define KeyUseiCloudSync                @"KeyUseiCloudSync"
 

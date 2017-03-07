@@ -13,8 +13,8 @@ enum {
 };
 NSString *const DirectoryLocationDomain = @"DirectoryLocationDomain";
 NSString *const DirectoryDocuments = @"Documents";
-NSString *const FileOCName = @"objective-c";
-NSString *const FileSwiftName = @"swift";
+NSString *const DirectoryOCName = @"objective-c";
+NSString *const DirectorySwiftName = @"swift";
 
 @implementation NSFileManager (Additions)
 -(NSURL*)localURL

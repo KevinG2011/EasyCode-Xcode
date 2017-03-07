@@ -7,6 +7,8 @@
 //
 
 #import "ECSnippetEntry.h"
+#import "NSString+Additions.h"
+
 static NSDateFormatter* formatter = nil;
 
 @implementation ECSnippetEntry
@@ -39,7 +41,7 @@ static NSDateFormatter* formatter = nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    ECSnippetEntry *snippet = [[[self class] allocWithZone:zone] init];
+    ECSnippetEntry* snippet = [[[self class] allocWithZone:zone] init];
     snippet.key = _key;
     snippet.code = _code;
     snippet.createAt = _createAt;
