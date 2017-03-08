@@ -22,7 +22,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>2WQE6AU5PD.group.com.yingxiang.easycode</string>
+		<string>$(TeamIdentifierPrefix).group.com.yingxiang.easycode</string>
 	</array>
 </dict>
 </plist>

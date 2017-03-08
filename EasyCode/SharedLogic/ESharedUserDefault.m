@@ -10,7 +10,7 @@
 #import "ECMappingForObjectiveC.h"
 #import "ECMappingForSwift.h"
 
-#define KeySharedContainerGroup         @"2WQE6AU5PD.group.com.yingxiang.easycode"
+#define KeySharedContainerGroup         @"3KAP4AA829.group.com.yingxiang.easycode"
 
 #define KeyCurrentUDVersion             @"KeyCurrentUDVersion"
 #define ValueCurrentUDVersion           @"1"
