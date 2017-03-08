@@ -76,4 +76,16 @@
     return [shareUD objectForKey:defaultName];
 }
 
++ (void)setObjects:(NSArray*)values forKey:(NSArray*)defaultNames
+{
+    if (defaultNames.count != values.count) {
+        return;
+    }
+    
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    [defaultNames enumerateObjectsUsingBlock:^(NSString*  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+        [shareUD setObject:values[idx] forKey:key];
+    }];
+    [shareUD synchronize];
+}
 @end

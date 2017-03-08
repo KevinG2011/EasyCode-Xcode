@@ -7,10 +7,13 @@
 //
 
 #import "ECMappingHelper.h"
-//#import "ESharedUserDefault.h"
+#import "NSFileManager+Additions.h"
+#import "ESharedUserDefault.h"
+#import "ECSnippet.h"
 
 @interface ECMappingHelper ()
-
+@property (nonatomic, strong) ECSnippet* snippetsOC;
+@property (nonatomic, strong) ECSnippet* snippetsSwift;
 @end
 
 @implementation ECMappingHelper
@@ -124,34 +127,36 @@
 - (NSString*)getMatchedCode:(NSString*)abbr isOC:(BOOL)isOC
 {
     //need to detect swift or oc
-    NSDictionary* mappingDic = nil;
+    NSArray<ECSnippetEntry*>* entries = nil;
     
-//    if (isOC) {
-//        mappingDic = self.mappingOC;
-//    }
-//    else
-//    {
-//        mappingDic = self.mappingSwift;
-//    }
+    if (isOC) {
+        entries = self.snippetsOC.entries;
+    }
+    else
+    {
+        entries = self.snippetsSwift.entries;
+    }
     
-    __block NSString* matchKey = nil;
-    [mappingDic enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(NSString*  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([key hasPrefix:abbr] || [key isEqual:abbr]) {
-            matchKey = key;
+    __block NSInteger index = NSNotFound;
+    [entries enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(ECSnippetEntry * _Nonnull entry, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([entry.key hasPrefix:abbr] || [entry.key isEqual:abbr]) {
+            index = idx;
             *stop = YES;
         }
     }];
     
-    return [mappingDic objectForKey:matchKey];
+    if (index != NSNotFound) {
+        NSString* matchedCode = [entries[index] code];
+        return matchedCode;
+    }
+    
+    return nil;
 }
 
 
-- (NSArray*)convertToLines:(NSString*)codeStr
-{
+- (NSArray*)convertToLines:(NSString*)codeStr {
     NSMutableArray* lines = @[].mutableCopy;
-    
     NSArray* arr = [codeStr componentsSeparatedByString:@"\n"];
-    
     for (NSString* line in arr) {
         [lines addObject:line];
     }
@@ -159,22 +164,20 @@
     return lines;
 }
 
-//- (NSMutableDictionary*)mappingOC
-//{
-//    if (_mappingOC == nil) {
-//        _mappingOC = [_UD readMappingForOC].mutableCopy;
-//    }
-//    return _mappingOC;
-//}
-//
-//- (NSMutableDictionary*)mappingSwift
-//{
-//    if (_mappingSwift == nil) {
-//        _mappingSwift = [_UD readMappingForSwift].mutableCopy;
-//    }
-//    return _mappingSwift;
-//}
-//
+-(ECSnippet *)snippetsOC {
+    if (_snippetsOC == nil) {
+        _snippetsOC = [ESharedUserDefault objectForKey:SnippetFileName];
+    }
+    return _snippetsOC;
+}
+
+-(ECSnippet *)snippetsSwift {
+    if (_snippetsSwift == nil) {
+        _snippetsSwift = [ESharedUserDefault objectForKey:VersionFileName];
+    }
+    return _snippetsSwift;
+}
+
 //- (void)clearMapping
 //{
 //    self.mappingOC = nil;

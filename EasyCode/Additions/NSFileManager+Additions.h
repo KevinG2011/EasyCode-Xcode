@@ -16,7 +16,6 @@ extern NSString *const DirectorySwiftName;
 extern NSString *const SnippetFileName;
 extern NSString *const VersionFileName;
 
-
 @interface NSFileManager (Additions)
 -(NSURL*)localURL;
 -(NSURL*)localSnippetsURLWithFilename:(NSString*)filename;

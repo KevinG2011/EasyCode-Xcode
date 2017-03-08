@@ -14,4 +14,6 @@
 
 + (void)setObject:(NSObject*)value forKey:(NSString*)defaultName;
 + (id)objectForKey:(NSString*)defaultName;
+
++ (void)setObjects:(NSArray*)values forKey:(NSArray*)defaultNames;
 @end

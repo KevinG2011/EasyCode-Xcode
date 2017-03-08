@@ -125,7 +125,8 @@ NSString *const VersionFileName =           @"version.dat";
 }
 
 -(NSString*)supportDocumentDirectory {
-    NSString *documentPath = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"] stringByAppendingPathComponent:DirectoryDocuments];
+    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
+    NSString *documentPath = [appName stringByAppendingPathComponent:DirectoryDocuments];
     NSError *error = nil;
     NSString *result = [self findOrCreateDirectory:NSApplicationSupportDirectory
                                           inDomain:NSUserDomainMask

@@ -87,6 +87,8 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
         if (errorOrNil) {
             NSLog(@"Save Document Error :%@",[errorOrNil localizedDescription]);
         }
+        [ESharedUserDefault setObjects:@[_snippet,_snippet.version]
+                                forKey:@[SnippetFileName,VersionFileName]];
         if (handler) {
             handler();
         }
