@@ -12,7 +12,6 @@
 NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotification";
 
 @interface ECMainWindowController () <NSAlertDelegate>
-@property (nonatomic, assign) BOOL useiCloud;
 @property (nonatomic, weak)   IBOutlet NSButton *useicloudBtn;
 @property (nonatomic, strong) EditorWindowController* editorOC;
 @property (nonatomic, strong) EditorWindowController* editorSwift;
@@ -40,22 +39,35 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
 }
 
 - (IBAction)useiCloudCheck:(NSButton*)sender {
-    _useiCloud = (sender.state == NSOnState);
-    [ESharedUserDefault setBool:_useiCloud forKey:KeyUseiCloudSync];
-    if (_useiCloud == NO) {
-        NSAlert *warningAlert = [[NSAlert alloc] init];
-        [warningAlert addButtonWithTitle:NSLocalizedString(@"OK_Button_Title", nil)];
-        [warningAlert addButtonWithTitle:NSLocalizedString(@"Cancel_Button_Title", nil)];
-        warningAlert.messageText = NSLocalizedString(@"iCloud_Attention", nil);
-        warningAlert.informativeText = NSLocalizedString(@"iCloud_Attention_Message", nil);
-        warningAlert.alertStyle = NSWarningAlertStyle;
-        [warningAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-            if (returnCode == NSAlertFirstButtonReturn) { //OK
-                [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil]; 
-            }
-        }];
+    BOOL useiCloud = (sender.state == NSOnState);
+    if (useiCloud) {
+        id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
+        if (ubiq) {
+            [ESharedUserDefault setBool:YES forKey:KeyUseiCloudSync];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];
+        } else {
+            [ESharedUserDefault setBool:NO forKey:KeyUseiCloudSync];
+            sender.state = NSOffState;
+            //Alert Note
+        }
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];
+        id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
+        if (ubiq) {
+            NSAlert *warningAlert = [[NSAlert alloc] init];
+            [warningAlert addButtonWithTitle:NSLocalizedString(@"OK_Button_Title", nil)];
+            [warningAlert addButtonWithTitle:NSLocalizedString(@"Cancel_Button_Title", nil)];
+            warningAlert.messageText = NSLocalizedString(@"iCloud_Attention", nil);
+            warningAlert.informativeText = NSLocalizedString(@"iCloud_Attention_Message", nil);
+            warningAlert.alertStyle = NSWarningAlertStyle;
+            [warningAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+                if (returnCode == NSAlertFirstButtonReturn) { //OK
+                    [ESharedUserDefault setBool:NO forKey:KeyUseiCloudSync];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];
+                }
+            }];
+        } else {
+            [ESharedUserDefault setBool:NO forKey:KeyUseiCloudSync];
+        }
     }
 }
 

@@ -13,4 +13,5 @@
 @interface ECSnippetHelper : NSObject
 +(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper;
 +(ECSnippet*)snippetWithEditorType:(EditorType)editorType;
++(NSInteger)versionWithEditorType:(EditorType)editorType;
 @end

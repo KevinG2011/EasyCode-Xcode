@@ -13,12 +13,12 @@ enum {
     DirectoryLocationErrorNoPathFound,
     DirectoryLocationErrorFileExistsAtLocation
 };
-NSString *const DirectoryLocationDomain = @"DirectoryLocationDomain";
-NSString *const DirectoryDocuments = @"Documents";
-NSString *const DirectoryOCName = @"objective-c";
-NSString *const DirectorySwiftName = @"swift";
-NSString *const SnippetFileName = @"snippets.dat";
-NSString *const VersionFileName = @"version.dat";
+NSString *const DirectoryLocationDomain =   @"DirectoryLocationDomain";
+NSString *const DirectoryDocuments =        @"Documents";
+NSString *const DirectoryOCName =           @"objective-c";
+NSString *const DirectorySwiftName =        @"swift";
+NSString *const SnippetFileName =           @"snippets.dat";
+NSString *const VersionFileName =           @"version.dat";
 
 @implementation NSFileManager (Additions)
 -(NSURL*)localURL
@@ -63,18 +63,17 @@ NSString *const VersionFileName = @"version.dat";
     return url;
 }
 
--(NSURL*)detectURLForEditorType:(EditorType)editorType
+-(NSURL*)currentURLForEditorType:(EditorType)editorType
 {
     NSString* dirname = DirectoryOCName;
     if (editorType == EditorTypeSwift) {
         dirname = DirectorySwiftName;
     }
     
-    NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:dirname];
-    
+    NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:dirname];;
     BOOL useiCloud = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
     if (useiCloud) {
-        id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
+        id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];    
         if (ubiq) {
             fileURL = [[NSFileManager defaultManager] ubiquitySnippetsURLWithFilename:dirname];
         }

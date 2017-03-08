@@ -23,11 +23,11 @@ extern NSString *const VersionFileName;
 -(NSURL*)ubiquityURL;
 -(NSURL*)ubiquitySnippetsURLWithFilename:(NSString*)filename;
 
--(NSURL*)detectURLForEditorType:(EditorType)editorType;
+-(NSURL*)currentURLForEditorType:(EditorType)editorType;
 
-- (NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
-                           inDomain:(NSSearchPathDomainMask)domainMask
-                appendPathComponent:(NSString *)appendComponent
-                              error:(NSError **)errorOut;
+-(NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
+                          inDomain:(NSSearchPathDomainMask)domainMask
+               appendPathComponent:(NSString *)appendComponent
+                             error:(NSError **)errorOut;
 -(NSString*)supportDocumentDirectory;
 @end

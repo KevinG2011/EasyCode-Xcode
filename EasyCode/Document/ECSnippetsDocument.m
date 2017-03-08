@@ -75,6 +75,8 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
 //保存文档
 -(void)saveDocumentCompletionHandler:(void (^)(void))handler {
+    
+    
     [self saveToURL:self.fileURL ofType:@"" forSaveOperation:NSSaveOperation completionHandler:^(NSError * _Nullable errorOrNil) {
         if (errorOrNil) {
             NSLog(@"Save Document Error :%@",[errorOrNil localizedDescription]);
