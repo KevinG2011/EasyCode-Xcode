@@ -9,14 +9,15 @@
 #import "DetailWindowController.h"
 
 @interface DetailWindowController () <NSTextFieldDelegate, NSWindowDelegate, NSControlTextEditingDelegate>
-@property (nonatomic, strong) ECSnippetEntry*                 curSnippet;
-
+@property (nonatomic, strong) ECSnippetEntry*                 curEntry;
 @end
 
 @implementation DetailWindowController
 
 - (void)windowDidLoad {
     [super windowDidLoad];
+    _edited = NO;
+    
     [self updateEntryDisplay];
     self.window.delegate = self;
     [self.window center];
@@ -26,36 +27,37 @@
 {
     if (_delegate) {
         if (_editMode == DetailEditorModeUpdate) {
-            [_delegate onSnippetUpdated:_curSnippet];
+            [_delegate onSnippetUpdated:_curEntry];
         }
         else if(_editMode == DetailEditorModeInsert)
         {
-            [_delegate onSnippetInserted:_curSnippet];
+            [_delegate onSnippetInserted:_curEntry];
         }
     }
+    _edited = NO;
 }
 
-- (void)initWithSnippet:(ECSnippetEntry*)snippet
+- (void)initWithEntry:(ECSnippetEntry*)entry
 {
-    self.curSnippet = snippet;
+    self.curEntry = entry;
     [self updateEntryDisplay];
 }
 
 - (void)updateEntryDisplay
 {
     self.window.title = [NSString stringWithFormat:@"Create New"];
-    if (_curSnippet.key.length > 0) {
-        self.window.title = [NSString stringWithFormat:@"Edit %@", _curSnippet.key];
+    if (_curEntry.key.length > 0) {
+        self.window.title = [NSString stringWithFormat:@"Edit %@", _curEntry.key];
     }
     
     [self.txtKey setStringValue:@""];
-    if (_curSnippet.key.length > 0) {
-        [self.txtKey setStringValue:_curSnippet.key];
+    if (_curEntry.key.length > 0) {
+        [self.txtKey setStringValue:_curEntry.key];
     }
 
     [self.txtCode setStringValue:@""];
-    if (_curSnippet.code.length > 0) {
-        [self.txtCode setStringValue:_curSnippet.code];
+    if (_curEntry.code.length > 0) {
+        [self.txtCode setStringValue:_curEntry.code];
     }
     
     _txtKey.delegate = self;
@@ -68,11 +70,19 @@
     NSTextField *textField = [notification object];
     
     if (textField == _txtKey) {
-        _curSnippet.key = [textField stringValue];
+        NSString* changedValue = [textField stringValue];
+        if ([_curEntry.key isEqualToString:changedValue] == NO) {
+            _edited = YES;
+        }
+        _curEntry.key = changedValue;
     }
     else if(textField == _txtCode)
     {
-        _curSnippet.code = [textField stringValue];
+        NSString* changedValue = [textField stringValue];
+        if ([_curEntry.code isEqualToString:changedValue] == NO) {
+            _edited = YES;
+        }
+        _curEntry.code = [textField stringValue];
     }
 }
 

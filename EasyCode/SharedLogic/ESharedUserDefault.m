@@ -50,15 +50,30 @@
     }
 }
 
-- (void)setBool:(BOOL)value forKey:(NSString*)defaultName
++ (void)setBool:(BOOL)value forKey:(NSString*)defaultName
 {
-    [_sharedUD setBool:value forKey:defaultName];
-    [_sharedUD synchronize];
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    [shareUD setBool:value forKey:defaultName];
+    [shareUD synchronize];
 }
 
-- (BOOL)boolForKey:(NSString*)defaultName
++ (BOOL)boolForKey:(NSString*)defaultName
 {
-    return [_sharedUD boolForKey:defaultName];
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    return [shareUD boolForKey:defaultName];
+}
+
++ (void)setObject:(NSObject*)value forKey:(NSString*)defaultName
+{
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    [shareUD setObject:value forKey:defaultName];
+    [shareUD synchronize];
+}
+
++ (id)objectForKey:(NSString*)defaultName
+{
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    return [shareUD objectForKey:defaultName];
 }
 
 @end

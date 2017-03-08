@@ -1,5 +1,5 @@
 //
-//  ECSnippetEntrysDocument.m
+//  ECSnippetDocument.m
 //  AirCode
 //
 //  Created by Loriya on 2017/3/1.
@@ -17,22 +17,21 @@
 
 NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
-@interface ECSnippetEntrysDocument ()
+@interface ECSnippetDocument ()
 @property (nonatomic, strong) NSFileWrapper *fileWrapper;
 @end
 
-@implementation ECSnippetEntrysDocument
+@implementation ECSnippetDocument
 -(instancetype)initWithFileURL:(NSURL *)itemURL editorType:(EditorType)type {
     self = [super initWithContentsOfURL:itemURL ofType:@"" error:nil];
     if (self) {
-        _itemURL = itemURL;
         _editorType = type;
     }
     return self;
 }
 
 -(void)sortedSnippets {
-    
+    [_snippet sortedEntry];
 }
 
 -(NSInteger)snippetEntryCount {
@@ -44,6 +43,9 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 -(void)addSnippetEntry:(ECSnippetEntry*)entry {
+    if ([entry.key isNotEmpty] == NO) {
+        return;
+    }
     [_snippet addEntry:entry];
     [self saveDocumentCompletionHandler:^{
         if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withEntry:)]) {
@@ -63,6 +65,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
 -(void)updateSnippetEntry:(ECSnippetEntry*)entry {
     ECSnippetEntry* hitEntry = entry;
+    [_snippet updateEntry:hitEntry];
     [self saveDocumentCompletionHandler:^{
         if ([_delegate respondsToSelector:@selector(snippetsDocument:performActionWithType:withEntry:)]) {
             [_delegate snippetsDocument:self performActionWithType:ECSnippetEntryActionTypeUpdate withEntry:hitEntry];
@@ -72,10 +75,14 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
 //保存文档
 -(void)saveDocumentCompletionHandler:(void (^)(void))handler {
-    [self saveDocument:nil];
-    if (handler) {
-        handler();
-    }
+    [self saveToURL:self.fileURL ofType:@"" forSaveOperation:NSSaveOperation completionHandler:^(NSError * _Nullable errorOrNil) {
+        if (errorOrNil) {
+            NSLog(@"Save Document Error :%@",[errorOrNil localizedDescription]);
+        }
+        if (handler) {
+            handler();
+        }
+    }];
 }
 
 #pragma mark - Override Documents
@@ -92,12 +99,14 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     //snippet data
     NSData* snippetData = [NSKeyedArchiver archivedDataWithRootObject:_snippet];
     NSFileWrapper* snippetWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:snippetData];
+    snippetWrapper.preferredFilename = SnippetFileName;
     //version data    
     NSData* verData = [_snippet.version.stringValue dataUsingEncoding:NSUTF8StringEncoding];
     NSFileWrapper* verWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:verData];
+    verWrapper.preferredFilename = VersionFileName;
     if (_fileWrapper == nil) {
         NSDictionary<NSString*,NSFileWrapper*>* fileWrappers = @{ SnippetFileName:snippetWrapper,
-                                                                  VersionFileName:verWrapper};
+                                                                  VersionFileName:verWrapper };
         _fileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];
     } else {
         [_fileWrapper replaceFileWrapper:snippetWrapper forKey:SnippetFileName];

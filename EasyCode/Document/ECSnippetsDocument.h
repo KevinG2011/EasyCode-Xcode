@@ -1,5 +1,5 @@
 //
-//  ECSnippetEntrysDocument.h
+//  ECSnippetDocument.h
 //  AirCode
 //
 //  Created by Loriya on 2017/3/1.
@@ -20,11 +20,10 @@ typedef NS_ENUM(NSInteger,ECSnippetEntryActionType) {
     ECSnippetEntryActionTypeDelete
 };
 
-@interface ECSnippetEntrysDocument : NSDocument
+@interface ECSnippetDocument : NSDocument
 @property (nonatomic, assign)           EditorType                              editorType;
-@property (nonatomic, strong,readonly)  NSURL*                                  itemURL;
-@property (nonatomic, copy,readonly)    ECSnippet*               snippet;
-@property (nonatomic, weak)             id<ECSnippetEntrysDocumentDelegate>          delegate;
+@property (nonatomic, copy,readonly)    ECSnippet*                              snippet;
+@property (nonatomic, weak)             id<ECSnippetEntrysDocumentDelegate>     delegate;
 
 -(instancetype)initWithFileURL:(NSURL*)itemURL editorType:(EditorType)type;
 //条目数量
@@ -42,7 +41,7 @@ typedef NS_ENUM(NSInteger,ECSnippetEntryActionType) {
 @end
 
 @protocol ECSnippetEntrysDocumentDelegate <NSObject>
--(void)snippetsDocument:(ECSnippetEntrysDocument*)document performActionWithType:(ECSnippetEntryActionType)actionType withEntry:(ECSnippetEntry*)snippet;
+-(void)snippetsDocument:(ECSnippetDocument*)document performActionWithType:(ECSnippetEntryActionType)actionType withEntry:(ECSnippetEntry*)snippet;
 @end
 
 

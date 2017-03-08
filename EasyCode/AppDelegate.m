@@ -70,9 +70,13 @@
     // Insert code here to tear down your application
 }
 
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
+    return NO;
+}
+
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
-    return NO;
+    return YES;
 }
 
 @end

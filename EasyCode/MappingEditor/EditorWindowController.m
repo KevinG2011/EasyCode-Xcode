@@ -34,7 +34,7 @@
 @property (nonatomic, strong) NSArray<ECSnippetEntry*>*             matchingList;
 
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
-@property (nonatomic, strong) ECSnippetEntrysDocument*              snippetDoc;
+@property (nonatomic, strong) ECSnippetDocument*              snippetDoc;
 @property (nonatomic, copy)   NSString*                             searchKey;
 @property (nonatomic, copy)   NSString*                             dirname;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
@@ -110,7 +110,10 @@
 
 - (void)onDocumentLoaded:(NSNotification*)notification {
     _snippetDoc = [notification object];
-    [self reloadData];
+    _snippetDoc.delegate = self;
+    [_snippetDoc saveDocumentCompletionHandler:^{
+        [self reloadData];
+    }];
 }
 
 - (void)onUbiquityIdentityChanged:(NSNotification*)notification {
@@ -118,7 +121,7 @@
 }
 
 - (void)oniCloudSyncChanged:(NSNotification*)notification {
-    BOOL useiCloud = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
+    BOOL useiCloud = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
     NSURL* baseURL = [[NSFileManager defaultManager] localURL];
     if (useiCloud) {
         baseURL = [[NSFileManager defaultManager] ubiquityURL];
@@ -147,7 +150,7 @@
 
 - (void)loadDocument {
     id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
-    BOOL useiCloud = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
+    BOOL useiCloud = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
     if (ubiq && useiCloud) { //iCloud Enabled and Checked
         _query = [[NSMetadataQuery alloc] init];
         _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
@@ -164,16 +167,17 @@
 }
 
 - (void)loadDataWithQuery:(NSMetadataQuery*)query {
-    //load from local default
     NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:_dirname];
-    if (query && [query resultCount] >= 1) {
+    if (query) {
         //load from remote
-        _dataItem = [query resultAtIndex:0];
-        fileURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
+        if ([query resultCount] >= 1) {
+            _dataItem = [query resultAtIndex:0];
+            fileURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
+        } else {
+            fileURL = [[NSFileManager defaultManager] ubiquitySnippetsURLWithFilename:_dirname];
+        }
     }
-    _snippetDoc = [[ECSnippetEntrysDocument alloc] initWithFileURL:fileURL editorType:_editorType];
-    _snippetDoc.delegate = self;
-    self.document = _snippetDoc;
+    ECSnippetDocument* snippetDoc = [[ECSnippetDocument alloc] initWithFileURL:fileURL editorType:_editorType];
 }
 
 - (void)onFireSearchRequest {
@@ -306,7 +310,7 @@
         return;
     }
     
-    [self.detailEditor initWithSnippet:snippet];
+    [self.detailEditor initWithEntry:snippet];
     self.detailEditor.editMode = DetailEditorModeUpdate;
     [self.detailEditor showWindow:self];
 }
@@ -321,8 +325,8 @@
 
 - (void)onAddEntryClick:(id)sender
 {
-    ECSnippetEntry* snippet = [ECSnippetEntry new];
-    [self.detailEditor initWithSnippet:snippet];
+    ECSnippetEntry* entry = [ECSnippetEntry new];
+    [self.detailEditor initWithEntry:entry];
     self.detailEditor.editMode = DetailEditorModeInsert;
     [self.detailEditor showWindow:self];
 }
@@ -345,13 +349,13 @@
 }
 
 #pragma mark - DetailWindowEditorDelegate
--(void)snippetsDocument:(ECSnippetEntrysDocument*)document performActionWithType:(ECSnippetEntryActionType)actionType withEntry:(ECSnippetEntry*)entry {
+- (void)snippetsDocument:(ECSnippetDocument*)document performActionWithType:(ECSnippetEntryActionType)actionType withEntry:(ECSnippetEntry*)entry {
     [self reloadData];
 }
 
 #pragma mark - DetailWindowEditorDelegate
-- (void)onSnippetInserted:(ECSnippetEntry*)snippet {
-    [_snippetDoc addSnippetEntry:snippet];
+- (void)onSnippetInserted:(ECSnippetEntry*)entry {    
+    [_snippetDoc addSnippetEntry:entry];
 }
 
 - (void)onEntryRemoved:(ECSnippetEntry*)snippet {
@@ -359,7 +363,9 @@
 }
 
 - (void)onSnippetUpdated:(ECSnippetEntry*)snippet {
-    [_snippetDoc updateSnippetEntry:snippet];
+    if ([_detailEditor hasEdited]) {
+        [_snippetDoc updateSnippetEntry:snippet];        
+    }
 }
 
 - (void)windowWillClose:(NSNotification *)notification {

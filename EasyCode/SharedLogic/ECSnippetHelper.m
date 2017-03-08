@@ -16,9 +16,18 @@
 +(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper {
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];
     NSFileWrapper *snippetWrapper = [fileWrappers objectForKey:SnippetFileName];
+    if (snippetWrapper == nil) { //switch ubiquity to local
+        NSString* filename = [fileWrapper filename];
+        NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:filename];
+        fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL options:NSFileWrapperReadingWithoutMapping error:nil];
+        fileWrappers = [fileWrapper fileWrappers];
+        snippetWrapper = [fileWrappers objectForKey:SnippetFileName];
+    }
     NSData* data = [snippetWrapper regularFileContents];
-    ECSnippet* snippet = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    if (snippet == nil) {
+    ECSnippet* snippet = nil;
+    if ([data length] > 0) {
+        snippet = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    } else { //create from memory if local not exist
         NSArray* entries = nil;
         if ([[fileWrapper filename] isEqualToString:DirectoryOCName]) {
             entries = [ECMappingForObjectiveC defaultEntries];
@@ -27,7 +36,6 @@
         }
         snippet = [[ECSnippet alloc] initWithEntries:entries];
     }
-    
     return snippet;
 }
 

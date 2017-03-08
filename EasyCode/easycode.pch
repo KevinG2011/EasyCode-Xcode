@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
+#import "ESharedUserDefault.h"
 
 #define APP_OBJ                 [NSApplication sharedApplication]
 #define APP_DELEGATE            ((AppDelegate *)[APP_OBJ delegate])

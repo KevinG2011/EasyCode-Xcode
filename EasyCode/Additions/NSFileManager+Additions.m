@@ -7,6 +7,7 @@
 //
 
 #import "NSFileManager+Additions.h"
+#import "ESharedUserDefault.h"
 
 enum {
     DirectoryLocationErrorNoPathFound,
@@ -52,6 +53,13 @@ NSString *const VersionFileName = @"version.dat";
 {
     NSURL* ubiURL = [self ubiquityURL];
     NSURL* url = [ubiURL URLByAppendingPathComponent:filename];
+    
+    NSError *error = nil;
+    BOOL success = [self createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
+    if (!success) {
+        NSLog(@"create ubiquity directory error :%@",[error localizedDescription]);
+    }
+    
     return url;
 }
 
@@ -64,7 +72,7 @@ NSString *const VersionFileName = @"version.dat";
     
     NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:dirname];
     
-    BOOL useiCloud = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
+    BOOL useiCloud = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
     if (useiCloud) {
         id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
         if (ubiq) {

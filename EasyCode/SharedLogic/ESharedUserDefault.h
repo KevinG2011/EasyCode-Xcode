@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#define _UD [ESharedUserDefault sharedInstance]
-
 @interface ESharedUserDefault : NSObject
++ (void)setBool:(BOOL)value forKey:(NSString*)defaultName;
++ (BOOL)boolForKey:(NSString*)defaultName;
 
-+ (instancetype)sharedInstance;
-- (void)setBool:(BOOL)value forKey:(NSString*)defaultName;
-- (BOOL)boolForKey:(NSString*)defaultName;
++ (void)setObject:(NSObject*)value forKey:(NSString*)defaultName;
++ (id)objectForKey:(NSString*)defaultName;
 @end

@@ -22,7 +22,7 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    _useicloudBtn.state = [[NSUserDefaults standardUserDefaults] boolForKey:KeyUseiCloudSync];
+    _useicloudBtn.state = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
 }
 
 - (IBAction)showEditorWindowForOC:(id)sender {
@@ -41,20 +41,21 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
 
 - (IBAction)useiCloudCheck:(NSButton*)sender {
     _useiCloud = (sender.state == NSOnState);
-    [[NSUserDefaults standardUserDefaults] setBool:_useiCloud forKey:KeyUseiCloudSync];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [ESharedUserDefault setBool:_useiCloud forKey:KeyUseiCloudSync];
     if (_useiCloud == NO) {
         NSAlert *warningAlert = [[NSAlert alloc] init];
-        [warningAlert addButtonWithTitle:NSLocalizedString(@"Cancel_Button_Title", nil)];
         [warningAlert addButtonWithTitle:NSLocalizedString(@"OK_Button_Title", nil)];
+        [warningAlert addButtonWithTitle:NSLocalizedString(@"Cancel_Button_Title", nil)];
         warningAlert.messageText = NSLocalizedString(@"iCloud_Attention", nil);
         warningAlert.informativeText = NSLocalizedString(@"iCloud_Attention_Message", nil);
         warningAlert.alertStyle = NSWarningAlertStyle;
         [warningAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-            if (returnCode == NSAlertSecondButtonReturn) { //OK
-                [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];                
+            if (returnCode == NSAlertFirstButtonReturn) { //OK
+                [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil]; 
             }
         }];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];
     }
 }
 

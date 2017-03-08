@@ -21,7 +21,9 @@ typedef enum : NSUInteger {
 
 
 @interface DetailWindowController : NSWindowController
-- (void)initWithSnippet:(ECSnippetEntry*)snippet;
+@property (nonatomic, readonly,getter=hasEdited) BOOL edited;
+
+- (void)initWithEntry:(ECSnippetEntry*)entry;
 
 @property (nonatomic, weak) id<DetailWindowEditorDelegate>         delegate;
 @property (nonatomic, assign) DetailEditorMode                     editMode;
