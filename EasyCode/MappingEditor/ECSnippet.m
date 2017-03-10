@@ -28,15 +28,14 @@
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
-    NSString* versionStr = [decoder decodeObjectForKey:@"version"];
-    self.version = @(versionStr.integerValue);
+    self.version = [decoder decodeObjectForKey:@"version"];
     self.entries = [decoder decodeObjectForKey:@"entries"];
     self.type = [decoder decodeObjectForKey:@"type"];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:_version.stringValue forKey:@"version"];
+    [encoder encodeObject:_version forKey:@"version"];
     [encoder encodeObject:[self entries] forKey:@"entries"];
     [encoder encodeObject:_type forKey:@"type"];
 }

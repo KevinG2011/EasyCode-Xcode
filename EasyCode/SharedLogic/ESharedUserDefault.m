@@ -44,7 +44,8 @@
 - (void)initSharedUD
 {
     self.sharedUD = [[NSUserDefaults alloc] initWithSuiteName:KeySharedContainerGroup];
-    if ([_sharedUD objectForKey:KeyCurrentUDVersion] == nil) {
+    NSString* UIVersion = [_sharedUD objectForKey:KeyCurrentUDVersion];
+    if (UIVersion == nil) {
         [_sharedUD setObject:ValueCurrentUDVersion forKey:KeyCurrentUDVersion];
     }
 }
@@ -85,6 +86,9 @@
     [keys enumerateObjectsUsingBlock:^(NSString*  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
         [shareUD setObject:values[idx] forKey:key];
     }];
-    [shareUD synchronize];
+    BOOL success = [shareUD synchronize];
+    if (!success) {
+        NSLog(@"synchronize error");
+    }
 }
 @end
