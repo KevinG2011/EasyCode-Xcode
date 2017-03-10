@@ -10,6 +10,7 @@
 #import "NSFileManager+Additions.h"
 #import "ESharedUserDefault.h"
 #import "ECSnippet.h"
+#import "ECSnippetHelper.h"
 
 @interface ECMappingHelper ()
 @property (nonatomic, strong) ECSnippet* snippetsOC;
@@ -30,32 +31,27 @@
     return instance;
 }
 
-- (void)checkForDuplicatedKeys:(NSDictionary*)mapping
-{
-    //check for duplicated keys
-    NSArray* keys = mapping.allKeys;
-    NSMutableDictionary* dic = @{}.mutableCopy;
-    for (NSString* key in keys) {
-        if ([dic objectForKey:keys]) {
-//            NSLog(@"detect duplicated keys!");
-        }
-        else
-        {
-            dic[key] = key;
-        }
+-(ECSnippet *)snippetsOC {
+    if (_snippetsOC == nil) {
+        _snippetsOC = [ESharedUserDefault objectForKey:SnippetFileName];
     }
+    return _snippetsOC;
 }
 
+-(ECSnippet *)snippetsSwift {
+    if (_snippetsSwift == nil) {
+        _snippetsSwift = [ESharedUserDefault objectForKey:VersionFileName];
+    }
+    return _snippetsSwift;
+}
 
+- (void)checkVersionByType:(ECSourceType)sourceType {
+    
+}
 
 - (BOOL)handleInvocation:(XCSourceEditorCommandInvocation *)invocation {
-    BOOL isOC = true;
-    if ([invocation.buffer.contentUTI isEqualToString:@"public.swift-source"]) {
-        isOC = false;
-    }
-    
-    //read from NSUserDefault each time
-//    [self clearMapping];
+    ECSourceType sourceType = [ECSnippetHelper sourceTypeForContentUTI:invocation.buffer.contentUTI];
+    [self checkVersionByType:sourceType];
     
     XCSourceTextRange *selection = invocation.buffer.selections.firstObject;
     NSMutableArray* lines = invocation.buffer.lines;
@@ -77,15 +73,14 @@
             NSRange targetRange = NSMakeRange(column-matchLength, matchLength);
             NSString* lastNStr = [originalLine substringWithRange:targetRange];
             
-
-            NSString* matchedVal = [self getMatchedCode:lastNStr isOC:isOC];
+            NSString* matchedVal = [self matchedCode:lastNStr forSourceType:sourceType];
             
             if (matchedVal.length > 0) {
                 int numberOfSpaceIndent = (int)[originalLine rangeOfString:lastNStr].location;
                 NSString* indentStr = @"";
                 while (numberOfSpaceIndent>0) {
                     indentStr = [indentStr stringByAppendingString:@" "];
-                    numberOfSpaceIndent --;
+                    numberOfSpaceIndent--;
                 }
                 
                 NSArray* linesToInsert = [self convertToLines:matchedVal];
@@ -97,7 +92,7 @@
                                                                             range:targetRange];
                 
                 //insert the rest
-                for (int i = 1; i < linesToInsert.count; i ++) {
+                for (int i = 1; i < linesToInsert.count; i++) {
                     NSString* lineToInsert = linesToInsert[i];
                     //indent
                     lineToInsert = [NSString stringWithFormat:@"%@%@", indentStr, lineToInsert];
@@ -114,7 +109,6 @@
         
     }
     
-    
     //adjust selection
     if (matchedCount > 0) {
         selection.start = XCSourceTextPositionMake(selection.start.line, selection.start.column-matchedCount);
@@ -124,16 +118,13 @@
 }
 
 
-- (NSString*)getMatchedCode:(NSString*)abbr isOC:(BOOL)isOC
-{
+- (NSString*)matchedCode:(NSString*)abbr forSourceType:(ECSourceType)type {
     //need to detect swift or oc
     NSArray<ECSnippetEntry*>* entries = nil;
     
-    if (isOC) {
+    if (type == ECSourceTypeOC) {
         entries = self.snippetsOC.entries;
-    }
-    else
-    {
+    } else {
         entries = self.snippetsSwift.entries;
     }
     
@@ -153,37 +144,9 @@
     return nil;
 }
 
-
 - (NSArray*)convertToLines:(NSString*)codeStr {
-    NSMutableArray* lines = @[].mutableCopy;
     NSArray* arr = [codeStr componentsSeparatedByString:@"\n"];
-    for (NSString* line in arr) {
-        [lines addObject:line];
-    }
-    
-    return lines;
+    return arr;
 }
-
--(ECSnippet *)snippetsOC {
-    if (_snippetsOC == nil) {
-        _snippetsOC = [ESharedUserDefault objectForKey:SnippetFileName];
-    }
-    return _snippetsOC;
-}
-
--(ECSnippet *)snippetsSwift {
-    if (_snippetsSwift == nil) {
-        _snippetsSwift = [ESharedUserDefault objectForKey:VersionFileName];
-    }
-    return _snippetsSwift;
-}
-
-//- (void)clearMapping
-//{
-//    self.mappingOC = nil;
-//    self.mappingSwift = nil;
-//    
-//    [_UD clearMapping];
-//}
 
 @end

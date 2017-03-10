@@ -11,7 +11,8 @@
 #import "ECDefine.h"
 
 @interface ECSnippetHelper : NSObject
++(ECSourceType)sourceTypeForContentUTI:(NSString*)contentUTI;
 +(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper;
-+(ECSnippet*)snippetWithEditorType:(EditorType)editorType;
-+(NSInteger)versionWithEditorType:(EditorType)editorType;
++(ECSnippet*)snippetWithSourceType:(ECSourceType)sourceType;
++(NSInteger)versionWithSourceType:(ECSourceType)sourceType;
 @end

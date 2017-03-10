@@ -9,5 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface EditorWindowController : NSWindowController
-- (instancetype)initEditorWindowForType:(EditorType)editorType;
+- (instancetype)initEditorWindowForType:(ECSourceType)sourceType;
 @end

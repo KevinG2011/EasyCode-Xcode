@@ -22,10 +22,10 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 @end
 
 @implementation ECSnippetDocument
--(instancetype)initWithFileURL:(NSURL *)itemURL editorType:(EditorType)type {
+-(instancetype)initWithFileURL:(NSURL *)itemURL sourceType:(ECSourceType)type {
     self = [super initWithContentsOfURL:itemURL ofType:@"" error:nil];
     if (self) {
-        _editorType = type;
+        _sourceType = type;
     }
     return self;
 }
@@ -75,7 +75,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
 //保存文档
 -(void)saveDocumentCompletionHandler:(void (^)(void))handler {
-    NSInteger version = [ECSnippetHelper versionWithEditorType:_editorType];
+    NSInteger version = [ECSnippetHelper versionWithSourceType:_sourceType];
     if (version == _snippet.version.integerValue) {
         if (handler) {
             handler();

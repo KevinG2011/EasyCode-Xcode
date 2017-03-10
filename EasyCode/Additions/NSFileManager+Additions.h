@@ -22,7 +22,7 @@ extern NSString *const VersionFileName;
 -(NSURL*)ubiquityURL;
 -(NSURL*)ubiquitySnippetsURLWithFilename:(NSString*)filename;
 
--(NSURL*)currentURLForEditorType:(EditorType)editorType;
+-(NSURL*)currentURLForSourceType:(ECSourceType)sourceType;
 
 -(NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
                           inDomain:(NSSearchPathDomainMask)domainMask

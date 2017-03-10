@@ -11,8 +11,15 @@
 #import "ECMappingForObjectiveC.h"
 #import "ECMappingForSwift.h"
 
-
 @implementation ECSnippetHelper
+
++(ECSourceType)sourceTypeForContentUTI:(NSString*)contentUTI {
+    if ([contentUTI isEqualToString:@"public.swift-source"]) {
+        return ECSourceTypeSwift;
+    } else {
+        return ECSourceTypeOC;
+    }
+}
 
 +(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper {
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];
@@ -40,8 +47,8 @@
     return snippet;
 }
 
-+(ECSnippet*)snippetWithEditorType:(EditorType)editorType {
-    NSURL* fileURL = [[NSFileManager defaultManager] currentURLForEditorType:editorType];
++(ECSnippet*)snippetWithSourceType:(ECSourceType)sourceType {
+    NSURL* fileURL = [[NSFileManager defaultManager] currentURLForSourceType:sourceType];
     NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL
                                                             options:NSFileWrapperReadingWithoutMapping
                                                               error:nil];
@@ -49,8 +56,8 @@
     return snippet;
 }
 
-+(NSInteger)versionWithEditorType:(EditorType)editorType {
-    NSURL* url = [[NSFileManager defaultManager] currentURLForEditorType:editorType];
++(NSInteger)versionWithSourceType:(ECSourceType)sourceType {
+    NSURL* url = [[NSFileManager defaultManager] currentURLForSourceType:sourceType];
     NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:url options:NSFileWrapperReadingWithoutMapping error:nil];
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];
     NSFileWrapper *versionWrapper = [fileWrappers objectForKey:VersionFileName];

@@ -63,10 +63,10 @@ NSString *const VersionFileName =           @"version.dat";
     return url;
 }
 
--(NSURL*)currentURLForEditorType:(EditorType)editorType
+-(NSURL*)currentURLForSourceType:(ECSourceType)sourceType
 {
     NSString* dirname = DirectoryOCName;
-    if (editorType == EditorTypeSwift) {
+    if (sourceType == ECSourceTypeSwift) {
         dirname = DirectorySwiftName;
     }
     

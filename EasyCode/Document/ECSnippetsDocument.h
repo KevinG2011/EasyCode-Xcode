@@ -21,11 +21,11 @@ typedef NS_ENUM(NSInteger,ECSnippetEntryActionType) {
 };
 
 @interface ECSnippetDocument : NSDocument
-@property (nonatomic, assign)           EditorType                              editorType;
+@property (nonatomic, assign)           ECSourceType                            sourceType;
 @property (nonatomic, copy,readonly)    ECSnippet*                              snippet;
 @property (nonatomic, weak)             id<ECSnippetEntrysDocumentDelegate>     delegate;
 
--(instancetype)initWithFileURL:(NSURL*)itemURL editorType:(EditorType)type;
+-(instancetype)initWithFileURL:(NSURL*)itemURL sourceType:(ECSourceType)type;
 //条目数量
 -(NSInteger)snippetEntryCount;
 //根据键查找片段

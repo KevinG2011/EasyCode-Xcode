@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef ECDefine_H
+#define ECDefine_H
+
 #define KeyUseiCloudSync                @"KeyUseiCloudSync"
 
-typedef NS_ENUM(NSInteger,EditorType) {
-    EditorTypeOC,
-    EditorTypeSwift
+typedef NS_ENUM(NSInteger,ECSourceType) {
+    ECSourceTypeOC,
+    ECSourceTypeSwift
 };
+
+#endif /* ECDefine_H */
+
 

@@ -29,12 +29,12 @@
 @property (nonatomic, strong) NSImage*                              imgAdd;
 @property (nonatomic, strong) NSImage*                              imgRemove;
 
-@property (nonatomic, assign) EditorType                            editorType;
-@property (nonatomic, strong) NSArray<ECSnippetEntry*>*              filteringList;
+@property (nonatomic, assign) ECSourceType                          sourceType;
+@property (nonatomic, strong) NSArray<ECSnippetEntry*>*             filteringList;
 @property (nonatomic, strong) NSArray<ECSnippetEntry*>*             matchingList;
 
 @property (nonatomic, strong) DetailWindowController*               detailEditor;
-@property (nonatomic, strong) ECSnippetDocument*              snippetDoc;
+@property (nonatomic, strong) ECSnippetDocument*                    snippetDoc;
 @property (nonatomic, copy)   NSString*                             searchKey;
 @property (nonatomic, copy)   NSString*                             dirname;
 @property (nonatomic, strong) NSMetadataQuery*                      query;
@@ -46,19 +46,19 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (instancetype)initEditorWindowForType:(EditorType)editorType {
+- (instancetype)initEditorWindowForType:(ECSourceType)sourceType {
     self = [super initWithWindowNibName:@"EditorWindowController"];
     if (self) {
-        _editorType = editorType;
+        _sourceType = sourceType;
     }
     return self;
 }
 
 - (void)setupData {
-    if (_editorType == EditorTypeOC) {
+    if (_sourceType == ECSourceTypeOC) {
         self.window.title = @"Objective-C";
         self.dirname = DirectoryOCName;
-    } else if(_editorType == EditorTypeSwift) {
+    } else if(_sourceType == ECSourceTypeSwift) {
         self.window.title = @"Swift";
         self.dirname = DirectorySwiftName;
     }
@@ -177,7 +177,7 @@
             fileURL = [[NSFileManager defaultManager] ubiquitySnippetsURLWithFilename:_dirname];
         }
     }
-    _snippetDoc = [[ECSnippetDocument alloc] initWithFileURL:fileURL editorType:_editorType];
+    _snippetDoc = [[ECSnippetDocument alloc] initWithFileURL:fileURL sourceType:_sourceType];
     _snippetDoc.delegate = self;
 }
 
