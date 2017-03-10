@@ -177,7 +177,8 @@
             fileURL = [[NSFileManager defaultManager] ubiquitySnippetsURLWithFilename:_dirname];
         }
     }
-    ECSnippetDocument* snippetDoc = [[ECSnippetDocument alloc] initWithFileURL:fileURL editorType:_editorType];
+    _snippetDoc = [[ECSnippetDocument alloc] initWithFileURL:fileURL editorType:_editorType];
+    _snippetDoc.delegate = self;
 }
 
 - (void)onFireSearchRequest {

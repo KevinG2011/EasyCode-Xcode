@@ -504,6 +504,7 @@
 				670F2ECD1DB2284400A1739F /* Frameworks */,
 				670F2ECE1DB2284400A1739F /* Resources */,
 				670F2EFC1DB228DD00A1739F /* Embed App Extensions */,
+				2AD4BB451E716B5B007A443C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -620,6 +621,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2AD4BB451E716B5B007A443C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.m\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		670F2ECC1DB2284400A1739F /* Sources */ = {

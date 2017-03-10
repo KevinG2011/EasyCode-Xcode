@@ -29,7 +29,7 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="mainbg" id="Mg1-Rj-XjU"/>
                     </imageView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L3n-rO-vGm" customClass="CustomButton">
-                        <rect key="frame" x="37" y="121" width="100" height="100"/>
+                        <rect key="frame" x="37" y="121" width="108" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="bevel" title="Objective C" bezelStyle="rounded" image="btnbg" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="LA4-zv-wMG">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -53,7 +53,7 @@
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcr-dE-fg3">
                         <rect key="frame" x="114" y="32" width="93" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="icloud sync" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3gp-6X-k46">
+                        <buttonCell key="cell" type="check" title="icloud sync" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3gp-6X-k46">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
