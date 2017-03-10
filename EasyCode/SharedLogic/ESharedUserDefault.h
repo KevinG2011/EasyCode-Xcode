@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface ESharedUserDefault : NSObject
-+ (void)setBool:(BOOL)value forKey:(NSString*)defaultName;
-+ (BOOL)boolForKey:(NSString*)defaultName;
++ (void)setBool:(BOOL)value forKey:(NSString*)key;
++ (BOOL)boolForKey:(NSString*)key;
 
-+ (void)setObject:(NSObject*)value forKey:(NSString*)defaultName;
-+ (id)objectForKey:(NSString*)defaultName;
++ (void)setObject:(NSObject*)value forKey:(NSString*)key;
++ (id)objectForKey:(NSString*)key;
 
-+ (void)setObjects:(NSArray*)values forKey:(NSArray*)defaultNames;
++ (void)setObjects:(NSArray*)values forKeys:(NSArray*)keys;
 @end

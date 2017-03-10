@@ -11,8 +11,10 @@
 #import "ECDefine.h"
 
 @interface ECSnippetHelper : NSObject
-+(ECSourceType)sourceTypeForContentUTI:(NSString*)contentUTI;
 +(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper;
 +(ECSnippet*)snippetWithSourceType:(ECSourceType)sourceType;
-+(NSInteger)versionWithSourceType:(ECSourceType)sourceType;
++(NSInteger)versionForSourceType:(ECSourceType)sourceType;
++(NSString*)directoryForSourceType:(ECSourceType)sourceType;
++(ECSourceType)sourceTypeForContentUTI:(NSString*)contentUTI;
++(ECSourceType)sourceTypeForDirectory:(NSString*)filename;
 @end

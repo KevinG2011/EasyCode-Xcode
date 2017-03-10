@@ -15,6 +15,7 @@
 #import "NSWindow+Additions.h"
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
+#import "ECSnippetHelper.h"
 
 @interface EditorWindowController ()<NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
                                     DetailWindowEditorDelegate,NSSearchFieldDelegate,
@@ -55,13 +56,8 @@
 }
 
 - (void)setupData {
-    if (_sourceType == ECSourceTypeOC) {
-        self.window.title = @"Objective-C";
-        self.dirname = DirectoryOCName;
-    } else if(_sourceType == ECSourceTypeSwift) {
-        self.window.title = @"Swift";
-        self.dirname = DirectorySwiftName;
-    }
+    self.dirname = [ECSnippetHelper directoryForSourceType:_sourceType];
+    self.window.title = self.dirname;
     
     self.imgEdit = [NSImage imageNamed:@"edit"];
     self.imgAdd = [NSImage imageNamed:@"add"];

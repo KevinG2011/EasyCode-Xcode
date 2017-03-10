@@ -74,7 +74,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 -(void)saveDocumentCompletionHandler:(void (^)(void))handler {
-    NSInteger version = [ECSnippetHelper versionWithSourceType:_sourceType];
+    NSInteger version = [ECSnippetHelper versionForSourceType:_sourceType];
     if (version == _snippet.version.integerValue) {
         if (handler) {
             handler();
@@ -86,8 +86,10 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
         if (errorOrNil) {
             NSLog(@"Save Document Error :%@",[errorOrNil localizedDescription]);
         }
-        [ESharedUserDefault setObjects:@[_snippet,_snippet.version]
-                                forKey:@[SnippetFileName,VersionFileName]];
+        NSString* filename = [ECSnippetHelper directoryForSourceType:_sourceType];
+        NSString* versionKey = [NSString stringWithFormat:@"%@_verion",filename];
+        [ESharedUserDefault setObjects:@[_snippet,_snippet.version] forKeys:@[filename,versionKey]];
+        
         if (handler) {
             handler();
         }

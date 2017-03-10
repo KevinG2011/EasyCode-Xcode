@@ -33,20 +33,30 @@
 
 -(ECSnippet *)snippetsOC {
     if (_snippetsOC == nil) {
-        _snippetsOC = [ESharedUserDefault objectForKey:SnippetFileName];
+        _snippetsOC = [ESharedUserDefault objectForKey:DirectoryOCName];
     }
     return _snippetsOC;
 }
 
 -(ECSnippet *)snippetsSwift {
     if (_snippetsSwift == nil) {
-        _snippetsSwift = [ESharedUserDefault objectForKey:VersionFileName];
+        _snippetsSwift = [ESharedUserDefault objectForKey:DirectorySwiftName];
     }
     return _snippetsSwift;
 }
 
 - (void)checkVersionByType:(ECSourceType)sourceType {
+    ECSnippet* snippets = nil;
+    if (sourceType == ECSourceTypeOC) {
+        snippets = self.snippetsOC;
+    } else {
+        snippets = self.snippetsSwift;
+    }
     
+    NSNumber* latestVer = [ESharedUserDefault objectForKey:VersionFileName];
+    if ([latestVer isEqualToNumber:snippets.version]) { //Versions are equal,so use memory cache instead.
+        return;
+    }
 }
 
 - (BOOL)handleInvocation:(XCSourceEditorCommandInvocation *)invocation {

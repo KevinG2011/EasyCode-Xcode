@@ -49,40 +49,40 @@
     }
 }
 
-+ (void)setBool:(BOOL)value forKey:(NSString*)defaultName
++ (void)setBool:(BOOL)value forKey:(NSString*)key
 {
     NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
-    [shareUD setBool:value forKey:defaultName];
+    [shareUD setBool:value forKey:key];
     [shareUD synchronize];
 }
 
-+ (BOOL)boolForKey:(NSString*)defaultName
++ (BOOL)boolForKey:(NSString*)key
 {
     NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
-    return [shareUD boolForKey:defaultName];
+    return [shareUD boolForKey:key];
 }
 
-+ (void)setObject:(NSObject*)value forKey:(NSString*)defaultName
++ (void)setObject:(NSObject*)value forKey:(NSString*)key
 {
     NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
-    [shareUD setObject:value forKey:defaultName];
+    [shareUD setObject:value forKey:key];
     [shareUD synchronize];
 }
 
-+ (id)objectForKey:(NSString*)defaultName
++ (id)objectForKey:(NSString*)key
 {
     NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
-    return [shareUD objectForKey:defaultName];
+    return [shareUD objectForKey:key];
 }
 
-+ (void)setObjects:(NSArray*)values forKey:(NSArray*)defaultNames
++ (void)setObjects:(NSArray*)values forKeys:(NSArray*)keys
 {
-    if (defaultNames.count != values.count) {
+    if (keys.count != values.count) {
         return;
     }
     
     NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
-    [defaultNames enumerateObjectsUsingBlock:^(NSString*  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+    [keys enumerateObjectsUsingBlock:^(NSString*  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
         [shareUD setObject:values[idx] forKey:key];
     }];
     [shareUD synchronize];

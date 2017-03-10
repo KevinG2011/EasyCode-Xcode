@@ -21,11 +21,27 @@
     }
 }
 
++(NSString*)directoryForSourceType:(ECSourceType)sourceType {
+    if (sourceType == ECSourceTypeOC) {
+        return DirectoryOCName;
+    } else {
+        return DirectorySwiftName;
+    }
+}
+
++(ECSourceType)sourceTypeForDirectory:(NSString*)filename {
+    if ([filename isEqualToString:DirectoryOCName]) {
+        return ECSourceTypeOC;
+    } else {
+        return ECSourceTypeSwift;
+    }
+}
+
 +(ECSnippet*)snippetWithFileWrapper:(NSFileWrapper*)fileWrapper {
+    NSString* filename = [fileWrapper filename];
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];
     NSFileWrapper *snippetWrapper = [fileWrappers objectForKey:SnippetFileName];
     if (snippetWrapper == nil) { //switch ubiquity to local
-        NSString* filename = [fileWrapper filename];
         NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:filename];
         fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL options:NSFileWrapperReadingWithoutMapping error:nil];
         fileWrappers = [fileWrapper fileWrappers];
@@ -42,7 +58,8 @@
         } else {
             entries = [ECMappingForSwift defaultEntries];
         }
-        snippet = [[ECSnippet alloc] initWithEntries:entries];
+        ECSourceType sourceType = [self sourceTypeForDirectory:filename];
+        snippet = [[ECSnippet alloc] initWithSourceType:sourceType entries:entries];
     }
     return snippet;
 }
@@ -56,7 +73,7 @@
     return snippet;
 }
 
-+(NSInteger)versionWithSourceType:(ECSourceType)sourceType {
++(NSInteger)versionForSourceType:(ECSourceType)sourceType {
     NSURL* url = [[NSFileManager defaultManager] detectURLForSourceType:sourceType];
     NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:url options:NSFileWrapperReadingWithoutMapping error:nil];
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];

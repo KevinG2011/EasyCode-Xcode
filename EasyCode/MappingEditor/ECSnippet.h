@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "ECSnippetEntry.h"
+#import "ECDefine.h"
 
 @interface ECSnippet : NSObject <NSCopying,NSCoding>
 @property (nonatomic, copy) NSNumber* version;
+@property (nonatomic, copy) NSNumber* type;
 @property (nonatomic, copy) NSArray<ECSnippetEntry*>* entries;
 
--(instancetype)initWithEntries:(NSArray<ECSnippetEntry*>*)entries;
+-(instancetype)initWithSourceType:(ECSourceType)sourceType entries:(NSArray<ECSnippetEntry*>*)entries;
 
 //排序
 -(void)sortedEntry;

@@ -17,9 +17,10 @@
 
 
 @implementation ECSnippet
--(instancetype)initWithEntries:(NSArray<ECSnippetEntry*>*)entries {
+-(instancetype)initWithSourceType:(ECSourceType)sourceType entries:(NSArray<ECSnippetEntry*>*)entries {
     self = [super init];
     if (self) {
+        _type = @(sourceType);
         _entryList = [entries mutableCopy];
         _version = @(1);
     }
@@ -29,18 +30,21 @@
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     self.version = [decoder decodeObjectForKey:@"version"];
     self.entries = [decoder decodeObjectForKey:@"entries"];
+    self.type = [decoder decodeObjectForKey:@"type"];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject:_version forKey:@"version"];
     [encoder encodeObject:[self entries] forKey:@"entries"];
+    [encoder encodeObject:_type forKey:@"type"];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
     ECSnippet* snippet = [[[self class] allocWithZone:zone] init];
     snippet.version = _version;
     snippet.entries = [_entryList copy];
+    snippet.type = _type;
     return snippet;
 }
 
