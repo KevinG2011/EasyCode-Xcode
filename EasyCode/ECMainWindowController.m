@@ -21,7 +21,7 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    _useicloudBtn.state = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
+    _useicloudBtn.state = [ESharedUserDefault boolForKey:kUseiCloudSync];
 }
 
 - (IBAction)showEditorWindowForOC:(id)sender {
@@ -43,10 +43,10 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
     if (useiCloud) {
         id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
         if (ubiq) {
-            [ESharedUserDefault setBool:YES forKey:KeyUseiCloudSync];
+            [ESharedUserDefault setBool:YES forKey:kUseiCloudSync];
             [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];
         } else {
-            [ESharedUserDefault setBool:NO forKey:KeyUseiCloudSync];
+            [ESharedUserDefault setBool:NO forKey:kUseiCloudSync];
             sender.state = NSOffState;
             //Alert Note
         }
@@ -61,12 +61,12 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
             warningAlert.alertStyle = NSWarningAlertStyle;
             [warningAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
                 if (returnCode == NSAlertFirstButtonReturn) { //OK
-                    [ESharedUserDefault setBool:NO forKey:KeyUseiCloudSync];
+                    [ESharedUserDefault setBool:NO forKey:kUseiCloudSync];
                     [[NSNotificationCenter defaultCenter] postNotificationName:ECiCloudSyncChangedNotification object:nil];
                 }
             }];
         } else {
-            [ESharedUserDefault setBool:NO forKey:KeyUseiCloudSync];
+            [ESharedUserDefault setBool:NO forKey:kUseiCloudSync];
         }
     }
 }

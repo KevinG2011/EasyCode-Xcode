@@ -117,7 +117,7 @@
 }
 
 - (void)oniCloudSyncChanged:(NSNotification*)notification {
-    BOOL useiCloud = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
+    BOOL useiCloud = [ESharedUserDefault boolForKey:kUseiCloudSync];
     NSURL* baseURL = [[NSFileManager defaultManager] localURL];
     if (useiCloud) {
         baseURL = [[NSFileManager defaultManager] ubiquityURL];
@@ -146,7 +146,7 @@
 
 - (void)loadDocument {
     id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
-    BOOL useiCloud = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
+    BOOL useiCloud = [ESharedUserDefault boolForKey:kUseiCloudSync];
     if (ubiq && useiCloud) { //iCloud Enabled and Checked
         _query = [[NSMetadataQuery alloc] init];
         _query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];

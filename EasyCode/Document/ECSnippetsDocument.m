@@ -86,9 +86,9 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
         if (errorOrNil) {
             NSLog(@"Save Document Error :%@",[errorOrNil localizedDescription]);
         }
-        NSString* filename = [ECSnippetHelper directoryForSourceType:_sourceType];
-        NSString* versionKey = [NSString stringWithFormat:@"%@_verion",filename];
-        [ESharedUserDefault setObjects:@[_snippet,_snippet.version] forKeys:@[filename,versionKey]];
+        NSString* dirname = [ECSnippetHelper directoryForSourceType:_sourceType];
+        NSString* versionKey = [NSString stringWithFormat:kVersionFormat,dirname];
+        [ESharedUserDefault setObjects:@[_snippet,_snippet.version] forKeys:@[dirname,versionKey]];
         
         if (handler) {
             handler();

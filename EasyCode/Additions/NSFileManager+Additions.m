@@ -71,7 +71,7 @@ NSString *const VersionFileName =           @"version.dat";
     }
     
     NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:dirname];;
-    BOOL useiCloud = [ESharedUserDefault boolForKey:KeyUseiCloudSync];
+    BOOL useiCloud = [ESharedUserDefault boolForKey:kUseiCloudSync];
     if (useiCloud) {
         id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];    
         if (ubiq) {
