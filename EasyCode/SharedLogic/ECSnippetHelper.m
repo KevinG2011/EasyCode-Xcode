@@ -48,7 +48,7 @@
 }
 
 +(ECSnippet*)snippetWithSourceType:(ECSourceType)sourceType {
-    NSURL* fileURL = [[NSFileManager defaultManager] currentURLForSourceType:sourceType];
+    NSURL* fileURL = [[NSFileManager defaultManager] detectURLForSourceType:sourceType];
     NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL
                                                             options:NSFileWrapperReadingWithoutMapping
                                                               error:nil];
@@ -57,7 +57,7 @@
 }
 
 +(NSInteger)versionWithSourceType:(ECSourceType)sourceType {
-    NSURL* url = [[NSFileManager defaultManager] currentURLForSourceType:sourceType];
+    NSURL* url = [[NSFileManager defaultManager] detectURLForSourceType:sourceType];
     NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:url options:NSFileWrapperReadingWithoutMapping error:nil];
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];
     NSFileWrapper *versionWrapper = [fileWrappers objectForKey:VersionFileName];

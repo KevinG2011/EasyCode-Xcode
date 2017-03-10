@@ -2,7 +2,7 @@
 //  ECSnippetEntry.h
 //  EasyCode
 //
-//  Created by gao feng on 2016/10/20.
+//  Created by lijia on 07/03/2017.
 //  Copyright © 2016年 music4kid. All rights reserved.
 //
 

@@ -11,7 +11,6 @@
 #import "ECMappingForSwift.h"
 
 #define KeySharedContainerGroup         @"3KAP4AA829.group.com.yingxiang.easycode"
-
 #define KeyCurrentUDVersion             @"KeyCurrentUDVersion"
 #define ValueCurrentUDVersion           @"1"
 

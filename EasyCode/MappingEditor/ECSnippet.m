@@ -75,7 +75,7 @@
         return result;
     }];
     if (index != NSNotFound) {
-        return _entryList[index];
+        return entryList[index];
     }
     return nil;
 }

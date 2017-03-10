@@ -7,10 +7,11 @@
 //
 
 #import "NSFileWrapper+Additions.h"
+#import "NSString+Additions.h"
 
 @implementation NSFileWrapper (Additions)
 -(void)replaceFileWrapper:(NSFileWrapper*)child forKey:(NSString*)filename {
-    if (filename.length == 0) {
+    if ([filename isNotEmpty] == NO) {
         return;
     }
     NSFileWrapper* oldChild = [[self fileWrappers] objectForKey:filename];

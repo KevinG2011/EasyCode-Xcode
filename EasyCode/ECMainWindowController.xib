@@ -28,7 +28,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="mainbg" id="Mg1-Rj-XjU"/>
                     </imageView>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L3n-rO-vGm" customClass="CustomButton">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L3n-rO-vGm" customClass="ECustomButton">
                         <rect key="frame" x="37" y="121" width="108" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="bevel" title="Objective C" bezelStyle="rounded" image="btnbg" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="LA4-zv-wMG">
@@ -39,7 +39,7 @@
                             <action selector="showEditorWindowForOC:" target="-2" id="Ws9-f1-ELM"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PRq-eZ-LJb" customClass="CustomButton">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PRq-eZ-LJb" customClass="ECustomButton">
                         <rect key="frame" x="184" y="121" width="100" height="100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="bevel" title="Swift" bezelStyle="regularSquare" image="btnbg2" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="VXc-AV-VYz">
@@ -61,7 +61,7 @@
                             <action selector="useiCloudCheck:" target="-2" id="a5Z-18-gOK"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgE-rc-eFd" customClass="CustomButton">
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgE-rc-eFd" customClass="ECustomButton">
                         <rect key="frame" x="262" y="-1" width="60" height="30"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="bevel" title="Guide" bezelStyle="regularSquare" image="btnguide" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="0A9-az-zUb">

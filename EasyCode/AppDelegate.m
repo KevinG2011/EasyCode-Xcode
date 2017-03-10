@@ -62,7 +62,7 @@
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
     _ubiquityToken = [[NSFileManager defaultManager] ubiquityIdentityToken];
-    NSLog(@"ubiquity token :%@",_ubiquityToken);
+    
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification

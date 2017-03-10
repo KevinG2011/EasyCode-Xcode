@@ -15,7 +15,7 @@ static NSDateFormatter* formatter = nil;
 + (void)initialize {
     if (self == [ECSnippetEntry class]) {
         formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyyMMdd_hhmmss"];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     }
 }
 
