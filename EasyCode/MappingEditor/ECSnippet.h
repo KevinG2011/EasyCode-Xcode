@@ -17,17 +17,18 @@
 
 -(instancetype)initWithSourceType:(ECSourceType)sourceType entries:(NSArray<ECSnippetEntry*>*)entries;
 
-//排序
+//sort entry
 -(void)sortedEntry;
-//条目数量
+//count entry
 -(NSInteger)entryCount;
-//根据键查找片段
+//search entry
 -(ECSnippetEntry*)entryForKey:(NSString*)key;
-//插入片段
+//insert entry
 -(void)addEntry:(ECSnippetEntry*)entry;
-//根据键删除片段
+//delete entry
 -(ECSnippetEntry*)removeEntryForKey:(NSString*)key;
-//根据键更新片段
+//update entry
 -(void)updateEntry:(ECSnippetEntry*)entry;
-
+//use for store
+-(NSData*)snippetData;
 @end

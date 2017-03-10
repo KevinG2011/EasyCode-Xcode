@@ -28,14 +28,15 @@
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
-    self.version = [decoder decodeObjectForKey:@"version"];
+    NSString* versionStr = [decoder decodeObjectForKey:@"version"];
+    self.version = @(versionStr.integerValue);
     self.entries = [decoder decodeObjectForKey:@"entries"];
     self.type = [decoder decodeObjectForKey:@"type"];
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:_version forKey:@"version"];
+    [encoder encodeObject:_version.stringValue forKey:@"version"];
     [encoder encodeObject:[self entries] forKey:@"entries"];
     [encoder encodeObject:_type forKey:@"type"];
 }
@@ -112,4 +113,8 @@
     _version = @(_version.unsignedIntegerValue + 1);
 }
 
+-(NSData*)snippetData {
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    return data;
+}
 @end

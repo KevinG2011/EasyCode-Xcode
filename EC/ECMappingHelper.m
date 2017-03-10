@@ -36,7 +36,8 @@
     NSNumber* latestVer = [ESharedUserDefault objectForKey:versionKey];
     
     if ([latestVer isEqualToNumber:_curSnippets.version] == NO) { //if versions are not equal,reload from UserDefaults.
-        _curSnippets = [ESharedUserDefault objectForKey:dirname];
+        NSData* data = [ESharedUserDefault objectForKey:dirname];
+        _curSnippets = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     }
 }
 

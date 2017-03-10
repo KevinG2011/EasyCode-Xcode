@@ -125,10 +125,12 @@
     NSURL* destURL = [baseURL URLByAppendingPathComponent:_dirname];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //TODO: HUD Mask
-        [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:nil];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self reloadData];
-        });
+        NSError* error = nil;
+        BOOL success = [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:&error];
+        if (!success) {
+            NSLog(@"ubiquitous move error :%@",[error localizedDescription]);
+        }
+        [self loadDocument];
     });
 }
 
@@ -155,7 +157,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(queryDidFinishGathering:)
                                                      name:NSMetadataQueryDidFinishGatheringNotification
-                                                   object:nil];
+                                                   object:_query];
         [_query startQuery];
     } else { //iCloud Disabled
         [self loadDataWithQuery:nil];
