@@ -124,7 +124,6 @@
     }
     NSURL* destURL = [baseURL URLByAppendingPathComponent:_dirname];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //TODO: HUD Mask
         NSError* error = nil;
         BOOL success = [[NSFileManager defaultManager] setUbiquitous:useiCloud itemAtURL:_snippetDoc.fileURL destinationURL:destURL error:&error];
         if (!success) {

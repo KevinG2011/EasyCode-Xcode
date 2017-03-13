@@ -81,7 +81,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
         }
         return;
     }
-    
+    [self sortedSnippets];
     [self saveToURL:self.fileURL ofType:@"" forSaveOperation:NSSaveOperation completionHandler:^(NSError * _Nullable errorOrNil) {
         if (errorOrNil) {
             NSLog(@"Save Document Error :%@",[errorOrNil localizedDescription]);
