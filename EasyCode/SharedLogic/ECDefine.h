@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ECSafeCast.h"
 
 #ifndef ECDefine_H
 #define ECDefine_H
@@ -18,6 +19,18 @@ typedef NS_ENUM(NSInteger,ECSourceType) {
     ECSourceTypeOC,
     ECSourceTypeSwift
 };
+
+#define _STR(s)                 [ECSafeCast parseToString:s]
+#define _INT(s)                 [ECSafeCast parseToIntValue:s]
+#define _LONG(s)                [ECSafeCast parseTolongValue:s]
+#define _BOOL(s)                [ECSafeCast parseToBOOLValue:s]
+#define _FLOAT(s)               [ECSafeCast parseToFloatValue:s]
+#define _NUMBER(s)              [ECSafeCast parseToNumValue:s]
+#define _INTEGER(s)             [ECSafeCast parseToIntegerValue:s]
+#define _LONGLONG(s)            [ECSafeCast parseTolongLongValue:s]
+#define _DOUBLE(s)              [ECSafeCast parseToDoubleValue:s]
+#define _ARRAY(s)               [ECSafeCast parseToArray:s]
+#define _DIC(s)                 [ECSafeCast parseToDictionary:s]
 
 #define APP_OBJ                 [NSApplication sharedApplication]
 #define APP_DELEGATE            ((AppDelegate *)[APP_OBJ delegate])

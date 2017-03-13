@@ -12,7 +12,6 @@
 #define EC_EXTERN extern
 #endif
 
-
 #import "ECDefine.h"
 #import "AppDelegate.h"
 #import "NSString+Additions.h"

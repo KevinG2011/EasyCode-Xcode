@@ -26,7 +26,7 @@
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [ESharedUserDefault new];
+        instance = [[ESharedUserDefault alloc] init];
     });
 
     return instance;
@@ -43,11 +43,33 @@
 
 - (void)initSharedUD
 {
-    self.sharedUD = [[NSUserDefaults alloc] initWithSuiteName:KeySharedContainerGroup];
+    _sharedUD = [[NSUserDefaults alloc] initWithSuiteName:KeySharedContainerGroup];
     NSString* UIVersion = [_sharedUD objectForKey:KeyCurrentUDVersion];
     if (UIVersion == nil) {
         [_sharedUD setObject:ValueCurrentUDVersion forKey:KeyCurrentUDVersion];
     }
+}
+
++ (BOOL)boolForKey:(NSString*)key
+{
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    return [shareUD boolForKey:key];
+}
+
++ (id)objectForKey:(NSString*)key
+{
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    return [shareUD objectForKey:key];
+}
+
++ (id)dataForKey:(NSString*)key {
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    return [shareUD dataForKey:key];
+}
+
++ (id)stringForKey:(NSString*)key {
+    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
+    return [shareUD stringForKey:key];
 }
 
 + (void)setBool:(BOOL)value forKey:(NSString*)key
@@ -57,23 +79,11 @@
     [shareUD synchronize];
 }
 
-+ (BOOL)boolForKey:(NSString*)key
-{
-    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
-    return [shareUD boolForKey:key];
-}
-
 + (void)setObject:(NSObject*)value forKey:(NSString*)key
 {
     NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
     [shareUD setObject:value forKey:key];
     [shareUD synchronize];
-}
-
-+ (id)objectForKey:(NSString*)key
-{
-    NSUserDefaults* shareUD = [[ESharedUserDefault sharedInstance] sharedUD];
-    return [shareUD objectForKey:key];
 }
 
 + (void)setObjects:(NSArray*)values forKeys:(NSArray*)keys

@@ -94,14 +94,14 @@
     } else {
         [self updateEntry:entry];
     }
-    _version = @(_version.unsignedIntegerValue + 1);
+    _version = @([_NUMBER(_version) unsignedIntegerValue] + 1);
 }
 
 -(ECSnippetEntry*)removeEntryForKey:(NSString*)key {
     ECSnippetEntry* hitEntry = [self entryForKey:key];
     if (hitEntry) {
         [_entryList removeObject:hitEntry];
-        _version = @(_version.unsignedIntegerValue + 1);
+        _version = @([_NUMBER(_version) unsignedIntegerValue] + 1);
     }
     return hitEntry;
 }
@@ -109,7 +109,7 @@
 -(void)updateEntry:(ECSnippetEntry*)entry {
     ECSnippetEntry* hitEntry = [self entryForKey:entry.key];
     [hitEntry updateBySnippet:hitEntry];
-    _version = @(_version.unsignedIntegerValue + 1);
+    _version = @([_NUMBER(_version) unsignedIntegerValue] + 1);
 }
 
 -(NSData*)snippetData {

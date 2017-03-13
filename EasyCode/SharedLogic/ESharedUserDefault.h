@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface ESharedUserDefault : NSObject
-+ (void)setBool:(BOOL)value forKey:(NSString*)key;
 + (BOOL)boolForKey:(NSString*)key;
-
-+ (void)setObject:(NSObject*)value forKey:(NSString*)key;
 + (id)objectForKey:(NSString*)key;
++ (id)dataForKey:(NSString*)key;
++ (id)stringForKey:(NSString*)key;
 
++ (void)setBool:(BOOL)value forKey:(NSString*)key;
++ (void)setObject:(NSObject*)value forKey:(NSString*)key;
 + (void)setObjects:(NSArray*)values forKeys:(NSArray*)keys;
 @end

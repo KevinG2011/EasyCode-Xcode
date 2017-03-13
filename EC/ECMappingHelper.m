@@ -13,7 +13,7 @@
 #import "ECSnippetHelper.h"
 
 @interface ECMappingHelper ()
-@property (nonatomic, weak)   ECSnippet* curSnippets;
+@property (nonatomic, strong)   ECSnippet* curSnippets;
 @end
 
 @implementation ECMappingHelper
@@ -35,8 +35,8 @@
     NSString* versionKey = [NSString stringWithFormat:kVersionFormat,dirname];
     NSNumber* latestVer = [ESharedUserDefault objectForKey:versionKey];
     
-    if ([latestVer isEqualToNumber:_curSnippets.version] == NO) { //if versions are not equal,reload from UserDefaults.
-        NSData* data = [ESharedUserDefault objectForKey:dirname];
+    if ([_curSnippets.version isEqualToNumber:latestVer] == NO) { //if versions are not equal,reload from UserDefaults.
+        NSData* data = [ESharedUserDefault dataForKey:dirname];
         _curSnippets = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     }
 }
