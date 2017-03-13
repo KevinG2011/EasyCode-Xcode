@@ -146,7 +146,7 @@
 }
 
 - (void)loadDocument {
-    id<NSObject, NSCopying, NSCoding> ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
+    id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
     BOOL useiCloud = [ESharedUserDefault boolForKey:kUseiCloudSync];
     if (ubiq && useiCloud) { //iCloud Enabled and Checked
         _query = [[NSMetadataQuery alloc] init];

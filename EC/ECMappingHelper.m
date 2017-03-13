@@ -18,10 +18,8 @@
 
 @implementation ECMappingHelper
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     static ECMappingHelper* instance = nil;
-
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[ECMappingHelper alloc] init];

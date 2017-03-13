@@ -13,7 +13,7 @@
 #define ECDefine_H
 
 #define kUseiCloudSync                @"kUseiCloudSync"
-#define kVersionFormat                @"%@_version"
+#define kVersionFormat                @"%@-version"
 
 typedef NS_ENUM(NSInteger,ECSourceType) {
     ECSourceTypeOC,
