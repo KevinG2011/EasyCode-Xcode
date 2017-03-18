@@ -19,6 +19,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
 @interface ECSnippetDocument ()
 @property (nonatomic, strong) NSFileWrapper *fileWrapper;
+@property (nonatomic, assign,getter=hasSavedAlready) BOOL savedAlready;
 @end
 
 @implementation ECSnippetDocument
@@ -26,6 +27,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     self = [super initWithContentsOfURL:itemURL ofType:@"" error:nil];
     if (self) {
         _sourceType = type;
+        _savedAlready = NO;
     }
     return self;
 }
@@ -75,7 +77,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 
 -(void)saveDocumentCompletionHandler:(void (^)(void))handler {
     NSInteger version = [ECSnippetHelper versionForSourceType:_sourceType];
-    if (version == _snippet.version.integerValue) {
+    if (version == _snippet.version.integerValue && [self hasSavedAlready]) {
         if (handler) {
             handler();
         }
@@ -85,13 +87,16 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
     [self saveToURL:self.fileURL ofType:@"" forSaveOperation:NSSaveOperation completionHandler:^(NSError * _Nullable errorOrNil) {
         if (errorOrNil) {
             NSLog(@"Save Document Error :%@",[errorOrNil localizedDescription]);
+        } else {
+            _savedAlready = YES;
+            
+            NSString* dirnameKey = [ECSnippetHelper directoryForSourceType:_sourceType];
+            NSData* snippetData = [_snippet snippetData];
+            
+            NSNumber* versionNum = _snippet.version;
+            NSString* versionKey = [NSString stringWithFormat:kVersionFormat,dirnameKey];
+            [ESharedUserDefault setObjects:@[snippetData,versionNum] forKeys:@[dirnameKey,versionKey]];
         }
-        NSString* dirnameKey = [ECSnippetHelper directoryForSourceType:_sourceType];
-        NSData* snippetData = [_snippet snippetData];
-        
-        NSNumber* versionNum = _snippet.version;
-        NSString* versionKey = [NSString stringWithFormat:kVersionFormat,dirnameKey];
-        [ESharedUserDefault setObjects:@[snippetData,versionNum] forKeys:@[dirnameKey,versionKey]];
         
         if (handler) {
             handler();
@@ -100,7 +105,6 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 #pragma mark - Override Documents
-
 -(NSString *)displayName {
     return @"Code Snippet";
 }
