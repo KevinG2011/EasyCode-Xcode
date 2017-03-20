@@ -8,7 +8,6 @@
 
 #import "ECMainWindowController.h"
 #import "EditorWindowController.h"
-#import "NSAlert+Additions.h"
 
 NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotification";
 
@@ -57,8 +56,9 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
             NSAlert *warningAlert = [NSAlert ec_alertWithStyle:NSWarningAlertStyle
                                                    messageText:NSLocalizedString(@"iCloud_Attention", nil)
                                                informativeText:NSLocalizedString(@"iCloud_Attention_Message", nil)
-                                                   buttonTitle:NSLocalizedString(@"OK_Button_Title",nil),
-                                                               NSLocalizedString(@"Cancel_Button_Title", nil),nil];
+                                                   buttonTitle:NSLocalizedString(@"Button_OK_Title",nil),
+                                                               NSLocalizedString(@"Button_Cancel_Title", nil),
+                                     nil];
             
             [warningAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
                 if (returnCode == NSAlertFirstButtonReturn) { //OK

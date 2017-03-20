@@ -16,4 +16,5 @@
 #import "AppDelegate.h"
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
+#import "NSAlert+Additions.h"
 #import "ESharedUserDefault.h"

@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "ECMainWindowController.h"
 #import "NSWindowController+Additions.h"
-#import "NSAlert+Additions.h"
 
 @interface AppDelegate ()
 
@@ -33,7 +32,8 @@
         NSAlert *warningAlert = [NSAlert ec_alertWithStyle:NSWarningAlertStyle
                                                messageText:NSLocalizedString(@"Logged_Out_Message", nil)
                                            informativeText:NSLocalizedString(@"Logged_Out_Message_Explain", nil)
-                                               buttonTitle:NSLocalizedString(@"OK_Button_Title", nil),nil];
+                                               buttonTitle:NSLocalizedString(@"Button_OK_Title", nil),
+                                 nil];
         [warningAlert runModal];
     } else {
         if ([self.ubiquityToken isEqual:token]) {
@@ -48,7 +48,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        _ec_ubiquityURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+        _ubiquityURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     });
     
     [[NSNotificationCenter defaultCenter] addObserver:self

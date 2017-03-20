@@ -28,21 +28,21 @@
 @property (nonatomic, weak) IBOutlet NSTableView                    *tableView;
 @property (nonatomic, weak) IBOutlet NSTableColumn                  *filterColumn;
 @property (nonatomic, weak) IBOutlet NSSearchField                  *searchField;
-@property (nonatomic, strong) EEditorTableMenu*         tableMenu;
-@property (nonatomic, strong) NSImage*                              imgEdit;
-@property (nonatomic, strong) NSImage*                              imgAdd;
-@property (nonatomic, strong) NSImage*                              imgRemove;
+@property (nonatomic, strong) EEditorTableMenu                      *tableMenu;
+@property (nonatomic, strong) NSImage                               *imgEdit;
+@property (nonatomic, strong) NSImage                               *imgAdd;
+@property (nonatomic, strong) NSImage                               *imgRemove;
 
 @property (nonatomic, assign) ECSourceType                          sourceType;
-@property (nonatomic, strong) NSArray<ECSnippetEntry*>*             filteringList;
-@property (nonatomic, strong) NSArray<ECSnippetEntry*>*             matchingList;
+@property (nonatomic, strong) NSArray<ECSnippetEntry*>              *filteringList;
+@property (nonatomic, strong) NSArray<ECSnippetEntry*>              *matchingList;
 
-@property (nonatomic, strong) DetailWindowController*               detailEditor;
-@property (nonatomic, strong) ECSnippetDocument*                    snippetDoc;
-@property (nonatomic, copy)   NSString*                             searchKey;
-@property (nonatomic, copy)   NSString*                             dirname;
-@property (nonatomic, strong) NSMetadataQuery*                      query;
-@property (nonatomic, strong) NSMetadataItem*                       dataItem;
+@property (nonatomic, strong) DetailWindowController                *detailEditor;
+@property (nonatomic, strong) ECSnippetDocument                     *snippetDoc;
+@property (nonatomic, copy)   NSString                              *searchKey;
+@property (nonatomic, copy)   NSString                              *dirname;
+@property (nonatomic, strong) NSMetadataQuery                       *query;
+@property (nonatomic, strong) NSMetadataItem                        *dataItem;
 @end
 
 @implementation EditorWindowController
@@ -355,11 +355,22 @@
 
 - (void)onRemoveEntryClick:(id)sender
 {
-    
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
-    ECSnippetEntry* snippet = _matchingList[row];
-    [self onEntryRemoved:snippet];
+    
+    NSAlert* alert = [NSAlert ec_alertWithStyle:NSAlertStyleWarning
+                                    messageText:NSLocalizedString(@"Entry_Delete_Message",nil)
+                                informativeText:NSLocalizedString(@"Entry_Delete_Message_Explain",nil)
+                                    buttonTitle:NSLocalizedString(@"Button_OK_Title",nil),
+                                                NSLocalizedString(@"Button_Cancel_Title",nil),
+                      nil];
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn) { //OK
+            ECSnippetEntry* snippet = _matchingList[row];
+            [self onEntryRemoved:snippet];
+        }
+    }];
+
 }
 
 - (DetailWindowController*)detailEditor

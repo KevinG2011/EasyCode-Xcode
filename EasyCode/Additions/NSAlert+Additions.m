@@ -16,6 +16,7 @@
     NSAlert *alert = [[NSAlert alloc] init];
     alert.messageText = message;
     alert.informativeText = informative;
+    alert.alertStyle = alertStyle;
     va_list args;
     va_start(args, firstTitle);
     for (NSString *arg = firstTitle; arg != nil; arg = va_arg(args, NSString*))
