@@ -7,8 +7,21 @@
 //
 
 #import "EEditorTableView.h"
+#import "EEditorTableMenu.h"
 
 @implementation EEditorTableView
+-(NSMenu*)menuForEvent:(NSEvent*)event {
+    [[self window] makeFirstResponder:self];
+    NSPoint menuPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+    NSInteger row = [self rowAtPoint:menuPoint];
+    if (row != -1) {
+        NSIndexSet* indexSet = [NSIndexSet indexSetWithIndex:row];
+        [self selectRowIndexes:indexSet byExtendingSelection:NO];
+        return [self menu];
+    } else {
+        return [super menu];
+    }
+}
 
 
 @end

@@ -9,7 +9,7 @@
 #import "NSWindowController+Additions.h"
 
 @implementation NSWindowController (Additions)
--(void)makeWindowFront {
+-(void)ec_makeWindowFront {
     [self.window makeKeyAndOrderFront:nil];
 }
 @end

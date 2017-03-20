@@ -45,7 +45,7 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
 }
 
 -(void)addSnippetEntry:(ECSnippetEntry*)entry {
-    if ([entry.key isNotEmpty] == NO) {
+    if ([entry.key ec_isNotEmpty] == NO) {
         return;
     }
     [_snippet addEntry:entry];
@@ -127,8 +127,8 @@ NSString *const ECDocumentLoadedNotification = @"ECDocumentLoadedNotification";
                                                                   VersionFileName:verWrapper };
         _fileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:fileWrappers];
     } else {
-        [_fileWrapper replaceFileWrapper:snippetWrapper forKey:SnippetFileName];
-        [_fileWrapper replaceFileWrapper:verWrapper forKey:VersionFileName];
+        [_fileWrapper ec_replaceFileWrapper:snippetWrapper forKey:SnippetFileName];
+        [_fileWrapper ec_replaceFileWrapper:verWrapper forKey:VersionFileName];
     }
     
     return _fileWrapper;

@@ -11,7 +11,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 //icloud
 @property (nonatomic, strong) id ubiquityToken;
-@property (nonatomic, strong) NSURL *ubiquityURL;
+@property (nonatomic, strong) NSURL *ec_ubiquityURL;
 @property (nonatomic, strong) ECMainWindowController* mainController;
 +(instancetype)sharedInstance;
 @end

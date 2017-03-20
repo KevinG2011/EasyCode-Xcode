@@ -42,7 +42,7 @@
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];
     NSFileWrapper *snippetWrapper = [fileWrappers objectForKey:SnippetFileName];
     if (snippetWrapper == nil) { //switch ubiquity to local
-        NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:filename];
+        NSURL* fileURL = [[NSFileManager defaultManager] ec_localSnippetsURLWithFilename:filename];
         fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL options:NSFileWrapperReadingWithoutMapping error:nil];
         fileWrappers = [fileWrapper fileWrappers];
         snippetWrapper = [fileWrappers objectForKey:SnippetFileName];
@@ -65,7 +65,7 @@
 }
 
 +(ECSnippet*)snippetWithSourceType:(ECSourceType)sourceType {
-    NSURL* fileURL = [[NSFileManager defaultManager] detectURLForSourceType:sourceType];
+    NSURL* fileURL = [[NSFileManager defaultManager] ec_detectURLForSourceType:sourceType];
     NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL
                                                             options:NSFileWrapperReadingWithoutMapping
                                                               error:nil];
@@ -74,7 +74,7 @@
 }
 
 +(NSInteger)versionForSourceType:(ECSourceType)sourceType {
-    NSURL* url = [[NSFileManager defaultManager] detectURLForSourceType:sourceType];
+    NSURL* url = [[NSFileManager defaultManager] ec_detectURLForSourceType:sourceType];
     NSFileWrapper* fileWrapper = [[NSFileWrapper alloc] initWithURL:url options:NSFileWrapperReadingWithoutMapping error:nil];
     NSDictionary *fileWrappers = [fileWrapper fileWrappers];
     NSFileWrapper *versionWrapper = [fileWrappers objectForKey:VersionFileName];

@@ -17,16 +17,16 @@ extern NSString *const SnippetFileName;
 extern NSString *const VersionFileName;
 
 @interface NSFileManager (Additions)
--(NSURL*)localURL;
--(NSURL*)localSnippetsURLWithFilename:(NSString*)filename;
--(NSURL*)ubiquityURL;
--(NSURL*)ubiquitySnippetsURLWithFilename:(NSString*)filename;
+-(NSURL*)ec_localURL;
+-(NSURL*)ec_localSnippetsURLWithFilename:(NSString*)filename;
+-(NSURL*)ec_ubiquityURL;
+-(NSURL*)ec_ubiquitySnippetsURLWithFilename:(NSString*)filename;
 
--(NSURL*)detectURLForSourceType:(ECSourceType)sourceType;
+-(NSURL*)ec_detectURLForSourceType:(ECSourceType)sourceType;
 
--(NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
-                          inDomain:(NSSearchPathDomainMask)domainMask
-               appendPathComponent:(NSString *)appendComponent
-                             error:(NSError **)errorOut;
--(NSString*)supportDocumentDirectory;
+-(NSString *)ec_findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
+                             inDomain:(NSSearchPathDomainMask)domainMask
+                  appendPathComponent:(NSString *)appendComponent
+                                error:(NSError **)errorOut;
+-(NSString*)ec_supportDocumentDirectory;
 @end

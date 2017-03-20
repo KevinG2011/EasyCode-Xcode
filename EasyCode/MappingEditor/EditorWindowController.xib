@@ -32,13 +32,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="763" height="640"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="mainbg" id="yqf-4a-xk9"/>
                     </imageView>
-                    <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="UzU-eJ-ADV" customClass="EVerticalScrollView">
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="26" horizontalPageScroll="10" verticalLineScroll="26" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="UzU-eJ-ADV" customClass="EVerticalScrollView">
                         <rect key="frame" x="0.0" y="30" width="763" height="610"/>
                         <clipView key="contentView" drawsBackground="NO" id="MgM-QY-iFp">
                             <rect key="frame" x="1" y="0.0" width="761" height="609"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" headerView="QjJ-Au-z3p" viewBased="YES" id="ETN-oh-Mwh" customClass="EEditorTableView">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" headerView="QjJ-Au-z3p" viewBased="YES" id="ETN-oh-Mwh" customClass="EEditorTableView">
                                     <rect key="frame" x="0.0" y="0.0" width="774" height="586"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="4" height="4"/>
@@ -255,10 +255,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="209" height="124"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vyc-R0-CR2">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" mirrorLayoutDirectionWhenInternationalizing="never" translatesAutoresizingMaskIntoConstraints="NO" id="vyc-R0-CR2">
                         <rect key="frame" x="30" y="41" width="149" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" usesSingleLineMode="YES" id="oSW-m3-aeC">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" baseWritingDirection="leftToRight" alignment="center" usesSingleLineMode="YES" id="oSW-m3-aeC">
                             <font key="font" metaFont="systemBold" size="35"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>

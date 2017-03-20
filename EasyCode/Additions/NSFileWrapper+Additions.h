@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSFileWrapper (Additions)
--(void)replaceFileWrapper:(NSFileWrapper*)child forKey:(NSString*)filename;
+-(void)ec_replaceFileWrapper:(NSFileWrapper*)child forKey:(NSString*)filename;
 @end

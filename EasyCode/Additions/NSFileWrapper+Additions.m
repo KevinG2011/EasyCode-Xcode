@@ -10,8 +10,8 @@
 #import "NSString+Additions.h"
 
 @implementation NSFileWrapper (Additions)
--(void)replaceFileWrapper:(NSFileWrapper*)child forKey:(NSString*)filename {
-    if ([filename isNotEmpty] == NO) {
+-(void)ec_replaceFileWrapper:(NSFileWrapper*)child forKey:(NSString*)filename {
+    if ([filename ec_isNotEmpty] == NO) {
         return;
     }
     NSFileWrapper* oldChild = [[self fileWrappers] objectForKey:filename];

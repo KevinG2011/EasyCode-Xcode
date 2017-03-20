@@ -9,12 +9,12 @@
 #import "NSString+Additions.h"
 
 @implementation NSString (Additions)
--(NSString*)trimWhiteSpace {
+-(NSString*)ec_trimWhiteSpace {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
--(BOOL)isNotEmpty {
-    NSString* trimStr = [self trimWhiteSpace];
+-(BOOL)ec_isNotEmpty {
+    NSString* trimStr = [self ec_trimWhiteSpace];
     return (trimStr != nil && trimStr.length > 0);
 }
 @end

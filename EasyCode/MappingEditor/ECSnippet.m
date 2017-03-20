@@ -69,7 +69,7 @@
 }
 
 -(ECSnippetEntry*)entryForKey:(NSString*)key {
-    NSString* trimKey = [key trimWhiteSpace];
+    NSString* trimKey = [key ec_trimWhiteSpace];
     NSArray* entryList = [self entries];
     NSUInteger index = [entryList indexOfObjectWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ECSnippetEntry*  _Nonnull snippet, NSUInteger idx, BOOL * _Nonnull stop) {
         BOOL result = [snippet.key isEqualToString:trimKey];
@@ -85,7 +85,7 @@
 }
 
 -(void)addEntry:(ECSnippetEntry*)entry {
-    if ([entry.key isNotEmpty] == NO) {
+    if ([entry.key ec_isNotEmpty] == NO) {
         return;
     }
     ECSnippetEntry* hitEntry = [self entryForKey:entry.key];

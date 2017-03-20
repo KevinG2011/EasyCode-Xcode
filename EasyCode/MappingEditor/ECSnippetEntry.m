@@ -49,7 +49,7 @@ static NSDateFormatter* formatter = nil;
 }
 
 - (void)setKey:(NSString *)key {
-    _key = [key trimWhiteSpace];
+    _key = [key ec_trimWhiteSpace];
 }
 
 -(void)updateBySnippet:(ECSnippetEntry*)snippet {

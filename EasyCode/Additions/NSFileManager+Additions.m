@@ -21,17 +21,17 @@ NSString *const SnippetFileName =           @"snippets.dat";
 NSString *const VersionFileName =           @"version.dat";
 
 @implementation NSFileManager (Additions)
--(NSURL*)localURL
+-(NSURL*)ec_localURL
 {
-    NSString* supportPath = [self supportDocumentDirectory];
+    NSString* supportPath = [self ec_supportDocumentDirectory];
     NSURL* url = [NSURL fileURLWithPath:supportPath];
     return url;
 }
 
--(NSURL*)localSnippetsURLWithFilename:(NSString*)filename
+-(NSURL*)ec_localSnippetsURLWithFilename:(NSString*)filename
 {
-    NSURL* localURL = [self localURL];
-    NSURL* url = [localURL URLByAppendingPathComponent:filename];
+    NSURL* ec_localURL = [self ec_localURL];
+    NSURL* url = [ec_localURL URLByAppendingPathComponent:filename];
     
     NSError *error = nil;
     BOOL success = [self createDirectoryAtURL:url withIntermediateDirectories:YES attributes:nil error:&error];
@@ -42,16 +42,16 @@ NSString *const VersionFileName =           @"version.dat";
     return url;
 }
 
--(NSURL*)ubiquityURL
+-(NSURL*)ec_ubiquityURL
 {
     NSURL* ubiURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     ubiURL = [ubiURL URLByAppendingPathComponent:DirectoryDocuments];
     return ubiURL;
 }
 
--(NSURL*)ubiquitySnippetsURLWithFilename:(NSString*)filename
+-(NSURL*)ec_ubiquitySnippetsURLWithFilename:(NSString*)filename
 {
-    NSURL* ubiURL = [self ubiquityURL];
+    NSURL* ubiURL = [self ec_ubiquityURL];
     NSURL* url = [ubiURL URLByAppendingPathComponent:filename];
     
     NSError *error = nil;
@@ -63,26 +63,26 @@ NSString *const VersionFileName =           @"version.dat";
     return url;
 }
 
--(NSURL*)detectURLForSourceType:(ECSourceType)sourceType
+-(NSURL*)ec_detectURLForSourceType:(ECSourceType)sourceType
 {
     NSString* dirname = DirectoryOCName;
     if (sourceType == ECSourceTypeSwift) {
         dirname = DirectorySwiftName;
     }
     
-    NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:dirname];;
+    NSURL* fileURL = [[NSFileManager defaultManager] ec_localSnippetsURLWithFilename:dirname];;
     BOOL useiCloud = [ESharedUserDefault boolForKey:kUseiCloudSync];
     if (useiCloud) {
         id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];    
         if (ubiq) {
-            fileURL = [[NSFileManager defaultManager] ubiquitySnippetsURLWithFilename:dirname];
+            fileURL = [[NSFileManager defaultManager] ec_ubiquitySnippetsURLWithFilename:dirname];
         }
     }
     
     return fileURL;
 }
 
-- (NSString *)findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
+- (NSString *)ec_findOrCreateDirectory:(NSSearchPathDirectory)searchPathDirectory
                            inDomain:(NSSearchPathDomainMask)domainMask
                 appendPathComponent:(NSString *)appendComponent
                               error:(NSError **)errorOut {
@@ -124,11 +124,11 @@ NSString *const VersionFileName =           @"version.dat";
     return resolvedPath;
 }
 
--(NSString*)supportDocumentDirectory {
+-(NSString*)ec_supportDocumentDirectory {
     NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleExecutable"];
     NSString *documentPath = [appName stringByAppendingPathComponent:DirectoryDocuments];
     NSError *error = nil;
-    NSString *result = [self findOrCreateDirectory:NSApplicationSupportDirectory
+    NSString *result = [self ec_findOrCreateDirectory:NSApplicationSupportDirectory
                                           inDomain:NSUserDomainMask
                                appendPathComponent:documentPath
                                              error:&error];

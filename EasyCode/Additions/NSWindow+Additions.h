@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface NSWindow (Additions)
-- (void)setCornRadius:(CGFloat)raduis;
-- (void)fadeInAnimated:(BOOL)animated;
-- (void)fadeOutAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;
+- (void)ec_setCornRadius:(CGFloat)raduis;
+- (void)ec_fadeInAnimated:(BOOL)animated;
+- (void)ec_fadeOutAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay;
 @end

@@ -9,13 +9,13 @@
 #import "NSWindow+Additions.h"
 
 @implementation NSWindow (Additions)
-- (void)setCornRadius:(CGFloat)raduis {
+- (void)ec_setCornRadius:(CGFloat)raduis {
     self.contentView.wantsLayer = YES;
     self.contentView.layer.cornerRadius = raduis;
     self.contentView.layer.masksToBounds = YES;
 }
 
-- (void)fadeInAnimated:(BOOL)animated {
+- (void)ec_fadeInAnimated:(BOOL)animated {
     [self makeKeyAndOrderFront:nil];
     [self.contentView setNeedsDisplay:YES];
     self.contentView.hidden = NO;
@@ -48,7 +48,7 @@
     }
 }
 
-- (void)fadeOutAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay {
+- (void)ec_fadeOutAnimated:(BOOL)animated afterDelay:(NSTimeInterval)delay {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideDelayed:) object:@(animated)];
     [self performSelector:@selector(hideDelayed:) withObject:@(animated) afterDelay:delay];
 }

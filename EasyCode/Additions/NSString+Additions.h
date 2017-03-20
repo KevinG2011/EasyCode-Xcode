@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (Additions)
--(NSString*)trimWhiteSpace;
--(BOOL)isNotEmpty;
+-(NSString*)ec_trimWhiteSpace;
+-(BOOL)ec_isNotEmpty;
 @end

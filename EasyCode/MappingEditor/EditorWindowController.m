@@ -16,16 +16,19 @@
 #import "NSString+Additions.h"
 #import "NSFileManager+Additions.h"
 #import "ECSnippetHelper.h"
+#import "EEditorTableMenu.h"
+#import "EEditorTableRowView.h"
 
 @interface EditorWindowController ()<NSWindowDelegate,NSTableViewDataSource,NSTabViewDelegate,
                                     DetailWindowEditorDelegate,NSSearchFieldDelegate,
-                                    ECSnippetEntrysDocumentDelegate>
+                                    ECSnippetEntrysDocumentDelegate,EEditorMenuDelegate>
 @property (nonatomic, weak) IBOutlet NSWindow                       *toastPanel;
 @property (nonatomic, weak) IBOutlet NSTextField                    *toastText;
 @property (nonatomic, weak) IBOutlet NSScrollView                   *scrollView;
 @property (nonatomic, weak) IBOutlet NSTableView                    *tableView;
 @property (nonatomic, weak) IBOutlet NSTableColumn                  *filterColumn;
 @property (nonatomic, weak) IBOutlet NSSearchField                  *searchField;
+@property (nonatomic, strong) EEditorTableMenu*         tableMenu;
 @property (nonatomic, strong) NSImage*                              imgEdit;
 @property (nonatomic, strong) NSImage*                              imgAdd;
 @property (nonatomic, strong) NSImage*                              imgRemove;
@@ -78,12 +81,15 @@
 }
 
 - (void)setupView {
+    _tableMenu = [[EEditorTableMenu alloc] initWithTitle:@"Menu"];
+    _tableMenu.editorDelegate = self;
+    [_tableView setMenu:_tableMenu];
     [_tableView setDoubleAction:@selector(onHandleDoubleClick:)];
-    [_tableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleNone];
+    [_tableView setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleRegular];
     
     _searchField.delegate = self;
     _toastPanel.backgroundColor = [NSColor colorWithWhite:0 alpha:0.5];
-    [_toastPanel setCornRadius:12];
+    [_toastPanel ec_setCornRadius:12];
     [_toastPanel orderOut:self];
     
     self.window.delegate = self;
@@ -118,9 +124,9 @@
 
 - (void)oniCloudSyncChanged:(NSNotification*)notification {
     BOOL useiCloud = [ESharedUserDefault boolForKey:kUseiCloudSync];
-    NSURL* baseURL = [[NSFileManager defaultManager] localURL];
+    NSURL* baseURL = [[NSFileManager defaultManager] ec_localURL];
     if (useiCloud) {
-        baseURL = [[NSFileManager defaultManager] ubiquityURL];
+        baseURL = [[NSFileManager defaultManager] ec_ubiquityURL];
     }
     NSURL* destURL = [baseURL URLByAppendingPathComponent:_dirname];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -164,14 +170,14 @@
 }
 
 - (void)loadDataWithQuery:(NSMetadataQuery*)query {
-    NSURL* fileURL = [[NSFileManager defaultManager] localSnippetsURLWithFilename:_dirname];
+    NSURL* fileURL = [[NSFileManager defaultManager] ec_localSnippetsURLWithFilename:_dirname];
     if (query) {
         //load from remote
         if ([query resultCount] >= 1) {
             _dataItem = [query resultAtIndex:0];
             fileURL = [_dataItem valueForAttribute:NSMetadataItemURLKey];
         } else {
-            fileURL = [[NSFileManager defaultManager] ubiquitySnippetsURLWithFilename:_dirname];
+            fileURL = [[NSFileManager defaultManager] ec_ubiquitySnippetsURLWithFilename:_dirname];
         }
     }
     _snippetDoc = [[ECSnippetDocument alloc] initWithFileURL:fileURL sourceType:_sourceType];
@@ -190,19 +196,19 @@
     });
 }
 
-- (void)queueSearchRequest {
-    _searchKey = [_searchField.stringValue trimWhiteSpace];
+- (void)onQueueSearchRequest {
+    _searchKey = [_searchField.stringValue ec_trimWhiteSpace];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(onFireSearchRequest) object:nil];
     [self performSelector:@selector(onFireSearchRequest) withObject:nil afterDelay:0.2f];
 }
 
 - (void)controlTextDidChange:(NSNotification *)notification {
-    [self queueSearchRequest];
+    [self onQueueSearchRequest];
 }
 
 - (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector {
     if (commandSelector == @selector(insertNewline:)) { //pressed enter
-        [self queueSearchRequest];
+        [self onQueueSearchRequest];
     }
     return NO;
 }
@@ -226,8 +232,8 @@
     BOOL success = [pasteboard writeObjects:@[snippet.key]];
     if (success) {
         _toastText.stringValue = snippet.key;
-        [_toastPanel fadeInAnimated:NO];
-        [_toastPanel fadeOutAnimated:YES afterDelay:3];
+        [_toastPanel ec_fadeInAnimated:NO];
+        [_toastPanel ec_fadeOutAnimated:YES afterDelay:3];
     }
 }
 
@@ -244,14 +250,15 @@
     }
 }
 
+#pragma mark NSTableViewDelegate
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-    NSInteger selectedRow = [_tableView selectedRow];
-    NSTableRowView *myRowView = [_tableView rowViewAtRow:selectedRow makeIfNecessary:NO];
-    [myRowView setEmphasized:NO];
+//    NSInteger selectedRow = [_tableView selectedRow];
+//    NSTableRowView *myRowView = [_tableView rowViewAtRow:selectedRow makeIfNecessary:NO];
+//    [myRowView setEmphasized:NO];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    if ([_searchKey isNotEmpty]) {
+    if ([_searchKey ec_isNotEmpty]) {
         _matchingList = _filteringList;
     } else {
         _matchingList = _snippetDoc.snippet.entries;
@@ -271,7 +278,7 @@
     }
     if( [tableColumn.identifier isEqualToString:@"cCode"] )
     {
-        cellView.textField.stringValue = snippet.code;
+        cellView.textField.stringValue = _STR(snippet.code);
         cellView.textField.textColor = [NSColor colorWithWhite:0.5 alpha:1];
         return cellView;
     }
@@ -303,6 +310,23 @@
     return cellView;
 }
 
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row {
+    EEditorTableRowView* rowView = [[EEditorTableRowView alloc] initWithFrame:CGRectZero];
+    return rowView;
+}
+
+#pragma mark EEditorMenuDelegate
+-(void)menu:(EEditorTableMenu*)menu didSelectedItemWithTag:(NSInteger)tag {
+    if (_tableView.selectedRow == -1) {
+        return;
+    }
+    
+    if (tag == 0) { //Edit
+        ECSnippetEntry* snippet = _matchingList[_tableView.selectedRow];
+        [self presentDetailEditorWithEntry:snippet];
+    }
+}
+
 - (void)presentDetailEditorWithEntry:(ECSnippetEntry*)snippet {
     if (snippet == nil) {
         return;
@@ -331,6 +355,7 @@
 
 - (void)onRemoveEntryClick:(id)sender
 {
+    
     NSButton* btn = sender;
     NSInteger row = [_tableView rowForView:btn];
     ECSnippetEntry* snippet = _matchingList[row];

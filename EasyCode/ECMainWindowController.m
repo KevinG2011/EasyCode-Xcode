@@ -8,6 +8,7 @@
 
 #import "ECMainWindowController.h"
 #import "EditorWindowController.h"
+#import "NSAlert+Additions.h"
 
 NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotification";
 
@@ -53,12 +54,12 @@ NSString *const ECiCloudSyncChangedNotification = @"ECiCloudSyncChangedNotificat
     } else {
         id ubiq = [[NSFileManager defaultManager] ubiquityIdentityToken];
         if (ubiq) {
-            NSAlert *warningAlert = [[NSAlert alloc] init];
-            [warningAlert addButtonWithTitle:NSLocalizedString(@"OK_Button_Title", nil)];
-            [warningAlert addButtonWithTitle:NSLocalizedString(@"Cancel_Button_Title", nil)];
-            warningAlert.messageText = NSLocalizedString(@"iCloud_Attention", nil);
-            warningAlert.informativeText = NSLocalizedString(@"iCloud_Attention_Message", nil);
-            warningAlert.alertStyle = NSWarningAlertStyle;
+            NSAlert *warningAlert = [NSAlert ec_alertWithStyle:NSWarningAlertStyle
+                                                   messageText:NSLocalizedString(@"iCloud_Attention", nil)
+                                               informativeText:NSLocalizedString(@"iCloud_Attention_Message", nil)
+                                                   buttonTitle:NSLocalizedString(@"OK_Button_Title",nil),
+                                                               NSLocalizedString(@"Cancel_Button_Title", nil),nil];
+            
             [warningAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
                 if (returnCode == NSAlertFirstButtonReturn) { //OK
                     [ESharedUserDefault setBool:NO forKey:kUseiCloudSync];

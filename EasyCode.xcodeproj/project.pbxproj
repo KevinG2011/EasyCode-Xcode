@@ -13,6 +13,9 @@
 		2A2DBB2D1E66A0F6008C78AF /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2A1E66A0F6008C78AF /* NSString+Additions.m */; };
 		2A2DBB2E1E66A0F6008C78AF /* NSWindow+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB2C1E66A0F6008C78AF /* NSWindow+Additions.m */; };
 		2A2DBB311E66A133008C78AF /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */; };
+		2A68099F1E7FAB1700750C23 /* EEditorTableMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A68099E1E7FAB1700750C23 /* EEditorTableMenu.m */; };
+		2A6809A21E7FC4DE00750C23 /* EEditorTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A6809A11E7FC4DE00750C23 /* EEditorTableRowView.m */; };
+		2A6809A51E7FCE1900750C23 /* NSAlert+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A6809A41E7FCE1900750C23 /* NSAlert+Additions.m */; };
 		2AD25BC71E67F2FE007AE3B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 670F2ED91DB2284400A1739F /* Assets.xcassets */; };
 		2AD25BCD1E67F6E7007AE3B8 /* ECSnippetsDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD25BCC1E67F6E7007AE3B8 /* ECSnippetsDocument.m */; };
 		2AD25BD31E6806AA007AE3B8 /* ECMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AD25BD11E6806AA007AE3B8 /* ECMainWindowController.m */; };
@@ -114,6 +117,12 @@
 		2A2DBB2C1E66A0F6008C78AF /* NSWindow+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+Additions.m"; sourceTree = "<group>"; };
 		2A2DBB2F1E66A133008C78AF /* NSFileManager+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Additions.h"; sourceTree = "<group>"; };
 		2A2DBB301E66A133008C78AF /* NSFileManager+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Additions.m"; sourceTree = "<group>"; };
+		2A68099D1E7FAB1700750C23 /* EEditorTableMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EEditorTableMenu.h; sourceTree = "<group>"; };
+		2A68099E1E7FAB1700750C23 /* EEditorTableMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EEditorTableMenu.m; sourceTree = "<group>"; };
+		2A6809A01E7FC4DE00750C23 /* EEditorTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EEditorTableRowView.h; sourceTree = "<group>"; };
+		2A6809A11E7FC4DE00750C23 /* EEditorTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EEditorTableRowView.m; sourceTree = "<group>"; };
+		2A6809A31E7FCE1900750C23 /* NSAlert+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+Additions.h"; sourceTree = "<group>"; };
+		2A6809A41E7FCE1900750C23 /* NSAlert+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+Additions.m"; sourceTree = "<group>"; };
 		2AD25BCB1E67F6E7007AE3B8 /* ECSnippetsDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECSnippetsDocument.h; sourceTree = "<group>"; };
 		2AD25BCC1E67F6E7007AE3B8 /* ECSnippetsDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ECSnippetsDocument.m; sourceTree = "<group>"; };
 		2AD25BD01E6806AA007AE3B8 /* ECMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECMainWindowController.h; sourceTree = "<group>"; };
@@ -237,6 +246,8 @@
 				2A1CD1E31E68179A007A2700 /* NSWindowController+Additions.m */,
 				2AD4BAFA1E6E6183007A443C /* NSFileWrapper+Additions.h */,
 				2AD4BAFB1E6E6183007A443C /* NSFileWrapper+Additions.m */,
+				2A6809A31E7FCE1900750C23 /* NSAlert+Additions.h */,
+				2A6809A41E7FCE1900750C23 /* NSAlert+Additions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -259,6 +270,10 @@
 				2AD4BB971E763131007A443C /* EEditorTableView.m */,
 				2AD4BB981E763131007A443C /* EVerticalScrollView.h */,
 				2AD4BB991E763131007A443C /* EVerticalScrollView.m */,
+				2A68099D1E7FAB1700750C23 /* EEditorTableMenu.h */,
+				2A68099E1E7FAB1700750C23 /* EEditorTableMenu.m */,
+				2A6809A01E7FC4DE00750C23 /* EEditorTableRowView.h */,
+				2A6809A11E7FC4DE00750C23 /* EEditorTableRowView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -659,10 +674,12 @@
 			files = (
 				2A2DBB2E1E66A0F6008C78AF /* NSWindow+Additions.m in Sources */,
 				2AD4BB001E6E67E2007A443C /* ECSnippetHelper.m in Sources */,
+				2A6809A21E7FC4DE00750C23 /* EEditorTableRowView.m in Sources */,
 				2AD4BB911E76310E007A443C /* DetailWindowController.m in Sources */,
 				2AD4BB9C1E763131007A443C /* EVerticalScrollView.m in Sources */,
 				6741CE561DB87CE8000408E7 /* ECMapping.h in Sources */,
 				6741CE571DB87CE8000408E7 /* ECMapping.m in Sources */,
+				2A6809A51E7FCE1900750C23 /* NSAlert+Additions.m in Sources */,
 				2AD25BCD1E67F6E7007AE3B8 /* ECSnippetsDocument.m in Sources */,
 				2A2DBB311E66A133008C78AF /* NSFileManager+Additions.m in Sources */,
 				0BEB36A81E671F760039FF67 /* EditorWindowController.m in Sources */,
@@ -674,6 +691,7 @@
 				6741CE5B1DB87CE8000408E7 /* ECMappingForObjectiveC.h in Sources */,
 				2AD4BB9B1E763131007A443C /* EEditorTableView.m in Sources */,
 				2AD4BAFC1E6E6183007A443C /* NSFileWrapper+Additions.m in Sources */,
+				2A68099F1E7FAB1700750C23 /* EEditorTableMenu.m in Sources */,
 				2A1CD1E41E68179A007A2700 /* NSWindowController+Additions.m in Sources */,
 				2AD4BADD1E6E5195007A443C /* ECMappingForObjectiveC.m in Sources */,
 				2AD4BBA01E763238007A443C /* ECSafeCast.m in Sources */,
