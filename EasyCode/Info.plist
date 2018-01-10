@@ -73,5 +73,9 @@
 			</dict>
 		</dict>
 	</array>
+	<key>CFBundleDisplayName</key>
+	<false/>
+	<key>LSUIElement</key>
+	<false/>
 </dict>
 </plist>

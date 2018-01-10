@@ -11,7 +11,7 @@
 #import "NSWindowController+Additions.h"
 
 @interface AppDelegate ()
-
+@property (nonatomic, strong) NSStatusItem         *statusItem;
 @end
 
 @implementation AppDelegate
@@ -22,7 +22,7 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUbiquityIdentityDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)ubiquityIdentityChanged:(NSNotification *)notification
@@ -45,8 +45,19 @@
     }
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (IBAction)clickStatusBarItem:(id)sender {
+    NSString* quoteText = @"Never put off until tomorrow what you can do the day after tomorrow.";
+    NSString* quoteAuthor = @"Mark Twain";
+    NSLog(@"%@ - %@",quoteText,quoteAuthor);
+}
+
+- (void)setupStatusItem {
+    _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
+    _statusItem.image = [NSImage imageNamed:@"StatusBarImage"];
+    _statusItem.action = @selector(clickStatusBarItem:);
+}
+
+- (void)setupUbiquityURL {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         _ubiquityURL = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     });
@@ -55,6 +66,12 @@
                                              selector:@selector(ubiquityIdentityChanged:)
                                                  name:NSUbiquityIdentityDidChangeNotification
                                                object:nil];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    [self setupUbiquityURL];
+    [self setupStatusItem];
     _mainController = [[ECMainWindowController alloc] initWithWindowNibName:@"ECMainWindowController"];
     [_mainController ec_makeWindowFront];
 }
